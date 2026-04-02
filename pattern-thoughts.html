@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pattern Thoughts | The Study</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --parchment: #F5F1E8; --parchment-dark: #E8E0D0; --terracotta: #C65D3B; --burgundy: #4A1C2C; --burgundy-light: #6B2D42; --gold: #D4A574; --ink: #2C2416; --ink-light: #5C4D3C; --shadow: rgba(74, 28, 44, 0.15); }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--parchment); color: var(--ink); min-height: 100vh; }
+        .nav-bar { background: var(--burgundy); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+        .nav-left { display: flex; align-items: center; gap: 2rem; }
+        .home-link { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold); text-decoration: none; letter-spacing: 0.1em; }
+        .room-nav { display: flex; gap: 1.5rem; }
+        .room-link { color: var(--parchment); text-decoration: none; font-size: 0.85rem; opacity: 0.7; transition: opacity 0.3s ease; }
+        .room-link:hover, .room-link.active { opacity: 1; color: var(--gold); }
+        .room-link.active { border-bottom: 1px solid var(--gold); }
+        .external-nav { display: flex; gap: 1rem; }
+        .external-link { color: var(--gold); text-decoration: none; font-size: 0.75rem; opacity: 0.6; transition: opacity 0.3s ease; }
+        .external-link:hover { opacity: 1; }
+        .room-content { max-width: 900px; margin: 0 auto; padding: 3rem 2rem; }
+        .room-header { text-align: center; margin-bottom: 3rem; }
+        .room-title { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--burgundy); margin-bottom: 0.5rem; }
+        .room-subtitle { font-size: 0.85rem; color: var(--ink-light); letter-spacing: 0.15em; text-transform: uppercase; }
+        .calendar-container { perspective: 1500px; margin-bottom: 3rem; }
+        .flip-card { background: white; border-radius: 12px; box-shadow: 0 20px 60px var(--shadow), 0 0 0 1px rgba(212, 165, 116, 0.3); }
+        .card-header { background: linear-gradient(135deg, var(--burgundy) 0%, var(--burgundy-light) 100%); color: var(--gold); padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; border-radius: 12px 12px 0 0; }
+        .day-number { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 700; letter-spacing: -0.05em; }
+        .day-meta { text-align: right; }
+        .day-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em; opacity: 0.8; margin-bottom: 0.5rem; }
+        .debate-status { font-size: 0.75rem; padding: 0.35rem 0.75rem; background: rgba(212, 165, 116, 0.2); border-radius: 20px; display: inline-block; }
+        .debate-status.closed { background: rgba(198, 93, 59, 0.3); color: var(--terracotta); }
+        .card-body { padding: 2.5rem; }
+        .thought-title { font-family: 'Playfair Display', serif; font-size: 1.9rem; color: var(--burgundy); margin-bottom: 1.5rem; line-height: 1.3; font-weight: 600; }
+        .thought-content { font-size: 1.1rem; line-height: 1.9; color: var(--ink); margin-bottom: 2rem; }
+        .deeper-layer { background: linear-gradient(135deg, var(--parchment-dark) 0%, var(--parchment) 100%); padding: 1.5rem; border-left: 4px solid var(--terracotta); margin-top: 2rem; border-radius: 0 8px 8px 0; }
+        .deeper-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--terracotta); margin-bottom: 0.75rem; font-weight: 600; }
+        .deeper-content { font-size: 1rem; line-height: 1.7; color: var(--ink-light); font-style: italic; }
+        .card-controls { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 2rem; background: var(--parchment-dark); border-radius: 0 0 12px 12px; border-top: 1px solid rgba(212, 165, 116, 0.3); }
+        .nav-btn { background: var(--burgundy); color: var(--gold); border: none; padding: 0.75rem 1.5rem; font-family: 'Inter', sans-serif; font-size: 0.85rem; cursor: pointer; border-radius: 6px; transition: all 0.3s ease; font-weight: 500; }
+        .nav-btn:hover:not(:disabled) { background: var(--burgundy-light); transform: translateY(-2px); }
+        .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .substack-link { color: var(--terracotta); text-decoration: none; font-size: 0.85rem; font-weight: 500; }
+        .substack-link:hover { color: #A84A2D; }
+        .archive-section { margin-top: 4rem; padding-top: 3rem; border-top: 1px solid var(--parchment-dark); }
+        .archive-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--burgundy); display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; }
+        .torn-indicator { width: 12px; height: 12px; background: var(--terracotta); border-radius: 2px; transform: rotate(45deg); }
+        .archive-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 0.75rem; }
+        .archive-item { aspect-ratio: 1; background: white; border: 1px solid var(--parchment-dark); border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s ease; }
+        .archive-item:hover { border-color: var(--gold); transform: translateY(-2px); }
+        .archive-item.active { background: var(--burgundy); border-color: var(--burgundy); }
+        .archive-number { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--burgundy); font-weight: 600; }
+        .archive-item.active .archive-number { color: var(--gold); }
+        .archive-status { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-light); margin-top: 0.25rem; }
+        .archive-item.active .archive-status { color: var(--parchment); opacity: 0.8; }
+        @media (max-width: 768px) { .nav-bar { flex-direction: column; gap: 1rem; padding: 1rem; } .room-title { font-size: 1.8rem; } .thought-title { font-size: 1.4rem; } .day-number { font-size: 2.5rem; } .card-controls { flex-direction: column; gap: 1rem; } }
+    </style>
+</head>
+<body>
+    <nav class="nav-bar">
+        <div class="nav-left">
+            <a href="index.html" class="home-link">MetaVoxa</a>
+            <div class="room-nav">
+                <a href="pattern-thoughts.html" class="room-link active">Pattern Thoughts</a>
+                <a href="reading-room.html" class="room-link">Reading Room</a>
+                <a href="star-month.html" class="room-link">Star of the Month</a>
+            </div>
+        </div>
+        <div class="external-nav">
+            <a href="https://metavoxa.substack.com" class="external-link" target="_blank">Substack ↗</a>
+            <a href="https://instagram.com/kwissbae" class="external-link" target="_blank">Instagram ↗</a>
+        </div>
+    </nav>
+    <main class="room-content">
+        <div class="room-header">
+            <h1 class="room-title">Pattern Thoughts</h1>
+            <p class="room-subtitle">001—360 • Thoughts for those still becoming</p>
+        </div>
+        <div class="calendar-container">
+            <div class="flip-card" id="flipCard">
+                <div class="card-header">
+                    <div class="day-number" id="dayNumber">001</div>
+                    <div class="day-meta">
+                        <div class="day-label">Pattern Thought</div>
+                        <div class="debate-status" id="debateStatus">Debate closes at midnight</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h2 class="thought-title" id="thoughtTitle">The silence between words is where meaning lives</h2>
+                    <div class="thought-content" id="thoughtContent">We fill our days with noise—notifications, opinions, the endless scroll. But meaning doesn't arrive announced. It slips in during the pause. The breath between sentences. The moment before you respond. Today, notice where you rush to fill the quiet. What might be waiting there?</div>
+                    <div class="deeper-layer">
+                        <div class="deeper-label">Deeper Layer</div>
+                        <div class="deeper-content" id="deeperContent">The quietest people often have the loudest minds.</div>
+                    </div>
+                </div>
+                <div class="card-controls">
+                    <button class="nav-btn" id="prevBtn" onclick="changeThought(-1)">← Previous</button>
+                    <a href="https://metavoxa.substack.com" class="substack-link" target="_blank">Join the debate on Substack →</a>
+                    <button class="nav-btn" id="nextBtn" onclick="changeThought(1)">Next →</button>
+                </div>
+            </div>
+        </div>
+        <div class="archive-section">
+            <h3 class="archive-title"><span class="torn-indicator"></span>Torn Pages Archive</h3>
+            <div class="archive-grid" id="archiveGrid"></div>
+        </div>
+    </main>
+    <script>
+        const thoughts = [
+            {n:"001",t:"The silence between words is where meaning lives",c:"We fill our days with noise—notifications, opinions, the endless scroll. But meaning doesn't arrive announced. It slips in during the pause. The breath between sentences. The moment before you respond. Today, notice where you rush to fill the quiet. What might be waiting there?",d:"The quietest people often have the loudest minds."},
+            {n:"002",t:"You are not late. The world is just early.",c:"We measure ourselves against clocks that were never ours. Someone else's timeline. Someone else's finish line. But growth has its own rhythm. The seed doesn't apologize for taking time to break soil. The river doesn't rush to reach the sea. You're exactly where you need to be.",d:"The most interesting people took the scenic route."},
+            {n:"003",t:"Patterns don't repeat because we're stuck. They repeat because we're learning.",c:"That same argument. That same dead-end job. That same fear, wearing a new face. You're not broken. You're in school. The universe is a patient teacher, and it will keep presenting the lesson until you pass it.",d:"Your triggers are your teachers in disguise."},
+            {n:"004",t:"The mind that seeks answers is the same mind that invents the questions.",c:"We believe we're searching for truth. But mostly, we're searching for confirmation. The mind is a pattern-matching machine, and it will find what it's programmed to find. Ask better questions.",d:"The question shapes the answer before the answer exists."},
+            {n:"005",t:"What you notice first in others is what you've forgotten in yourself.",c:"That person who annoys you—what do they reflect? The show-off mirrors your hidden desire to be seen. The pessimist reflects your unacknowledged fears. The eternal optimist shows you the hope you've buried.",d:"Judgment is just unrecognized self-judgment, projected outward."}
+        ];
+        for(let i=6;i<=360;i++)thoughts.push({n:i.toString().padStart(3,'0'),t:`Pattern Thought ${i}`,c:"Daily reflection on becoming, noticing, and living with intention.",d:"The deeper layer reveals the pattern beneath the pattern."});
+        let current=1,total=360,today=1;
+        const now=new Date(),start=new Date(now.getFullYear(),0,0),diff=now-start,day=Math.floor(diff/86400000);
+        today=((day-1)%360)+1;current=today;
+        function render(day){const t=thoughts[day-1];document.getElementById('dayNumber').textContent=t.n;document.getElementById('thoughtTitle').textContent=t.t;document.getElementById('thoughtContent').textContent=t.c;document.getElementById('deeperContent').textContent=t.d;const s=document.getElementById('debateStatus'),isToday=day===today,isPast=day<today;if(isToday){s.textContent='Debate closes at midnight';s.classList.remove('closed');}else if(isPast){s.textContent='Archived • Torn page';s.classList.add('closed');}else{s.textContent='Future thought';s.classList.add('closed');}document.getElementById('prevBtn').disabled=day<=1;document.getElementById('nextBtn').disabled=day>=total;renderArchive();}
+        function renderArchive(){const g=document.getElementById('archiveGrid');g.innerHTML='';const start=Math.max(1,current-15),end=Math.min(total,current+15);for(let i=start;i<=end;i++){const d=document.createElement('div');d.className='archive-item'+(i===current?' active':'');d.onclick=()=>{current=i;render(i);};d.innerHTML=`<div class="archive-number">${i.toString().padStart(3,'0')}</div><div class="archive-status">${i<today?'Torn':i===today?'Today':'Future'}</div>`;g.appendChild(d);}}
+        function changeThought(dir){const newDay=current+dir;if(newDay>=1&&newDay<=total){current=newDay;render(current);}}
+        render(current);
+    </script>
+</body>
+</html>
