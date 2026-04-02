@@ -3,42 +3,1130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reading Room — MetaVoxa House</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/reading-room.css">
-</head>
-<body class="reading-room">
-    <div class="ambient-candlelight"></div>
-    
-    <nav class="room-nav dark">
-        <a href="index.html" class="back-link">← Lobby</a>
-        <h1 class="room-title">The Floating Library</h1>
-    </nav>
+    <title>The Reading Room | MetaVoxa Palace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --burgundy-deep: #4A0404;
+            --burgundy-rich: #6B0F1A;
+            --gold-antique: #D4AF37;
+            --gold-deep: #B8941F;
+            --terracotta: #C65D3B;
+            --ivory-warm: #F5F0E8;
+            --ivory-aged: #E8E0D0;
+            --navy-deep: #0A0F1F;
+            --navy-soft: #0F1419;
+            --black-velvet: #050505;
+        }
 
-    <div class="category-filters">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="books">Books that changed our minds</button>
-        <button class="filter-btn" data-filter="research">Research & Academic</button>
-        <button class="filter-btn" data-filter="essays">Essays & Journalism</button>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            background-color: var(--navy-deep);
+            color: var(--ivory-warm);
+            overflow-x: hidden;
+            min-height: 100vh;
+            opacity: 0;
+            animation: fadeInRoom 2.5s ease-out forwards;
+        }
+
+        @keyframes fadeInRoom {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Grain Texture Overlay */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Floating Candles */
+        .candle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50;
+            overflow: hidden;
+        }
+
+        .floating-candle {
+            position: absolute;
+            width: 12px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--ivory-aged) 0%, #D4C5A8 100%);
+            border-radius: 2px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3), 0 0 40px rgba(212, 175, 55, 0.1);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .floating-candle::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 10px;
+            background: radial-gradient(ellipse at center, #FFF8DC 0%, var(--gold-antique) 40%, transparent 70%);
+            border-radius: 50% 50% 20% 20%;
+            animation: flicker 3s ease-in-out infinite;
+            box-shadow: 0 0 15px var(--gold-antique), 0 0 30px rgba(212, 175, 55, 0.5);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 0.9; transform: translateX(-50%) scaleY(1); }
+            25% { opacity: 1; transform: translateX(-50%) scaleY(1.1); }
+            50% { opacity: 0.85; transform: translateX(-50%) scaleY(0.95); }
+            75% { opacity: 1; transform: translateX(-50%) scaleY(1.05); }
+        }
+
+        /* Header */
+        .room-header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+            z-index: 100;
+        }
+
+        .room-header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            color: var(--gold-antique);
+            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+            margin-bottom: 15px;
+        }
+
+        .room-header .subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--ivory-aged);
+            opacity: 0.8;
+            letter-spacing: 0.05em;
+        }
+
+        /* Exit Door */
+        .exit-door {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 200;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.6;
+            transition: all 0.4s ease;
+        }
+
+        .exit-door:hover {
+            opacity: 1;
+        }
+
+        .door-icon {
+            width: 30px;
+            height: 45px;
+            border: 2px solid var(--gold-antique);
+            border-radius: 15px 15px 2px 2px;
+            position: relative;
+            background: linear-gradient(to bottom, rgba(212, 175, 55, 0.1), transparent);
+        }
+
+        .door-icon::after {
+            content: '';
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 3px;
+            height: 3px;
+            background: var(--gold-antique);
+            border-radius: 50%;
+        }
+
+        .exit-text {
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            color: var(--gold-antique);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* The Key Navigation */
+        .the-key {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 200;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.4s ease;
+        }
+
+        .the-key:hover {
+            transform: rotate(90deg);
+        }
+
+        .key-icon {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: var(--gold-antique);
+            stroke-width: 1.5;
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+        }
+
+        /* Navigation Menu (The Key expanded) */
+        .key-menu {
+            position: fixed;
+            bottom: 90px;
+            right: 30px;
+            z-index: 199;
+            background: rgba(10, 15, 31, 0.95);
+            border: 1px solid var(--gold-antique);
+            border-radius: 4px;
+            padding: 20px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .key-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .key-menu h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            color: var(--gold-antique);
+            margin-bottom: 15px;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .key-menu a {
+            display: block;
+            color: var(--ivory-aged);
+            text-decoration: none;
+            padding: 8px 0;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .key-menu a:hover {
+            color: var(--gold-antique);
+            padding-left: 5px;
+        }
+
+        .key-menu a:last-child {
+            border-bottom: none;
+        }
+
+        /* Library Container */
+        .library-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 40px 20px 100px;
+            position: relative;
+            z-index: 100;
+        }
+
+        /* Floating Columns */
+        .columns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            position: relative;
+        }
+
+        @media (min-width: 1200px) {
+            .columns-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .column {
+            position: relative;
+            animation: floatColumn 6s ease-in-out infinite;
+        }
+
+        .column:nth-child(1) { animation-delay: 0s; }
+        .column:nth-child(2) { animation-delay: 1.5s; }
+        .column:nth-child(3) { animation-delay: 3s; }
+        .column:nth-child(4) { animation-delay: 4.5s; }
+
+        @keyframes floatColumn {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .column-header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            position: relative;
+        }
+
+        .column-header::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: var(--gold-antique);
+        }
+
+        .column-header h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--gold-antique);
+            letter-spacing: 0.12em;
+            margin-bottom: 8px;
+        }
+
+        .column-header .ampersand {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            color: var(--terracotta);
+        }
+
+        /* Document Cards */
+        .document {
+            background: linear-gradient(135deg, rgba(245, 240, 232, 0.03) 0%, rgba(245, 240, 232, 0.01) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 3px;
+            padding: 25px;
+            margin-bottom: 20px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(5px);
+        }
+
+        .document::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 3px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .document:hover {
+            transform: translateY(-5px);
+            border-color: rgba(212, 175, 55, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 20px rgba(212, 175, 55, 0.1);
+        }
+
+        .document:hover::before {
+            opacity: 1;
+        }
+
+        .document-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15rem;
+            color: var(--ivory-warm);
+            margin-bottom: 10px;
+            line-height: 1.3;
+            transition: all 0.3s ease;
+        }
+
+        .document:hover .document-title {
+            color: var(--gold-antique);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        .document-pull {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 0.95rem;
+            color: var(--ivory-aged);
+            opacity: 0.8;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            border-left: 2px solid var(--terracotta);
+            padding-left: 12px;
+        }
+
+        .document-meta {
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            color: var(--gold-deep);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* Thread Lines (Invisible connections) */
+        .thread-hint {
+            position: absolute;
+            bottom: 10px;
+            right: 15px;
+            width: 30px;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(212, 175, 55, 0.4));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .document:hover .thread-hint {
+            opacity: 1;
+        }
+
+        .thread-hint::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -2px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--gold-antique);
+            box-shadow: 0 0 10px var(--gold-antique);
+        }
+
+        /* Ancient Book Modal */
+        .book-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 5, 0.95);
+            z-index: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+
+        .book-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .book-display {
+            display: flex;
+            gap: 40px;
+            max-width: 800px;
+            padding: 40px;
+            align-items: center;
+        }
+
+        .book-spine {
+            width: 220px;
+            height: 320px;
+            background: linear-gradient(90deg, var(--burgundy-deep) 0%, var(--burgundy-rich) 50%, #3A0303 100%);
+            border-radius: 3px 8px 8px 3px;
+            position: relative;
+            box-shadow: 
+                inset 2px 0 5px rgba(0,0,0,0.5),
+                inset -2px 0 5px rgba(255,255,255,0.05),
+                10px 10px 30px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            text-align: center;
+            transform: perspective(1000px) rotateY(-15deg);
+            transition: transform 0.4s ease;
+        }
+
+        .book-spine:hover {
+            transform: perspective(1000px) rotateY(-5deg);
+        }
+
+        .book-spine::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 20px;
+            bottom: 20px;
+            width: 2px;
+            background: var(--gold-antique);
+            opacity: 0.5;
+        }
+
+        .book-spine-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            color: var(--gold-antique);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            letter-spacing: 0.1em;
+            margin-bottom: 20px;
+            max-height: 180px;
+            overflow: hidden;
+        }
+
+        .book-spine-author {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 0.8rem;
+            color: var(--ivory-aged);
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            opacity: 0.8;
+        }
+
+        .book-details {
+            flex: 1;
+            color: var(--ivory-warm);
+        }
+
+        .book-details h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--gold-antique);
+            margin-bottom: 10px;
+        }
+
+        .book-details .author {
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            color: var(--terracotta);
+            margin-bottom: 20px;
+            letter-spacing: 0.05em;
+        }
+
+        .martha-note {
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 3px;
+            padding: 20px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .martha-note::before {
+            content: 'Martha's Note';
+            position: absolute;
+            top: -10px;
+            left: 15px;
+            background: var(--navy-deep);
+            padding: 0 10px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            color: var(--gold-antique);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .martha-note p {
+            font-style: italic;
+            line-height: 1.6;
+            color: var(--ivory-aged);
+        }
+
+        .library-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 25px;
+            border: 1px solid var(--gold-antique);
+            color: var(--gold-antique);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .library-link:hover {
+            background: var(--gold-antique);
+            color: var(--navy-deep);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .close-modal:hover {
+            opacity: 1;
+        }
+
+        .close-modal::before,
+        .close-modal::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 25px;
+            height: 1px;
+            background: var(--gold-antique);
+        }
+
+        .close-modal::before { transform: translate(-50%, -50%) rotate(45deg); }
+        .close-modal::after { transform: translate(-50%, -50%) rotate(-45deg); }
+
+        /* Leave Something Behind Section */
+        .recommendation-section {
+            max-width: 600px;
+            margin: 80px auto 40px;
+            text-align: center;
+            padding: 40px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 3px;
+            position: relative;
+            background: rgba(212, 175, 55, 0.02);
+        }
+
+        .recommendation-section::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: var(--gold-antique);
+        }
+
+        .recommendation-section h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            color: var(--gold-antique);
+            letter-spacing: 0.15em;
+            margin-bottom: 15px;
+        }
+
+        .recommendation-section p {
+            font-style: italic;
+            color: var(--ivory-aged);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .recommendation-link {
+            display: inline-block;
+            padding: 15px 40px;
+            background: transparent;
+            border: 2px solid var(--gold-antique);
+            color: var(--gold-antique);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recommendation-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gold-antique);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .recommendation-link:hover {
+            color: var(--navy-deep);
+        }
+
+        .recommendation-link:hover::before {
+            left: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .columns-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .book-display {
+                flex-direction: column;
+                gap: 30px;
+            }
+
+            .book-spine {
+                transform: perspective(1000px) rotateY(0);
+                width: 180px;
+                height: 260px;
+            }
+
+            .room-header {
+                padding-top: 80px;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--navy-deep);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--burgundy-rich);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-deep);
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <!-- Grain Overlay -->
+    <div class="grain-overlay"></div>
+
+    <!-- Floating Candles -->
+    <div class="candle-container" id="candleContainer"></div>
+
+    <!-- Exit Door -->
+    <a href="index.html" class="exit-door">
+        <div class="door-icon"></div>
+        <span class="exit-text">To Study Wing</span>
+    </a>
+
+    <!-- The Key Navigation -->
+    <div class="the-key" id="theKey">
+        <svg class="key-icon" viewBox="0 0 50 50">
+            <circle cx="20" cy="20" r="8"/>
+            <path d="M26 26 L42 42 M42 42 L35 42 M42 42 L42 35"/>
+            <rect x="18" y="28" width="4" height="12" rx="1"/>
+        </svg>
     </div>
 
-    <main class="library-space">
-        <div class="shelves-container" id="shelves">
-            <!-- Shelves injected via JS -->
+    <div class="key-menu" id="keyMenu">
+        <h3>The Palace</h3>
+        <a href="index.html">The Lobby</a>
+        <a href="pattern-thoughts.html">Pattern Thoughts</a>
+        <a href="star-of-the-month.html">Star of the Month</a>
+        <a href="reading-room.html">Reading Room</a>
+    </div>
+
+    <!-- Header -->
+    <header class="room-header">
+        <h1>The Reading Room</h1>
+        <p class="subtitle">Where thinking has weight and silence is audible</p>
+    </header>
+
+    <!-- Library Container -->
+    <main class="library-container">
+        <div class="columns-grid">
+
+            <!-- Column 1: Neurodivergence & Diagnosis -->
+            <div class="column">
+                <div class="column-header">
+                    <h2>Neurodivergence <span class="ampersand">&</span> Diagnosis</h2>
+                </div>
+
+                <!-- Martha's Essay -->
+                <div class="document" onclick="window.open('https://substack.com/@metavoxa', '_blank')">
+                    <h3 class="document-title">The Clinical Gaze and the Autistic Mind</h3>
+                    <p class="document-pull">What happens when the tools of diagnosis become instruments of exclusion rather than understanding?</p>
+                    <div class="document-meta">Martha N. • 2024</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Lancet Paper -->
+                <div class="document" onclick="window.open('https://doi.org/10.1016/S2215-0366(24)00354-7', '_blank')">
+                    <h3 class="document-title">Structural Competency in Psychiatric Training</h3>
+                    <p class="document-pull">Published in The Lancet Psychiatry—reimagining how we teach physicians to see systems, not just symptoms.</p>
+                    <div class="document-meta">The Lancet Psychiatry • 2024</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 1 -->
+                <div class="document" onclick="openBookModal('Neurotribes', 'Steve Silberman', 'A groundbreaking exploration of autism history that refuses the pathology narrative. Silberman traces how neurodivergent minds have shaped human progress—from Tesla to Turing—and asks us to reconsider what we call disability.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">Neurotribes: The Legacy of Autism and the Future of Neurodiversity</h3>
+                    <p class="document-pull">The history of autism is not a medical story. It is a story of how society decides who is valuable.</p>
+                    <div class="document-meta">Steve Silberman • 2015</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 2 -->
+                <div class="document" onclick="openBookModal('The Reason I Jump', 'Naoki Higashida', 'Written by a non-speaking autistic teenager, this book demolishes the assumption that silence equals emptiness. Higashida's prose is a direct rebuke to every clinician who ever said "low functioning." Read it and weep—for what we have misunderstood.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">The Reason I Jump: The Inner Voice of a Thirteen-Year-Old Boy with Autism</h3>
+                    <p class="document-pull">You think I don't understand because I don't speak. But I understand everything.</p>
+                    <div class="document-meta">Naoki Higashida • 2007</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 3 -->
+                <div class="document" onclick="openBookModal('Unmasking Autism', 'Devon Price', 'The social cost of camouflage—why autistic people learn to hide, and what medicine loses when we reward the mask. Essential reading for anyone who thinks diagnosis is the end of the story rather than the beginning.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">Unmasking Autism: Discovering the New Faces of Neurodiversity</h3>
+                    <p class="document-pull">The mask is not a deception. It is survival. And it is killing us.</p>
+                    <div class="document-meta">Devon Price • 2022</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 4 -->
+                <div class="document" onclick="openBookModal('The Autistic Brain', 'Temple Grandin', 'Grandin writes from inside the neurotype she describes, offering a neurological counter-narrative to decades of external observation. A reminder that lived expertise carries epistemic weight.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">The Autistic Brain: Thinking Across the Spectrum</h3>
+                    <p class="document-pull">I think in pictures. The medical world thinks in words. This is the gap we must bridge.</p>
+                    <div class="document-meta">Temple Grandin • 2013</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 5 -->
+                <div class="document" onclick="openBookModal('Divergent Mind', 'Jenara Nerenberg', 'How the diagnostic criteria for autism were built on male presentations, and what we miss when we don't look for the female pattern. A feminist critique of psychiatric taxonomy.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">Divergent Mind: Thriving in a World That Wasn't Designed for You</h3>
+                    <p class="document-pull">The diagnostic manual has a gender. It is not neutral. It is male.</p>
+                    <div class="document-meta">Jenara Nerenberg • 2020</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 6 -->
+                <div class="document" onclick="openBookModal('The Electricity of Every Living Thing', 'Katherine May', 'A late-diagnosis memoir that reads like a detective story—piecing together a life through the lens of newly understood neurology. For everyone who found themselves in adulthood.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">The Electricity of Every Living Thing: A Woman's Walk in the Wild to Find Her Way Home</h3>
+                    <p class="document-pull">I was forty years old before I understood my own mind. How much earlier could I have known?</p>
+                    <div class="document-meta">Katherine May • 2018</div>
+                    <div class="thread-hint"></div>
+                </div>
+            </div>
+
+            <!-- Column 2: Health Systems & Structural Reform -->
+            <div class="column">
+                <div class="column-header">
+                    <h2>Health Systems <span class="ampersand">&</span> Structural Reform</h2>
+                </div>
+
+                <!-- Martha's Essay -->
+                <div class="document" onclick="window.open('https://substack.com/@metavoxa', '_blank')">
+                    <h3 class="document-title">The Architecture of Harm</h3>
+                    <p class="document-pull">Medical error is not individual failure. It is the predictable outcome of systems designed for speed over safety.</p>
+                    <div class="document-meta">Martha N. • 2024</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 1 -->
+                <div class="document" onclick="openBookModal('Medical Apartheid', 'Harriet A. Washington', 'The definitive history of medical experimentation on Black Americans—from slavery to Tuskegee to present-day disparities. Washington documents how the health system was built on Black bodies. Essential for understanding why distrust is rational.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">Medical Apartheid: The Dark History of Medical Experimentation on Black Americans from Colonial Times to the Present</h3>
+                    <p class="document-pull">The hospital was never a neutral space. It was built with Black pain.</p>
+                    <div class="document-meta">Harriet A. Washington • 2006</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 2 -->
+                <div class="document" onclick="openBookModal('The Social Transformation of American Medicine', 'Paul Starr', 'A Pulitzer-winning analysis of how medicine became a profession, a business, and finally a corporation. Starr traces the moment when healing became industry—and patients became consumers.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">The Social Transformation of American Medicine</h3>
+                    <p class="document-pull">The doctor-patient relationship was not lost. It was sold.</p>
+                    <div class="document-meta">Paul Starr • 1982</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 3 -->
+                <div class="document" onclick="openBookModal('An American Sickness', 'Elisabeth Rosenthal', 'A former physician turned journalist exposes the billing codes, middlemen, and profit motives that turned American healthcare into a wealth extraction machine. Every page is an indictment.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">An American Sickness: How Healthcare Became Big Business and How You Can Take It Back</h3>
+                    <p class="document-pull">The price of your surgery has nothing to do with the cost. It has to do with what they think you will pay.</p>
+                    <div class="document-meta">Elisabeth Rosenthal • 2017</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 4 -->
+                <div class="document" onclick="openBookModal('The Emperor of All Maladies', 'Siddhartha Mukherjee', 'A biography of cancer that doubles as a history of how we fund, research, and ration treatment. Mukherjee asks: who gets to live when medicine is a scarce resource?', 'https://www.worldcat.org')">
+                    <h3 class="document-title">The Emperor of All Maladies: A Biography of Cancer</h3>
+                    <p class="document-pull">The war on cancer revealed our priorities. Some lives were worth more than others.</p>
+                    <div class="document-meta">Siddhartha Mukherjee • 2010</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 5 -->
+                <div class="document" onclick="openBookModal('Just Medicine', 'Dayna Bowen Matthew', 'A legal scholar's argument that health disparities are not accidents of biology but products of law and policy. Matthew makes the case for structural competency before the term existed.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">Just Medicine: A Cure for Racial Inequality in American Health Care</h3>
+                    <p class="document-pull">Bias is not in the heart of the physician. It is in the structure of the system.</p>
+                    <div class="document-meta">Dayna Bowen Matthew • 2015</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 6 -->
+                <div class="document" onclick="openBookModal('The Care Manifesto', 'The Care Collective', 'A radical reimagining of care as the foundation of society—not a private burden but a public good. The authors ask: what if we organized medicine around care rather than profit?', 'https://www.worldcat.org')">
+                    <h3 class="document-title">The Care Manifesto: The Politics of Interdependence</h3>
+                    <p class="document-pull">We are not independent beings who occasionally need care. We are care-dependent creatures from birth to death.</p>
+                    <div class="document-meta">The Care Collective • 2020</div>
+                    <div class="thread-hint"></div>
+                </div>
+            </div>
+
+            <!-- Column 3: Race & Medicine -->
+            <div class="column">
+                <div class="column-header">
+                    <h2>Race <span class="ampersand">&</span> Medicine</h2>
+                </div>
+
+                <!-- Martha's Essay -->
+                <div class="document" onclick="window.open('https://substack.com/@metavoxa', '_blank')">
+                    <h3 class="document-title">The Algorithm of Whiteness</h3>
+                    <p class="document-pull">How medical calculators encode race—and how those numbers determine who gets a kidney, a baby, or pain relief.</p>
+                    <div class="document-meta">Martha N. • 2024</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 1 -->
+                <div class="document" onclick="openBookModal('Fatal Invention', 'Dorothy Roberts', 'Roberts dismantles the biological concept of race and traces how medicine keeps reinventing it to justify inequality. A legal scholar's scalpel applied to genetic determinism.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">Fatal Invention: How Science, Politics, and Big Business Re-create Race in the Twenty-First Century</h3>
+                    <p class="document-pull">Race is not a biological category that medicine discovered. It is a political category that medicine keeps alive.</p>
+                    <div class="document-meta">Dorothy Roberts • 2011</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 2 -->
+                <div class="document" onclick="openBookModal('Killing the Black Body', 'Dorothy Roberts', 'The foundational text on reproductive justice—how Black women's fertility has been controlled, criminalized, and commodified throughout American history. Essential for understanding maternal mortality disparities.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">Killing the Black Body: Race, Reproduction, and the Meaning of Liberty</h3>
+                    <p class="document-pull">The state has always been interested in Black women's wombs. That interest has never been benign.</p>
+                    <div class="document-meta">Dorothy Roberts • 1997</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 3 -->
+                <div class="document" onclick="openBookModal('So Long a Letter', 'Mariama Bâ', 'A Senegalese classic written as a letter between two women navigating polygamy, widowhood, and colonial education. Bâ's prose is precise, devastating, and deeply feminist. A masterclass in the epistolary form.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">So Long a Letter</h3>
+                    <p class="document-pull">Friendship between women is not a luxury. It is the rope we use to climb out of the wells men dig for us.</p>
+                    <div class="document-meta">Mariama Bâ • 1979</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 4 -->
+                <div class="document" onclick="openBookModal('Black Man in a White Coat', 'Damon Tweedy', 'A Black physician's memoir of training in Duke's mostly white medical school. Tweedy navigates being both healer and potential patient, insider and perpetual outsider.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">Black Man in a White Coat: A Doctor's Reflections on Race and Medicine</h3>
+                    <p class="document-pull">I learned to heal in a place that did not believe I deserved to be healed.</p>
+                    <div class="document-meta">Damon Tweedy • 2015</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 5 -->
+                <div class="document" onclick="openBookModal('The Immortal Life of Henrietta Lacks', 'Rebecca Skloot', 'The story of the HeLa cell line—taken without consent from a Black woman in 1951—and how her cells built modern medicine while her family remained uncompensated. A parable of medical extraction.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">The Immortal Life of Henrietta Lacks</h3>
+                    <p class="document-pull">Her cells lived forever. She died in the colored ward, buried in an unmarked grave.</p>
+                    <div class="document-meta">Rebecca Skloot • 2010</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 6 -->
+                <div class="document" onclick="openBookModal('Medical Bondage', 'Deirdre Cooper Owens', 'The history of how enslaved Black women became the experimental subjects of American gynecology. Owens centers their suffering while exposing the medical "breakthroughs" built on their bodies.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">Medical Bondage: Race, Gender, and the Origins of American Gynecology</h3>
+                    <p class="document-pull">The speculum was tested on enslaved women without anesthesia. They were told Black women did not feel pain.</p>
+                    <div class="document-meta">Deirdre Cooper Owens • 2017</div>
+                    <div class="thread-hint"></div>
+                </div>
+            </div>
+
+            <!-- Column 4: Power & Institutions -->
+            <div class="column">
+                <div class="column-header">
+                    <h2>Power <span class="ampersand">&</span> Institutions</h2>
+                </div>
+
+                <!-- Martha's Essay -->
+                <div class="document" onclick="window.open('https://substack.com/@metavoxa', '_blank')">
+                    <h3 class="document-title">The Credential as Weapon</h3>
+                    <p class="document-pull">How medical training confers the right to speak—and how that right is distributed unevenly across gender, race, and class.</p>
+                    <div class="document-meta">Martha N. • 2024</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 1 -->
+                <div class="document" onclick="openBookModal('Discipline and Punish', 'Michel Foucault', 'The foundational text on how institutions create docile bodies through surveillance and examination. Foucault's analysis of the clinic as a site of power remains essential for understanding medical gaze.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">Discipline and Punish: The Birth of the Prison</h3>
+                    <p class="document-pull">The examination is a ritual of power. The patient does not just receive care. They receive a diagnosis of their place.</p>
+                    <div class="document-meta">Michel Foucault • 1975</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 2 -->
+                <div class="document" onclick="openBookModal('The Birth of the Clinic', 'Michel Foucault', 'Foucault's earlier work on the historical moment when medicine became a clinical science. He traces how the patient's body became a text to be read by expert interpreters.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">The Birth of the Clinic: An Archaeology of Medical Perception</h3>
+                    <p class="document-pull">The clinic created a new kind of seeing. The patient became visible only through the physician's trained eye.</p>
+                    <div class="document-meta">Michel Foucault • 1963</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 3 -->
+                <div class="document" onclick="openBookModal('The Wretched of the Earth', 'Frantz Fanon', 'A psychiatrist's analysis of colonialism as a structure that creates mental illness. Fanon's clinical observations from Algeria remain devastatingly relevant to understanding medical racism.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">The Wretched of the Earth</h3>
+                    <p class="document-pull">Colonialism does not just steal land. It colonizes the mind. The clinic is one of its instruments.</p>
+                    <div class="document-meta">Frantz Fanon • 1961</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 4 -->
+                <div class="document" onclick="openBookModal('Black Skin, White Masks', 'Frantz Fanon', 'Fanon's earlier psychoanalytic study of racialization and alienation. Written from inside the colonial psychiatric system, it is both clinical case study and revolutionary text.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">Black Skin, White Masks</h3>
+                    <p class="document-pull">The Black man is not. He is made. And the clinic is where that making is most efficiently accomplished.</p>
+                    <div class="document-meta">Frantz Fanon • 1952</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 5 -->
+                <div class="document" onclick="openBookModal('The Revolt of the Black Athlete', 'Harry Edwards', 'A sociologist's analysis of how Black athletes navigate institutional power—relevant to any professional navigating credentialing systems while Black. The dynamics of respectability and resistance.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">The Revolt of the Black Athlete</h3>
+                    <p class="document-pull">The institution will allow your excellence only if you remain silent about its violence.</p>
+                    <div class="document-meta">Harry Edwards • 1969</div>
+                    <div class="thread-hint"></div>
+                </div>
+
+                <!-- Real Book 6 -->
+                <div class="document" onclick="openBookModal('Pedagogy of the Oppressed', 'Paulo Freire', 'Not a medical text, but essential for understanding how expertise becomes domination. Freire's analysis of the banking model of education applies directly to the patient-physician relationship.', 'https://www.worldcat.org')">
+                    <h3 class="document-title">Pedagogy of the Oppressed</h3>
+                    <p class="document-pull">The patient is not an empty account to be filled with your expertise. They are a co-creator of knowledge.</p>
+                    <div class="document-meta">Paulo Freire • 1968</div>
+                    <div class="thread-hint"></div>
+                </div>
+            </div>
         </div>
+
+        <!-- Leave Something Behind Section -->
+        <section class="recommendation-section">
+            <h2>Leave Something Behind</h2>
+            <p>Have you encountered a book, essay, or journal that belongs in this room? Share it with the palace. Your recommendation may find its way to the shelves.</p>
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSezV2Dbf8keTf34JspdwsOOtAWlkTo6llXRjxFc84vPH8BcUA/viewform?usp=sharing&ouid=112882475886781530330" class="recommendation-link" target="_blank">Recommend a Text</a>
+        </section>
     </main>
 
-    <div class="reading-nook">
-        <div class="recommendation-cta">
-            <p>Found a book that belongs here?</p>
-            <a href="https://forms.gle/nHzbZZntmG82Ueyi8" target="_blank" class="submit-book">
-                Recommend a Book
-            </a>
+    <!-- Book Modal -->
+    <div class="book-modal" id="bookModal">
+        <div class="close-modal" onclick="closeBookModal()"></div>
+        <div class="book-display">
+            <div class="book-spine">
+                <div class="book-spine-title" id="modalBookTitle"></div>
+                <div class="book-spine-author" id="modalBookAuthor"></div>
+            </div>
+            <div class="book-details">
+                <h3 id="modalDetailTitle"></h3>
+                <div class="author" id="modalDetailAuthor"></div>
+                <div class="martha-note">
+                    <p id="modalMarthaNote"></p>
+                </div>
+                <a href="#" class="library-link" id="modalLibraryLink" target="_blank">Find at Your Local Library</a>
+            </div>
         </div>
     </div>
 
-    <script src="js/data/books.js"></script>
-    <script src="js/reading-room.js"></script>
+    <script>
+        // Generate Floating Candles
+        function generateCandles() {
+            const container = document.getElementById('candleContainer');
+            const candleCount = 12;
+
+            for (let i = 0; i < candleCount; i++) {
+                const candle = document.createElement('div');
+                candle.className = 'floating-candle';
+                candle.style.left = Math.random() * 100 + '%';
+                candle.style.top = Math.random() * 100 + '%';
+                candle.style.animationDelay = Math.random() * 5 + 's';
+                candle.style.animationDuration = (7 + Math.random() * 4) + 's';
+                container.appendChild(candle);
+            }
+        }
+
+        // The Key Menu Toggle
+        document.getElementById('theKey').addEventListener('click', function() {
+            document.getElementById('keyMenu').classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const key = document.getElementById('theKey');
+            const menu = document.getElementById('keyMenu');
+            if (!key.contains(e.target) && !menu.contains(e.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
+        // Book Modal Functions
+        function openBookModal(title, author, note, libraryUrl) {
+            document.getElementById('modalBookTitle').textContent = title;
+            document.getElementById('modalBookAuthor').textContent = author;
+            document.getElementById('modalDetailTitle').textContent = title;
+            document.getElementById('modalDetailAuthor').textContent = author;
+            document.getElementById('modalMarthaNote').textContent = note;
+            document.getElementById('modalLibraryLink').href = libraryUrl;
+            document.getElementById('bookModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBookModal() {
+            document.getElementById('bookModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeBookModal();
+            }
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('bookModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeBookModal();
+            }
+        });
+
+        // Initialize
+        generateCandles();
+
+        // Parallax effect on scroll
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const candles = document.querySelectorAll('.floating-candle');
+            candles.forEach((candle, index) => {
+                const speed = 0.5 + (index * 0.1);
+                candle.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+    </script>
 </body>
 </html>
