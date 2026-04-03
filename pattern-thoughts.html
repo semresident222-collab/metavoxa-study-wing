@@ -3,90 +3,1126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pattern Thoughts — MetaVoxa House</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/pattern-thoughts.css">
+    <title>Pattern Thoughts | MetaVoxa Palace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --burgundy-deep: #4A0404;
+            --burgundy-rich: #6B0F1A;
+            --gold-antique: #D4AF37;
+            --gold-deep: #B8941F;
+            --gold-soft: #C9A961;
+            --terracotta: #C65D3B;
+            --ivory-warm: #F5F0E8;
+            --ivory-aged: #E8E0D0;
+            --ivory-paper: #F8F5F0;
+            --navy-deep: #0A0F1F;
+            --navy-warm: #0F1419;
+            --ink-dark: #1A1A1A;
+            --ink-brown: #2C2416;
+            --grid-cool: #E8E4DC;
+            --explorer-warm: #F5F0E6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+            opacity: 0;
+            animation: fadeInRoom 2s ease-out forwards;
+            transition: background 1.5s ease, color 1.5s ease;
+        }
+
+        /* Year Themes */
+        body.year-reader {
+            background: linear-gradient(180deg, #0F1419 0%, #1A1410 100%);
+            color: var(--ink-dark);
+        }
+
+        body.year-writer {
+            background: linear-gradient(180deg, #141619 0%, #1A1A1A 100%);
+            color: var(--ink-dark);
+        }
+
+        body.year-researcher {
+            background: linear-gradient(180deg, #E8E4DC 0%, #D4D0C8 100%);
+            color: var(--ink-dark);
+        }
+
+        body.year-explorer {
+            background: linear-gradient(180deg, #F5F0E6 0%, #E8E0D0 100%);
+            color: var(--ink-brown);
+        }
+
+        @keyframes fadeInRoom {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Grain Texture */
+        .grain-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Exit Door */
+        .exit-door {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 200;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0.6;
+            transition: all 0.4s ease;
+        }
+
+        .exit-door:hover { opacity: 1; }
+
+        .door-icon {
+            width: 28px;
+            height: 42px;
+            border: 1px solid var(--gold-antique);
+            border-radius: 14px 14px 2px 2px;
+            position: relative;
+            background: linear-gradient(to bottom, rgba(212, 175, 55, 0.1), transparent);
+        }
+
+        .door-icon::after {
+            content: '';
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 2px;
+            height: 2px;
+            background: var(--gold-antique);
+            border-radius: 50%;
+        }
+
+        .exit-text {
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            color: var(--gold-antique);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* The Key Navigation */
+        .the-key {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 200;
+            width: 44px;
+            height: 44px;
+            cursor: pointer;
+            transition: transform 0.4s ease;
+            opacity: 0.7;
+        }
+
+        .the-key:hover {
+            transform: rotate(90deg);
+            opacity: 1;
+        }
+
+        .key-icon {
+            width: 100%;
+            height: 100%;
+            fill: none;
+            stroke: var(--gold-antique);
+            stroke-width: 1.5;
+        }
+
+        .key-menu {
+            position: fixed;
+            bottom: 90px;
+            right: 30px;
+            z-index: 199;
+            background: rgba(10, 15, 31, 0.95);
+            border: 1px solid var(--gold-antique);
+            border-radius: 4px;
+            padding: 20px;
+            min-width: 200px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .key-menu.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .key-menu h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            color: var(--gold-antique);
+            margin-bottom: 15px;
+            letter-spacing: 0.1em;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .key-menu a {
+            display: block;
+            color: var(--ivory-aged);
+            text-decoration: none;
+            padding: 8px 0;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .key-menu a:hover {
+            color: var(--gold-antique);
+            padding-left: 5px;
+        }
+
+        /* Main Container */
+        .pattern-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 20px 120px;
+            position: relative;
+            z-index: 50;
+        }
+
+        /* Calendar Frame */
+        .calendar-frame {
+            background: var(--ivory-paper);
+            border-radius: 4px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(0, 0, 0, 0.1),
+                inset 0 0 60px rgba(0, 0, 0, 0.02);
+            position: relative;
+            min-height: 500px;
+            padding: 40px;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .year-reader .calendar-frame {
+            background: linear-gradient(135deg, #F8F5F0 0%, #F0EBE3 100%);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 0 80px rgba(139, 90, 43, 0.03);
+        }
+
+        .year-writer .calendar-frame {
+            background: linear-gradient(135deg, #FAFAF8 0%, #F5F5F0 100%);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
+        }
+
+        .year-researcher .calendar-frame {
+            background: linear-gradient(135deg, #F5F3EF 0%, #EBE8E2 100%);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .year-explorer .calendar-frame {
+            background: linear-gradient(135deg, #FDFCF8 0%, #F8F5EE 100%);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(212, 175, 55, 0.1);
+        }
+
+        /* Calendar Header */
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .pattern-number {
+            font-family: 'Cinzel', serif;
+            font-size: 1.8rem;
+            color: var(--gold-antique);
+            letter-spacing: 0.1em;
+            font-weight: 400;
+        }
+
+        .year-badge {
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            color: var(--gold-deep);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+        }
+
+        /* Pattern Content */
+        .pattern-content {
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .pattern-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.5rem, 4vw, 2.2rem);
+            line-height: 1.4;
+            margin-bottom: 30px;
+            color: var(--ink-dark);
+            position: relative;
+            min-height: 80px;
+        }
+
+        .year-reader .pattern-title {
+            font-weight: 400;
+            letter-spacing: 0.01em;
+        }
+
+        .year-writer .pattern-title {
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        .year-researcher .pattern-title {
+            font-family: 'IBM Plex Mono', monospace;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+        }
+
+        .year-explorer .pattern-title {
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            line-height: 1.5;
+        }
+
+        /* Typewriter cursor */
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background: var(--gold-antique);
+            margin-left: 2px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .pattern-body {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+            line-height: 1.8;
+            color: var(--ink-dark);
+            opacity: 0.85;
+            max-width: 600px;
+            margin: 0 auto 40px;
+            min-height: 100px;
+        }
+
+        .year-writer .pattern-body {
+            font-weight: 400;
+        }
+
+        .deeper-layer {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--gold-deep);
+            border-left: 2px solid var(--gold-antique);
+            padding-left: 20px;
+            text-align: left;
+            max-width: 500px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.6s ease;
+        }
+
+        .deeper-layer.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .deeper-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--gold-antique);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        /* Ghost Connections */
+        .ghost-connections {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .ghost-line {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .calendar-frame:hover .ghost-line {
+            opacity: 1;
+        }
+
+        /* Navigation */
+        .pattern-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+        }
+
+        .nav-btn:hover {
+            border-color: var(--gold-antique);
+            background: rgba(212, 175, 55, 0.05);
+        }
+
+        .nav-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--ink-dark);
+            stroke-width: 1.5;
+            fill: none;
+        }
+
+        .nav-btn:hover svg {
+            stroke: var(--gold-antique);
+        }
+
+        /* Archive Grid */
+        .archive-section {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+        }
+
+        .archive-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .archive-header h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            color: var(--gold-antique);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            gap: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .archive-item {
+            aspect-ratio: 1;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            color: var(--ink-dark);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+
+        .archive-item:hover {
+            border-color: var(--gold-antique);
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .archive-item.today {
+            background: var(--gold-antique);
+            color: var(--navy-deep);
+            border-color: var(--gold-antique);
+            font-weight: 600;
+        }
+
+        .archive-item.has-connections::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            right: 4px;
+            width: 4px;
+            height: 4px;
+            background: var(--gold-antique);
+            border-radius: 50%;
+        }
+
+        /* Expand Button */
+        .expand-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .expand-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border: 1px solid var(--gold-antique);
+            color: var(--gold-antique);
+            text-decoration: none;
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .expand-btn.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .expand-btn:hover {
+            background: var(--gold-antique);
+            color: var(--navy-deep);
+        }
+
+        /* Giscus Container */
+        .giscus-container {
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .giscus-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .giscus-header h4 {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            color: var(--gold-antique);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .giscus-closed {
+            text-align: center;
+            padding: 30px;
+            font-style: italic;
+            color: var(--gold-deep);
+            opacity: 0.7;
+        }
+
+        /* Flip Animation */
+        @keyframes flipCalendar {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(-90deg); opacity: 0.5; }
+            100% { transform: rotateX(0deg); opacity: 1; }
+        }
+
+        .flipping {
+            animation: flipCalendar 0.8s ease-in-out;
+        }
+
+        /* Today Marker */
+        .today-marker {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: var(--gold-antique);
+            color: var(--navy-deep);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            z-index: 150;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .calendar-frame {
+                padding: 25px;
+                min-height: 400px;
+            }
+
+            .pattern-content {
+                padding: 20px 10px;
+            }
+
+            .archive-grid {
+                grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+            }
+        }
+    </style>
+<base target="_blank">
 </head>
-<body class="pattern-room">
-    <nav class="room-nav">
-        <a href="index.html" class="back-link">← Lobby</a>
-        <div class="day-indicator">Day <span id="current-day-number">001</span> of 365</div>
-    </nav>
+<body class="year-reader">
+    <!-- Grain Overlay -->
+    <div class="grain-overlay"></div>
 
-    <main class="calendar-container">
-        <div class="flip-calendar" id="flip-calendar">
-            <div class="calendar-page current-page" id="current-page">
-                <div class="page-header">
-                    <span class="pattern-number" id="pattern-num">001</span>
-                    <span class="year">2026</span>
-                </div>
-                <div class="page-content">
-                    <h1 class="thought-title" id="thought-title">Loading...</h1>
-                    <p class="thought-body" id="thought-body"></p>
-                    <div class="deeper-layer">
-                        <span class="layer-label">Deeper Layer</span>
-                        <p id="deeper-text"></p>
-                    </div>
-                </div>
-                <div class="page-corner"></div>
+    <!-- Today Marker -->
+    <div class="today-marker" id="todayMarker">Today</div>
+
+    <!-- Exit Door -->
+    <a href="index.html" class="exit-door">
+        <div class="door-icon"></div>
+        <span class="exit-text">To Study Wing</span>
+    </a>
+
+    <!-- The Key Navigation -->
+    <div class="the-key" id="theKey">
+        <svg class="key-icon" viewBox="0 0 50 50">
+            <circle cx="20" cy="20" r="7"/>
+            <path d="M26 26 L42 42 M42 42 L35 42 M42 42 L42 35"/>
+            <rect x="17" y="28" width="6" height="12" rx="1"/>
+        </svg>
+    </div>
+
+    <div class="key-menu" id="keyMenu">
+        <h3>The Palace</h3>
+        <a href="index.html">The Lobby</a>
+        <a href="reading-room.html">Reading Room</a>
+        <a href="star-of-the-month.html">Star of the Month</a>
+        <a href="pattern-thoughts.html">Pattern Thoughts</a>
+    </div>
+
+    <!-- Main Container -->
+    <main class="pattern-container">
+        <!-- Calendar Frame -->
+        <div class="calendar-frame" id="calendarFrame">
+            <div class="ghost-connections" id="ghostConnections"></div>
+
+            <!-- Header -->
+            <div class="calendar-header">
+                <div class="pattern-number" id="patternNumber">001</div>
+                <div class="year-badge" id="yearBadge">Year of the Reader</div>
             </div>
-            
-            <div class="ghost-connections" id="ghost-connections">
-                <!-- Faint lines to connected thoughts appear here -->
+
+            <!-- Content -->
+            <div class="pattern-content">
+                <h2 class="pattern-title" id="patternTitle">
+                    <span id="titleText"></span><span class="cursor" id="cursor"></span>
+                </h2>
+                <div class="pattern-body" id="patternBody"></div>
+                <div class="deeper-layer" id="deeperLayer">
+                    <span class="deeper-label">Deeper Layer</span>
+                    <span id="deeperText"></span>
+                </div>
+            </div>
+
+            <!-- Expand Button -->
+            <div class="expand-section" id="expandSection">
+                <a href="#" class="expand-btn" id="expandBtn" target="_blank">Expand Thought</a>
             </div>
         </div>
 
-        <div class="thought-actions">
-            <button class="action-btn" id="expand-substack" style="display: none;">
-                Expand Thought on Substack →
+        <!-- Navigation -->
+        <div class="pattern-nav">
+            <button class="nav-btn" id="prevBtn" onclick="navigatePattern(-1)">
+                <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
             </button>
-            <button class="action-btn secondary" onclick="toggleArchive()">
-                View Archive
+            <button class="nav-btn" id="nextBtn" onclick="navigatePattern(1)">
+                <svg viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
             </button>
         </div>
 
-        <div class="discussion-area" id="discussion-area">
-            <h3>Today's Debate</h3>
-            <div class="comment-policy">
-                <p>💡 Only today's active thought accepts new replies. Past thoughts remain readable.</p>
+        <!-- Archive -->
+        <div class="archive-section">
+            <div class="archive-header">
+                <h3>Archive</h3>
             </div>
-            
-            <!-- Giscus Container (for non-Substack thoughts) -->
-            <div class="giscus-container" id="giscus-container"></div>
-            
-            <!-- Substack Embed Container (for expanded thoughts) -->
-            <div class="substack-embed" id="substack-embed" style="display: none;">
-                <iframe src="" width="100%" height="300" style="border:0;" frameborder="0" scrolling="no"></iframe>
+            <div class="archive-grid" id="archiveGrid"></div>
+        </div>
+
+        <!-- Giscus Discussion -->
+        <div class="giscus-container" id="giscusContainer">
+            <div class="giscus-header">
+                <h4>Today's Reflection</h4>
             </div>
+            <div id="giscus"></div>
         </div>
     </main>
 
-    <div class="archive-modal" id="archive-modal">
-        <div class="archive-content">
-            <button class="close-archive" onclick="toggleArchive()">×</button>
-            <h2>Pattern Archive</h2>
-            <div class="archive-grid" id="archive-grid">
-                <!-- Past thoughts render here as detached pages -->
-            </div>
-        </div>
-    </div>
+    <script>
+        // Pattern Thoughts Data (Sample - Full 365 would be loaded from external source)
+        const patternThoughts = [
+            {
+                number: "001",
+                title: "The silence between words is where meaning lives.",
+                body: "We fill our days with noise—notifications, opinions, the endless scroll. But meaning doesn't arrive announced. It slips in during the pause. The breath between sentences. The moment before you respond. Today, notice where you rush to fill the quiet. What might be waiting there?",
+                deeper: "The quietest people often have the loudest minds.",
+                connections: ["015", "042", "089"],
+                substackUrl: ""
+            },
+            {
+                number: "002",
+                title: "You are not late. The world is just early.",
+                body: "We measure ourselves against clocks that were never ours. Someone else's timeline. Someone else's finish line. But growth has its own rhythm. The seed doesn't apologize for taking time to break soil. The river doesn't rush to reach the sea.",
+                deeper: "The most interesting people took the scenic route.",
+                connections: ["027", "056", "103"],
+                substackUrl: ""
+            },
+            {
+                number: "003",
+                title: "Patterns don't repeat because we're stuck. They repeat because we're still learning.",
+                body: "That same argument. That same dead-end job. That same fear, wearing a new face. You're not broken. You're in school. The universe is a patient teacher, and it will keep presenting the lesson until you pass it.",
+                deeper: "Your triggers are your teachers in disguise.",
+                connections: ["007", "019", "034"],
+                substackUrl: ""
+            },
+            {
+                number: "004",
+                title: "The mind that seeks answers is the same mind that invents the questions.",
+                body: "We believe we're searching for truth. But mostly, we're searching for confirmation. The mind is a pattern-matching machine, and it will find what it's programmed to find. Ask better questions.",
+                deeper: "The quality of your life is the quality of your questions.",
+                connections: ["012", "028", "067"],
+                substackUrl: ""
+            },
+            {
+                number: "005",
+                title: "What you notice first in others is what you've forgotten in yourself.",
+                body: "That person who annoys you—what do they reflect? The show-off mirrors your hidden desire to be seen. The pessimist reflects your unacknowledged fears. Everyone is your mirror.",
+                deeper: "Judgment is just unrecognized self-judgment, projected outward.",
+                connections: ["008", "023", "045"],
+                substackUrl: ""
+            },
+            {
+                number: "006",
+                title: "Not everything that falls apart was meant to stay together.",
+                body: "We spend enormous energy trying to repair things that were never built for us. The relationship. The plan. The version of yourself you outgrew three years ago. Some collapse is architecture.",
+                deeper: "Letting go isn't failure. It's selection.",
+                connections: ["011", "029", "058"],
+                substackUrl: ""
+            },
+            {
+                number: "007",
+                title: "You have been carrying someone else's emergency as if it were your own.",
+                body: "Urgency is contagious. Someone else's panic can colonize your whole nervous system before you realize it isn't yours. Most of what feels like crisis is just noise traveling at speed.",
+                deeper: "Not every fire needs a firefighter. Some fires need to burn.",
+                connections: ["003", "016", "031"],
+                substackUrl: ""
+            },
+            {
+                number: "008",
+                title: "The version of you that needed to be understood has already been understood.",
+                body: "You waited years for someone to see it—the depth, the complexity, the reason behind the behavior. They didn't. You survived anyway. You built yourself without the blueprint being validated.",
+                deeper: "Your truth doesn't require a witness to be real.",
+                connections: ["005", "024", "052"],
+                substackUrl: ""
+            },
+            {
+                number: "009",
+                title: "Your body knows before your mind catches up.",
+                body: "The tightness in your chest before the meeting. The way your stomach dropped when they said yes. The inexplicable calm in the chaos. Your body is running calculations your conscious mind hasn't started yet.",
+                deeper: "Intuition is pattern recognition without the explanation.",
+                connections: ["014", "037", "071"],
+                substackUrl: ""
+            },
+            {
+                number: "010",
+                title: "Rest is not a reward. It is a requirement.",
+                body: "We have built economies around the idea that exhaustion is proof of commitment. That the person who sleeps less wants it more. But the mind that is always running is the mind that starts making the same mistakes.",
+                deeper: "The tired version of you is not the real you making decisions.",
+                connections: ["018", "043", "076"],
+                substackUrl: ""
+            },
+            {
+                number: "011",
+                title: "The thing you keep almost saying is the most important thing.",
+                body: "You rehearse it in the shower. You type it and delete it. You start the sentence and pivot to something safer. That almost-said thing is a door. On the other side is either the conversation that changes everything.",
+                deeper: "The unspoken thing doesn't disappear. It goes underground and grows teeth.",
+                connections: ["006", "022", "048"],
+                substackUrl: ""
+            },
+            {
+                number: "012",
+                title: "Anger is grief that forgot it was sad.",
+                body: "We are taught that anger is the strong emotion and sadness is the weak one. So we convert. We armor the loss. We clench it into fury because fury feels like power. But underneath every sustained anger is a wound.",
+                deeper: "Behind most rage is a very old hurt asking to be held.",
+                connections: ["004", "025", "061"],
+                substackUrl: ""
+            },
+            {
+                number: "013",
+                title: "You will outgrow people who genuinely loved you. That is not a tragedy.",
+                body: "Growth is not always betrayal. Sometimes the most loving thing that happens is the quiet expansion that makes an old container feel wrong. It doesn't mean the love was false.",
+                deeper: "Some relationships are meant to be chapters, not the whole book.",
+                connections: ["019", "033", "054"],
+                substackUrl: ""
+            },
+            {
+                number: "014",
+                title: "What you believe about money is what you believe about your worth.",
+                body: "The way you underprice yourself. The way you hesitate before the ask. The way you feel vaguely guilty spending on things you love. These aren't financial habits. They are self-worth in disguise.",
+                deeper: "You can't build abundance on a foundation of scarcity.",
+                connections: ["009", "028", "067"],
+                substackUrl: ""
+            },
+            {
+                number: "015",
+                title: "The version of yourself you're ashamed of was doing its best.",
+                body: "You made the decision with the information you had. You coped the only way you knew how at the time. You survived the season using the tools available. Shame insists that you should have known better earlier.",
+                deeper: "Accountability without compassion is just cruelty with better branding.",
+                connections: ["001", "035", "078"],
+                substackUrl: ""
+            },
+            {
+                number: "016",
+                title: "Your nervous system is not broken. It is loyal.",
+                body: "The hypervigilance. The shutting down. The fawn, the freeze, the flood. These are not personality defects. They are intelligent adaptations to environments that were not safe. The system worked.",
+                deeper: "Healing is updating the software, not hating the old version for working.",
+                connections: ["007", "041", "082"],
+                substackUrl: ""
+            },
+            {
+                number: "017",
+                title: "Fine is the most dangerous word.",
+                body: "Fine is what we say when we've given up on being understood. When the truth feels too large and we've run the calculation that it won't land anyway. Fine is a wall that looks like an open door.",
+                deeper: "Fine is the abbreviation for: I don't trust you with the full truth.",
+                connections: ["001", "044", "091"],
+                substackUrl: ""
+            }
+        ];
 
-   <script src="https://giscus.app/client.js"
-        data-repo="semresident222-collab/metavoxa-study-wing"
-        data-repo-id="R_kgDOR3nrxA"
-        data-category="Pattern Thoughts"
-        data-category-id="DIC_kwDOR3nrxM4C554W"
-        data-mapping="specific"
-        data-term="pattern-thought-" + thought.id
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="bottom"
-        data-theme="preferred_color_scheme"
-        data-lang="en"
-        crossorigin="anonymous"
-        async>
-</script>
+        // Generate remaining patterns (018-365) with placeholder content
+        for (let i = 18; i <= 365; i++) {
+            const num = i.toString().padStart(3, '0');
+            patternThoughts.push({
+                number: num,
+                title: `Pattern Thought ${num}`,
+                body: "This pattern thought is unfolding. Each day brings a new compression of intelligence—a thought that stands alone, sits through noise, and connects to others.",
+                deeper: "The deeper layer reveals itself to those who sit with the question.",
+                connections: [],
+                substackUrl: ""
+            });
+        }
+
+        // State
+        let currentIndex = 0;
+        let currentYear = 2026;
+        let isTyping = false;
+
+        // Year configuration
+        const yearConfig = {
+            2026: { name: "Reader", class: "year-reader" },
+            2027: { name: "Writer", class: "year-writer" },
+            2028: { name: "Researcher", class: "year-researcher" },
+            2029: { name: "Explorer", class: "year-explorer" }
+        };
+
+        // Get current pattern based on date
+        function getTodayIndex() {
+            const now = new Date();
+            const start = new Date(2026, 0, 1); // Jan 1, 2026
+            const diff = now - start;
+            const dayIndex = Math.floor(diff / (1000 * 60 * 60 * 24));
+            return Math.max(0, Math.min(dayIndex, 364));
+        }
+
+        // Get year from index
+        function getYearFromIndex(index) {
+            const yearOffset = Math.floor(index / 365);
+            const baseYear = 2026;
+            return baseYear + (yearOffset % 4);
+        }
+
+        // Typewriter effect
+        async function typeText(element, text, speed = 30) {
+            return new Promise(resolve => {
+                element.textContent = '';
+                let i = 0;
+                isTyping = true;
+
+                function type() {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                        setTimeout(type, speed);
+                    } else {
+                        isTyping = false;
+                        resolve();
+                    }
+                }
+                type();
+            });
+        }
+
+        // Update theme based on year
+        function updateTheme(year) {
+            const config = yearConfig[year];
+            document.body.className = config.class;
+            document.getElementById('yearBadge').textContent = `Year of the ${config.name}`;
+        }
+
+        // Render ghost connections
+        function renderGhostConnections(connections) {
+            const container = document.getElementById('ghostConnections');
+            container.innerHTML = '';
+
+            connections.forEach((conn, i) => {
+                const line = document.createElement('div');
+                line.className = 'ghost-line';
+                line.style.top = `${20 + (i * 15)}%`;
+                line.style.left = '10%';
+                line.style.width = '80%';
+                line.style.transform = `rotate(${(i - 1) * 5}deg)`;
+                container.appendChild(line);
+            });
+        }
+
+        // Render pattern
+        async function renderPattern(index) {
+            const pattern = patternThoughts[index];
+            const todayIndex = getTodayIndex();
+            const isToday = index === todayIndex;
+            const year = getYearFromIndex(index);
+
+            // Update theme
+            updateTheme(year);
+
+            // Flip animation
+            const frame = document.getElementById('calendarFrame');
+            frame.classList.add('flipping');
+
+            setTimeout(async () => {
+                // Update number
+                document.getElementById('patternNumber').textContent = pattern.number;
+
+                // Clear previous content
+                document.getElementById('titleText').textContent = '';
+                document.getElementById('patternBody').textContent = '';
+                document.getElementById('deeperLayer').classList.remove('revealed');
+                document.getElementById('deeperText').textContent = pattern.deeper;
+
+                // Type title
+                await typeText(document.getElementById('titleText'), pattern.title, 25);
+
+                // Fade in body
+                document.getElementById('patternBody').textContent = pattern.body;
+                document.getElementById('patternBody').style.opacity = '0';
+                document.getElementById('patternBody').style.transition = 'opacity 0.8s ease';
+                setTimeout(() => {
+                    document.getElementById('patternBody').style.opacity = '0.85';
+                }, 100);
+
+                // Reveal deeper layer
+                setTimeout(() => {
+                    document.getElementById('deeperLayer').classList.add('revealed');
+                }, 600);
+
+                // Show expand button if substack URL exists
+                const expandBtn = document.getElementById('expandBtn');
+                if (pattern.substackUrl) {
+                    expandBtn.href = pattern.substackUrl;
+                    expandBtn.classList.add('visible');
+                } else {
+                    expandBtn.classList.remove('visible');
+                }
+
+                // Render connections
+                renderGhostConnections(pattern.connections);
+
+                // Update Giscus
+                updateGiscus(pattern.number, isToday, todayIndex);
+
+                // Update archive highlight
+                updateArchiveHighlight(index);
+
+                frame.classList.remove('flipping');
+            }, 400);
+
+            currentIndex = index;
+        }
+
+        // Update Giscus
+        function updateGiscus(patternNum, isToday, todayIndex) {
+            const container = document.getElementById('giscus');
+            const header = document.querySelector('.giscus-header h4');
+
+            // Clear existing
+            container.innerHTML = '';
+
+            if (isToday) {
+                header.textContent = "Today's Reflection";
+
+                // Create Giscus script
+                const script = document.createElement('script');
+                script.src = "https://giscus.app/client.js";
+                script.setAttribute('data-repo', 'semresident222-collab/metavoxa-study-wing');
+                script.setAttribute('data-repo-id', 'R_kgDOR3nrxA');
+                script.setAttribute('data-category', 'Pattern Thoughts');
+                script.setAttribute('data-category-id', 'DIC_kwDOR3nrxM4C554W');
+                script.setAttribute('data-mapping', 'specific');
+                script.setAttribute('data-term', `pattern-thought-${patternNum}`);
+                script.setAttribute('data-strict', '0');
+                script.setAttribute('data-reactions-enabled', '1');
+                script.setAttribute('data-emit-metadata', '0');
+                script.setAttribute('data-input-position', 'bottom');
+                script.setAttribute('data-theme', 'preferred_color_scheme');
+                script.setAttribute('data-lang', 'en');
+                script.setAttribute('crossorigin', 'anonymous');
+                script.async = true;
+
+                container.appendChild(script);
+            } else if (currentIndex < todayIndex) {
+                header.textContent = "Reflection Closed";
+                container.innerHTML = `
+                    <div class="giscus-closed">
+                        This pattern thought's discussion period has ended.<br>
+                        You may still react, but new replies are closed.
+                    </div>
+                `;
+            } else {
+                header.textContent = "Future Pattern";
+                container.innerHTML = `
+                    <div class="giscus-closed">
+                        This pattern thought has not yet been revealed.<br>
+                        Return on its designated day to participate.
+                    </div>
+                `;
+            }
+        }
+
+        // Render archive grid
+        function renderArchive() {
+            const grid = document.getElementById('archiveGrid');
+            const todayIndex = getTodayIndex();
+
+            for (let i = 0; i < 365; i++) {
+                const item = document.createElement('div');
+                item.className = 'archive-item';
+                item.textContent = (i + 1).toString().padStart(3, '0');
+
+                if (i === todayIndex) {
+                    item.classList.add('today');
+                }
+
+                if (patternThoughts[i] && patternThoughts[i].connections.length > 0) {
+                    item.classList.add('has-connections');
+                }
+
+                item.onclick = () => renderPattern(i);
+                grid.appendChild(item);
+            }
+        }
+
+        // Update archive highlight
+        function updateArchiveHighlight(index) {
+            document.querySelectorAll('.archive-item').forEach((item, i) => {
+                item.style.background = i === index ? 'rgba(212, 175, 55, 0.2)' : '';
+                item.style.borderColor = i === index ? 'var(--gold-antique)' : '';
+            });
+        }
+
+        // Navigation
+        function navigatePattern(direction) {
+            if (isTyping) return;
+
+            const newIndex = currentIndex + direction;
+            if (newIndex >= 0 && newIndex < 365) {
+                renderPattern(newIndex);
+            }
+        }
+
+        // Check for midnight flip
+        function checkMidnightFlip() {
+            const now = new Date();
+            const tomorrow = new Date(now);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
+
+            const msUntilMidnight = tomorrow - now;
+
+            setTimeout(() => {
+                const todayIndex = getTodayIndex();
+                renderPattern(todayIndex);
+                checkMidnightFlip(); // Reschedule for next midnight
+            }, msUntilMidnight);
+        }
+
+        // The Key Menu
+        document.getElementById('theKey').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('keyMenu').classList.toggle('active');
+        });
+
+        document.addEventListener('click', function(e) {
+            const key = document.getElementById('theKey');
+            const menu = document.getElementById('keyMenu');
+            if (!key.contains(e.target) && !menu.contains(e.target)) {
+                menu.classList.remove('active');
+            }
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            const todayIndex = getTodayIndex();
+            renderPattern(todayIndex);
+            renderArchive();
+            checkMidnightFlip();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowLeft') navigatePattern(-1);
+            if (e.key === 'ArrowRight') navigatePattern(1);
+        });
+    </script>
 </body>
 </html>
