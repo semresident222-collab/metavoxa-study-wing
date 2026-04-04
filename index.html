@@ -20,6 +20,7 @@
             font-family: 'Cormorant Garamond', serif;
         }
 
+        /* Initial void - complete darkness */
         #void {
             position: fixed;
             top: 0;
@@ -27,27 +28,40 @@
             width: 100%;
             height: 100%;
             background: #000;
-            z-index: 1000;
-            animation: emergence 4s ease-out forwards;
+            z-index: 10000;
+            animation: emergence 5s ease-out forwards;
             animation-delay: 0.5s;
         }
 
         @keyframes emergence {
             0% { opacity: 1; }
+            40% { opacity: 0.8; }
             100% { opacity: 0; pointer-events: none; }
         }
 
+        /* Main atrium */
         #atrium {
             position: relative;
             width: 100%;
             height: 100%;
             opacity: 0;
-            animation: fade-in 3s ease-out forwards;
-            animation-delay: 1s;
+            animation: fade-in 4s ease-out forwards;
+            animation-delay: 2s;
         }
 
         @keyframes fade-in {
-            to { opacity: 1; }
+            0% { opacity: 0; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Parallax container */
+        #parallax-container {
+            position: absolute;
+            top: -5%;
+            left: -5%;
+            width: 110%;
+            height: 110%;
+            transition: transform 0.3s ease-out;
         }
 
         /* The photograph */
@@ -58,10 +72,29 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: brightness(0.9) contrast(1.1);
+            filter: brightness(0.85) contrast(1.05);
         }
 
-        /* Canvas overlay for effects */
+        /* Animated neural swirls SVG */
+        #swirls {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            mix-blend-mode: screen;
+            opacity: 0;
+            animation: swirls-fade 3s ease-out forwards;
+            animation-delay: 4s;
+        }
+
+        @keyframes swirls-fade {
+            to { opacity: 0.6; }
+        }
+
+        /* Canvas for particles and effects */
         #effects-canvas {
             position: absolute;
             top: 0;
@@ -70,7 +103,110 @@
             height: 100%;
             pointer-events: none;
             z-index: 5;
-            mix-blend-mode: screen;
+            opacity: 0;
+            animation: effects-fade 2s ease-out forwards;
+            animation-delay: 5s;
+        }
+
+        @keyframes effects-fade {
+            to { opacity: 1; }
+        }
+
+        /* Floating candles container */
+        #candles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 6;
+            opacity: 0;
+            animation: candles-fade 2s ease-out forwards;
+            animation-delay: 5s;
+        }
+
+        @keyframes candles-fade {
+            to { opacity: 1; }
+        }
+
+        .candle {
+            position: absolute;
+            width: 10px;
+            height: 30px;
+            background: linear-gradient(to bottom, #f5f5dc 0%, #e0dcc0 50%, #c8c4b0 100%);
+            border-radius: 3px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transition: all 0.8s ease;
+        }
+
+        /* Candle wick */
+        .candle::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 4px;
+            background: #333;
+        }
+
+        /* Flame - hidden by default */
+        .candle .flame {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 10px;
+            height: 16px;
+            background: radial-gradient(ellipse at center, 
+                #fff8e7 0%, 
+                #ffcc66 20%,
+                #ff8833 50%,
+                #ff4422 80%,
+                transparent 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+            filter: blur(1px);
+            animation: flicker 0.12s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1) rotate(-3deg) skewX(-2deg); }
+            100% { transform: translateX(-50%) scale(1.15) rotate(3deg) skewX(2deg); }
+        }
+
+        /* Glow halo around flame */
+        .candle .glow {
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, 
+                rgba(255,160,60,0.4) 0%, 
+                rgba(255,120,40,0.2) 40%,
+                transparent 70%);
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            pointer-events: none;
+            animation: glow-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { transform: translateX(-50%) scale(1); opacity: 0; }
+            50% { transform: translateX(-50%) scale(1.2); opacity: 0.6; }
+        }
+
+        .candle.lit .flame {
+            opacity: 1;
+        }
+
+        .candle.lit .glow {
+            opacity: 0.6;
         }
 
         /* Interactive zones */
@@ -78,10 +214,8 @@
             position: absolute;
             z-index: 10;
             cursor: pointer;
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Study Wing - Left arch */
         .zone-study {
             left: 15%;
             top: 25%;
@@ -89,7 +223,6 @@
             height: 50%;
         }
 
-        /* Observatory - Right arch */
         .zone-observatory {
             right: 12%;
             top: 25%;
@@ -97,7 +230,6 @@
             height: 50%;
         }
 
-        /* Glam Wing - Front left map */
         .zone-glam {
             left: 3%;
             bottom: 12%;
@@ -105,7 +237,6 @@
             height: 40%;
         }
 
-        /* Salon - Front right curtain */
         .zone-salon {
             right: 0%;
             bottom: 8%;
@@ -122,119 +253,44 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            transition: opacity 1s ease;
+            transition: opacity 1.2s ease;
             pointer-events: none;
         }
 
         .zone-study::before {
             background: radial-gradient(ellipse at 40% 60%, 
-                rgba(255,160,60,0.4) 0%, 
-                rgba(255,140,40,0.2) 30%,
+                rgba(255,160,60,0.5) 0%, 
+                rgba(255,140,40,0.25) 30%,
                 transparent 60%);
-            filter: blur(20px);
+            filter: blur(30px);
         }
 
         .zone-observatory::before {
             background: radial-gradient(ellipse at 60% 50%, 
-                rgba(100,180,255,0.35) 0%, 
-                rgba(80,160,240,0.15) 40%,
+                rgba(100,180,255,0.4) 0%, 
+                rgba(80,160,240,0.2) 40%,
                 transparent 70%);
-            filter: blur(25px);
+            filter: blur(35px);
         }
 
         .zone-glam::before {
             background: radial-gradient(ellipse at 30% 70%, 
-                rgba(255,200,100,0.4) 0%, 
-                rgba(255,180,80,0.2) 40%,
+                rgba(255,200,100,0.45) 0%, 
+                rgba(255,180,80,0.25) 40%,
                 transparent 60%);
-            filter: blur(15px);
+            filter: blur(20px);
         }
 
         .zone-salon::before {
             background: radial-gradient(ellipse at 70% 40%, 
-                rgba(255,160,80,0.35) 0%, 
-                rgba(200,120,60,0.15) 50%,
+                rgba(255,160,80,0.4) 0%, 
+                rgba(200,120,60,0.2) 50%,
                 transparent 70%);
-            filter: blur(30px);
+            filter: blur(40px);
         }
 
         .zone:hover::before {
             opacity: 1;
-        }
-
-        /* Floating candles container */
-        #candles-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 6;
-        }
-
-        .candle {
-            position: absolute;
-            width: 8px;
-            height: 24px;
-            background: linear-gradient(to bottom, #f5f5dc 0%, #e8e4c9 100%);
-            border-radius: 2px;
-            opacity: 0.6;
-            transition: all 0.6s ease;
-        }
-
-        .candle::before {
-            content: '';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 6px;
-            height: 12px;
-            background: radial-gradient(ellipse at center, 
-                rgba(255,200,100,0.9) 0%, 
-                rgba(255,100,50,0.6) 40%,
-                transparent 70%);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            opacity: 0;
-            transition: opacity 0.8s ease;
-            filter: blur(2px);
-            animation: flame-flicker 0.1s infinite alternate;
-        }
-
-        .candle.lit::before {
-            opacity: 1;
-        }
-
-        @keyframes flame-flicker {
-            0% { transform: translateX(-50%) scale(1) rotate(-2deg); }
-            100% { transform: translateX(-50%) scale(1.1) rotate(2deg); }
-        }
-
-        .candle::after {
-            content: '';
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 40px;
-            background: radial-gradient(circle, 
-                rgba(255,160,60,0.3) 0%, 
-                transparent 70%);
-            opacity: 0;
-            transition: opacity 0.8s ease;
-            pointer-events: none;
-        }
-
-        .candle.lit::after {
-            opacity: 1;
-            animation: glow-pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes glow-pulse {
-            0%, 100% { transform: translateX(-50%) scale(1); opacity: 0.3; }
-            50% { transform: translateX(-50%) scale(1.3); opacity: 0.5; }
         }
 
         /* Zone text */
@@ -245,12 +301,11 @@
             opacity: 0;
             transform: translateY(30px);
             transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            width: 280px;
+            width: 300px;
             left: 50%;
             top: 50%;
-            margin-left: -140px;
+            margin-left: -150px;
             margin-top: -40px;
-            z-index: 20;
         }
 
         .zone:hover .zone-text {
@@ -260,85 +315,109 @@
 
         .zone-poetic {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-style: italic;
-            color: rgba(255,255,240,0.95);
+            color: rgba(255,255,245,0.95);
             letter-spacing: 0.12em;
             margin-bottom: 0.8rem;
-            text-shadow: 0 2px 20px rgba(0,0,0,0.9);
+            text-shadow: 0 2px 20px rgba(0,0,0,0.95);
             opacity: 0;
-            animation: text-reveal 0.6s ease 0.2s forwards;
+            animation: text-reveal 0.8s ease 0.3s forwards;
         }
 
         .zone-name {
             font-family: 'Cinzel', serif;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             letter-spacing: 0.35em;
             text-transform: uppercase;
             color: #fff8e7;
-            text-shadow: 0 2px 30px rgba(0,0,0,1), 0 0 40px rgba(255,255,255,0.1);
+            text-shadow: 0 2px 30px rgba(0,0,0,1), 0 0 50px rgba(255,255,255,0.15);
             opacity: 0;
-            animation: text-reveal 0.6s ease 0.5s forwards;
+            animation: text-reveal 0.8s ease 0.6s forwards;
         }
 
         @keyframes text-reveal {
             to { opacity: 1; }
         }
 
-        /* Map levitation effect */
-        .zone-glam .levitation-indicator {
+        /* Map levitation */
+        .zone-glam .levitation-glow {
             position: absolute;
-            left: 25%;
-            top: 45%;
-            width: 50%;
-            height: 30%;
+            left: 20%;
+            top: 40%;
+            width: 60%;
+            height: 35%;
             background: radial-gradient(ellipse at center, 
-                rgba(255,200,100,0.2) 0%, 
+                rgba(255,200,100,0.3) 0%, 
                 transparent 70%);
             opacity: 0;
-            transition: all 0.8s ease;
+            transition: all 1s ease;
             transform: translateY(0);
-            filter: blur(10px);
+            filter: blur(15px);
         }
 
-        .zone-glam:hover .levitation-indicator {
+        .zone-glam:hover .levitation-glow {
             opacity: 1;
-            transform: translateY(-15px);
+            transform: translateY(-20px);
         }
 
-        /* Curtain breathing effect */
+        /* Curtain breath */
         .zone-salon .curtain-breath {
             position: absolute;
             right: 0;
             top: 10%;
-            width: 60%;
+            width: 70%;
             height: 80%;
             background: linear-gradient(to left, 
-                rgba(139,69,19,0.3) 0%, 
+                rgba(139,69,19,0.4) 0%, 
                 transparent 100%);
             opacity: 0;
-            transition: all 1.2s ease;
-            transform: scaleX(1);
-            filter: blur(8px);
+            transition: all 1.5s ease;
+            transform: scaleX(1) skewX(0deg);
+            filter: blur(10px);
         }
 
         .zone-salon:hover .curtain-breath {
             opacity: 1;
-            transform: scaleX(1.15);
+            transform: scaleX(1.2) skewX(-5deg);
         }
 
-        /* Center guidance */
+        /* Center MetaVoxa text */
+        #center-glow {
+            position: absolute;
+            bottom: 12%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            letter-spacing: 0.5em;
+            color: rgba(200,190,180,0.25);
+            text-shadow: 
+                0 0 40px rgba(200,190,180,0.15),
+                0 0 80px rgba(200,190,180,0.08);
+            pointer-events: none;
+            opacity: 0;
+            z-index: 8;
+            animation: center-fade 4s ease-out forwards;
+            animation-delay: 4s;
+        }
+
+        @keyframes center-fade {
+            to { opacity: 1; }
+        }
+
+        /* Guidance text */
         #guidance {
             position: absolute;
-            bottom: 6%;
+            bottom: 5%;
             left: 50%;
             transform: translateX(-50%);
             font-family: 'Cormorant Garamond', serif;
             font-size: 1.3rem;
             font-style: italic;
-            color: rgba(245,245,220,0.5);
+            color: rgba(245,245,220,0.45);
             letter-spacing: 0.25em;
-            text-shadow: 0 2px 20px rgba(0,0,0,0.8);
+            text-shadow: 0 2px 20px rgba(0,0,0,0.9);
             opacity: 0;
             z-index: 15;
             pointer-events: none;
@@ -347,15 +426,15 @@
 
         #guidance.visible {
             opacity: 0.6;
-            animation: breathe 5s ease-in-out infinite;
+            animation: breathe 6s ease-in-out infinite;
         }
 
         @keyframes breathe {
             0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.7; }
+            50% { opacity: 0.75; }
         }
 
-        /* Transition */
+        /* Transition overlay */
         #transition {
             position: fixed;
             top: 0;
@@ -363,10 +442,10 @@
             width: 100%;
             height: 100%;
             background: #000;
-            z-index: 100;
+            z-index: 1000;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 1.5s ease;
+            transition: opacity 2s ease;
         }
 
         #transition.active {
@@ -374,46 +453,13 @@
             pointer-events: all;
         }
 
-        /* Parallax container */
-        #parallax-container {
-            position: absolute;
-            top: -5%;
-            left: -5%;
-            width: 110%;
-            height: 110%;
-            transition: transform 0.3s ease-out;
-        }
-
-        /* Neural displacement overlay */
-        #neural-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 4;
-            opacity: 0.4;
-            mix-blend-mode: overlay;
-            background: 
-                radial-gradient(circle at 30% 40%, rgba(200,200,220,0.1) 0%, transparent 50%),
-                radial-gradient(circle at 70% 60%, rgba(220,210,200,0.1) 0%, transparent 50%);
-            filter: blur(40px);
-            animation: neural-drift 20s ease-in-out infinite;
-        }
-
-        @keyframes neural-drift {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(2%, -1%) scale(1.02); }
-            66% { transform: translate(-1%, 2%) scale(0.98); }
-        }
-
         @media (max-width: 768px) {
-            .zone-text { transform: scale(0.85); width: 240px; margin-left: -120px; }
-            .zone-poetic { font-size: 0.95rem; }
-            .zone-name { font-size: 1rem; letter-spacing: 0.2em; }
-            #guidance { font-size: 1rem; bottom: 4%; }
-            #center-glow { font-size: 2rem; }
+            .zone-text { transform: scale(0.8); width: 260px; margin-left: -130px; }
+            .zone-poetic { font-size: 1rem; }
+            .zone-name { font-size: 1.1rem; letter-spacing: 0.25em; }
+            #guidance { font-size: 1rem; }
+            #center-glow { font-size: 2rem; letter-spacing: 0.3em; }
+            .candle { transform: scale(0.8); }
         }
     </style>
 </head>
@@ -427,8 +473,58 @@
             <img id="base-image" src="IMG_7289.jpg" alt="The Atrium">
         </div>
         
-        <div id="neural-overlay"></div>
+        <!-- Animated neural swirls -->
+        <svg id="swirls" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="4" result="blur"/>
+                    <feMerge>
+                        <feMergeNode in="blur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+                <linearGradient id="stream1" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:rgba(220,210,200,0);stop-opacity:0" />
+                    <stop offset="50%" style="stop-color:rgba(230,220,210,0.5);stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:rgba(220,210,200,0);stop-opacity:0" />
+                </linearGradient>
+            </defs>
+            
+            <path d="M0,400 Q400,300 800,450 T1600,350 T1920,400" 
+                  stroke="url(#stream1)" stroke-width="2" fill="none" filter="url(#glow)" opacity="0.5">
+                <animate attributeName="d" 
+                    dur="15s" 
+                    values="M0,400 Q400,300 800,450 T1600,350 T1920,400;M0,380 Q400,350 800,420 T1600,380 T1920,380;M0,400 Q400,300 800,450 T1600,350 T1920,400"
+                    repeatCount="indefinite"/>
+            </path>
+            
+            <path d="M0,500 Q500,400 1000,500 T1920,450" 
+                  stroke="url(#stream1)" stroke-width="1.5" fill="none" filter="url(#glow)" opacity="0.4">
+                <animate attributeName="d" 
+                    dur="20s" 
+                    values="M0,500 Q500,400 1000,500 T1920,450;M0,480 Q500,450 1000,480 T1920,480;M0,500 Q500,400 1000,500 T1920,450"
+                    repeatCount="indefinite"/>
+            </path>
+            
+            <path d="M200,300 Q600,200 1000,350 T1800,300" 
+                  stroke="url(#stream1)" stroke-width="2" fill="none" filter="url(#glow)" opacity="0.45">
+                <animate attributeName="d" 
+                    dur="18s" 
+                    values="M200,300 Q600,200 1000,350 T1800,300;M200,320 Q600,280 1000,320 T1800,320;M200,300 Q600,200 1000,350 T1800,300"
+                    repeatCount="indefinite"/>
+            </path>
+            
+            <path d="M100,600 Q500,500 900,600 T1700,550" 
+                  stroke="url(#stream1)" stroke-width="1" fill="none" filter="url(#glow)" opacity="0.35">
+                <animate attributeName="d" 
+                    dur="22s" 
+                    values="M100,600 Q500,500 900,600 T1700,550;M100,580 Q500,550 900,580 T1700,580;M100,600 Q500,500 900,600 T1700,550"
+                    repeatCount="indefinite"/>
+            </path>
+        </svg>
+
         <canvas id="effects-canvas"></canvas>
+        
         <div id="candles-container"></div>
 
         <!-- Study Wing -->
@@ -449,7 +545,7 @@
 
         <!-- Glam Wing -->
         <div class="zone zone-glam" data-target="glam-wing.html">
-            <div class="levitation-indicator"></div>
+            <div class="levitation-glow"></div>
             <div class="zone-text">
                 <div class="zone-poetic">Where dressing is a discipline</div>
                 <div class="zone-name">Glam Wing</div>
@@ -465,26 +561,34 @@
             </div>
         </div>
 
+        <div id="center-glow">MetaVoxa</div>
         <div id="guidance">Begin where you are pulled.</div>
     </div>
 
     <script>
-        // Create floating candles
+        // Create floating candles with flames
         const candlesContainer = document.getElementById('candles-container');
         const candles = [];
-        const numCandles = 5;
+        const numCandles = 6;
 
         for (let i = 0; i < numCandles; i++) {
             const candle = document.createElement('div');
             candle.className = 'candle';
             
-            // Position in study wing area with variation
-            const baseX = 18 + Math.random() * 12;
-            const baseY = 35 + Math.random() * 25;
+            const flame = document.createElement('div');
+            flame.className = 'flame';
+            candle.appendChild(flame);
+            
+            const glow = document.createElement('div');
+            glow.className = 'glow';
+            candle.appendChild(glow);
+            
+            // Position in study wing area
+            const baseX = 16 + Math.random() * 14;
+            const baseY = 30 + Math.random() * 30;
             
             candle.style.left = baseX + '%';
             candle.style.top = baseY + '%';
-            candle.style.animationDelay = Math.random() * 5 + 's';
             
             candlesContainer.appendChild(candle);
             
@@ -493,8 +597,9 @@
                 baseX: baseX,
                 baseY: baseY,
                 phase: Math.random() * Math.PI * 2,
-                speed: 0.0003 + Math.random() * 0.0002,
-                floatRange: 8 + Math.random() * 6
+                speed: 0.0004 + Math.random() * 0.0003,
+                floatRange: 10 + Math.random() * 8,
+                driftRange: 4 + Math.random() * 3
             });
         }
 
@@ -504,15 +609,16 @@
             time += 1;
             candles.forEach(candle => {
                 const floatY = Math.sin(time * candle.speed + candle.phase) * candle.floatRange;
-                const driftX = Math.cos(time * candle.speed * 0.7 + candle.phase) * 3;
+                const driftX = Math.cos(time * candle.speed * 0.6 + candle.phase) * candle.driftRange;
+                const rotate = Math.sin(time * candle.speed * 0.3) * 3;
                 
-                candle.element.style.transform = `translate(${driftX}px, ${floatY}px)`;
+                candle.element.style.transform = `translate(${driftX}px, ${floatY}px) rotate(${rotate}deg)`;
             });
             requestAnimationFrame(animateCandles);
         }
         animateCandles();
 
-        // Canvas effects for particles and light beams
+        // Canvas effects - dust particles and light
         const canvas = document.getElementById('effects-canvas');
         const ctx = canvas.getContext('2d');
         
@@ -525,75 +631,44 @@
 
         // Dust particles
         const particles = [];
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 80; i++) {
             particles.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.3,
-                vy: (Math.random() - 0.5) * 0.3,
-                size: Math.random() * 2,
-                alpha: Math.random() * 0.5
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4 - 0.1,
+                size: Math.random() * 2.5 + 0.5,
+                alpha: Math.random() * 0.6 + 0.2,
+                twinkle: Math.random() * Math.PI * 2
             });
         }
 
-        // Light beams
-        const beams = [];
-        for (let i = 0; i < 3; i++) {
-            beams.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height * 0.5,
-                width: 50 + Math.random() * 100,
-                angle: Math.random() * Math.PI,
-                speed: 0.001 + Math.random() * 0.002,
-                phase: Math.random() * Math.PI * 2
-            });
-        }
-
-        let frameCount = 0;
         function drawEffects() {
-            frameCount++;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            // Draw dust
+            // Draw dust particles
             particles.forEach(p => {
                 p.x += p.vx;
                 p.y += p.vy;
+                p.twinkle += 0.02;
                 
+                // Wrap around
                 if (p.x < 0) p.x = canvas.width;
                 if (p.x > canvas.width) p.x = 0;
                 if (p.y < 0) p.y = canvas.height;
                 if (p.y > canvas.height) p.y = 0;
                 
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(220, 210, 200, ${p.alpha * 0.3})`;
-                ctx.fill();
-            });
-            
-            // Draw subtle light beams
-            beams.forEach(beam => {
-                const opacity = 0.03 + Math.sin(frameCount * beam.speed + beam.phase) * 0.02;
-                const gradient = ctx.createLinearGradient(
-                    beam.x, beam.y,
-                    beam.x + Math.cos(beam.angle) * 200,
-                    beam.y + Math.sin(beam.angle) * 200
-                );
-                gradient.addColorStop(0, `rgba(200, 200, 220, ${opacity})`);
-                gradient.addColorStop(0.5, `rgba(220, 210, 200, ${opacity * 0.5})`);
-                gradient.addColorStop(1, 'transparent');
+                const twinkleAlpha = p.alpha * (0.7 + Math.sin(p.twinkle) * 0.3);
                 
                 ctx.beginPath();
-                ctx.moveTo(beam.x, beam.y);
-                ctx.lineTo(
-                    beam.x + Math.cos(beam.angle + 0.1) * 300,
-                    beam.y + Math.sin(beam.angle + 0.1) * 300
-                );
-                ctx.lineTo(
-                    beam.x + Math.cos(beam.angle - 0.1) * 300,
-                    beam.y + Math.sin(beam.angle - 0.1) * 300
-                );
-                ctx.closePath();
-                ctx.fillStyle = gradient;
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(230, 220, 210, ${twinkleAlpha * 0.4})`;
+                ctx.fill();
+                
+                // Subtle glow
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(230, 220, 210, ${twinkleAlpha * 0.1})`;
                 ctx.fill();
             });
             
@@ -607,16 +682,12 @@
         
         zones.forEach(zone => {
             zone.addEventListener('mouseenter', function() {
-                const target = this.getAttribute('data-target');
-                
-                // Light candles if study wing
                 if (this.classList.contains('zone-study')) {
                     candles.forEach(c => c.element.classList.add('lit'));
                 }
             });
             
             zone.addEventListener('mouseleave', function() {
-                // Extinguish candles
                 if (this.classList.contains('zone-study')) {
                     candles.forEach(c => c.element.classList.remove('lit'));
                 }
@@ -631,11 +702,11 @@
             });
         });
 
-        // Parallax effect
+        // Parallax on mouse move
         const parallaxContainer = document.getElementById('parallax-container');
         document.addEventListener('mousemove', (e) => {
-            const x = (e.clientX / window.innerWidth - 0.5) * 20;
-            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            const x = (e.clientX / window.innerWidth - 0.5) * 15;
+            const y = (e.clientY / window.innerHeight - 0.5) * 15;
             
             parallaxContainer.style.transform = `translate(${-x}px, ${-y}px)`;
         });
@@ -643,7 +714,7 @@
         // Guidance timer
         setTimeout(() => {
             document.getElementById('guidance').classList.add('visible');
-        }, 8000);
+        }, 10000);
     </script>
 
 </body>
