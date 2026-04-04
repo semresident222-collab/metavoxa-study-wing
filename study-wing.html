@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Wing | MetaVoxa atelier</title>
+    <title>Study Wing | MetaVoxa Atrium</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Cormorant+SC:wght@600&display=swap" rel="stylesheet">
 
     <style>
@@ -690,7 +690,7 @@
         }
 
         /* --- THE KEY NAVIGATION --- */
-        #atelier-key {
+        #atrium-key {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
@@ -718,7 +718,7 @@
             backdrop-filter: blur(5px);
         }
 
-        #atelier-key:hover .key-icon {
+        #atrium-key:hover .key-icon {
             border-color: var(--gold);
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
             transform: rotate(90deg);
@@ -741,7 +741,7 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.8);
         }
 
-        #atelier-key.active .key-menu {
+        #atrium-key.active .key-menu {
             opacity: 1;
             visibility: visible;
             transform: translateY(0);
@@ -780,7 +780,7 @@
             font-size: 0.8rem;
         }
 
-        .wing-link.atelier {
+        .wing-link.atrium {
             margin-top: 0.5rem;
             border-top: 1px solid rgba(212, 175, 55, 0.3);
             border-bottom: none;
@@ -788,7 +788,7 @@
             font-size: 0.85rem;
         }
 
-        .wing-link.atelier:hover {
+        .wing-link.atrium:hover {
             color: var(--gold);
         }
 
@@ -867,16 +867,15 @@
 
     </div>
 
-    <!-- Palace Key Navigation -->
-    <div id="palace-key" onclick="toggleKey()">
+    <!-- Atrium Key Navigation -->
+    <div id="atrium-key" onclick="toggleKey()">
         <div class="key-icon">⚷</div>
         <div class="key-menu">
-            <h4>Navigate the Palace</h4>
+            <h4>Navigate the Atrium</h4>
             <a href="glam-wing.html" class="wing-link">Glam Wing (Methodology)</a>
-            <a href="constellation-wing.html" class="wing-link">Constellation Wing (Writing)</a>
-            <a href="translation-bureau.html" class="wing-link">Translation Bureau (Process)</a>
+            <a href="observatory-wing.html" class="wing-link">Observatory Wing (Process)</a>
             <a href="salon-wing.html" class="wing-link">Salon Wing (Coven)</a>
-            <a href="index.html" class="wing-link lobby">← Return to Lobby</a>
+            <a href="index.html" class="wing-link atrium">← Return to The Atrium</a>
         </div>
     </div>
 
