@@ -2,321 +2,1017 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MetaVoxa | The Atrium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Wing | MetaVoxa Atrium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Cormorant+SC:wght@600&display=swap" rel="stylesheet">
+
     <style>
+        :root {
+            --burgundy: #2C0A0A;
+            --gold: #D4AF37;
+            --gold-dim: #8B7355;
+            --stone: #3A3A3A;
+            --teal-patina: #2F4F4F;
+            --deep-navy: #0F1419;
+            --cream: #F5F0E8;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html, body {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #0a0a0f;
-            font-family: 'Crimson Text', Georgia, serif;
-        }
-
-        #atrium-container {
-            position: relative;
-            width: 100vw;
+        body {
+            background: linear-gradient(180deg, #050505 0%, #1a0a0a 40%, #0f0505 100%);
+            color: var(--cream);
+            font-family: 'Cormorant Garamond', serif;
             height: 100vh;
+            height: 100dvh;
             overflow: hidden;
+            position: relative;
         }
 
-        /* === BACKGROUND IMAGE === */
-        #atrium-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('atrium-photo.jpg');
-            background-position: center center;
-            background-repeat: no-repeat;
-            background-size: cover;
+        /* Atmospheric lighting */
+        .atmosphere {
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(139, 0, 0, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 40%);
+            pointer-events: none;
             z-index: 1;
         }
 
-        /* === FLOATING CANDLES === */
-        .candle {
+        /* --- ACT I: THE CURTAIN --- */
+        #curtain {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: curtainRise 2s ease-out 5s forwards;
+        }
+
+        .wing-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            color: var(--gold);
+            letter-spacing: 0.6em;
+            text-transform: uppercase;
+            opacity: 0;
+            filter: blur(10px);
+            animation: titleReveal 4s ease-out 0.5s forwards;
+        }
+
+        .wing-subtitle {
             position: absolute;
-            width: 8px;
-            height: 24px;
-            background: linear-gradient(to top, #8B4513 0%, #D2691E 40%, #FFD700 70%, #FFF8DC 100%);
-            border-radius: 4px 4px 2px 2px;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), 0 0 40px rgba(255, 165, 0, 0.2);
-            animation: float 6s ease-in-out infinite;
+            bottom: 35%;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1rem;
+            color: var(--gold-dim);
+            letter-spacing: 0.3em;
+            opacity: 0;
+            animation: fadeIn 2s ease-out 2.5s forwards;
+        }
+
+        @keyframes titleReveal {
+            0% { opacity: 0; filter: blur(10px); transform: translateY(30px); }
+            30%, 70% { opacity: 1; filter: blur(0); transform: translateY(0); }
+            100% { opacity: 0; filter: blur(5px); transform: translateY(-30px); }
+        }
+
+        @keyframes curtainRise {
+            to { transform: translateY(-100%); opacity: 0; visibility: hidden; }
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* --- ACT II: PATTERN THOUGHT --- */
+        #thought-stage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 900px;
+            text-align: center;
+            z-index: 10;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 6s forwards;
+        }
+
+        .epigraph {
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            color: var(--gold-dim);
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+            display: block;
+        }
+
+        #typewriter {
+            font-size: clamp(1.5rem, 3vw, 2.2rem);
+            line-height: 1.8;
+            color: var(--cream);
+            font-weight: 300;
+            letter-spacing: 0.03em;
+            min-height: 150px;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background-color: var(--gold);
+            margin-left: 5px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Fade out thought */
+        .fade-out {
+            animation: fadeAway 2s ease-out forwards;
+        }
+
+        @keyframes fadeAway {
+            to { opacity: 0; transform: translate(-50%, -60%); visibility: hidden; }
+        }
+
+        /* --- ACT III: THE THREE DOORS --- */
+        #doors-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 5rem;
+            z-index: 20;
+            opacity: 0;
+            visibility: hidden;
+            perspective: 2000px;
+        }
+
+        #doors-container.show {
+            animation: doorsAppear 3s ease-out forwards;
+        }
+
+        @keyframes doorsAppear {
+            0% { opacity: 0; transform: translate(-50%, -40%) scale(0.9); filter: blur(10px); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); filter: blur(0); visibility: visible; }
+        }
+
+        .door-frame {
+            position: relative;
+            width: 260px;
+            height: 420px;
+            cursor: pointer;
+            transition: transform 0.4s ease-out;
+            text-decoration: none;
+            display: block;
+        }
+
+        .door-frame:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Touch feedback class */
+        .door-frame.touch-active {
+            transform: translateY(-10px) scale(0.98);
+        }
+
+        .door-frame.touch-active .enter-hint {
+            opacity: 0.8;
+        }
+
+        /* DOOR 1: READING ROOM - Roman Weathered Door */
+        .roman-door {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Heavy stone archway frame like the Roman door photo */
+        .roman-door::before {
+            content: '';
+            position: absolute;
+            inset: -25px;
+            background: 
+                linear-gradient(180deg, #7a7065 0%, #5c5449 20%, #3d382f 60%, #2a2620 100%);
+            clip-path: polygon(5% 100%, 0% 25%, 15% 0%, 85% 0%, 100% 25%, 95% 100%);
+            z-index: -1;
+            box-shadow: 
+                inset 0 0 40px rgba(0,0,0,0.6),
+                0 20px 60px rgba(0,0,0,0.9);
+        }
+
+        /* Stone blocks texture */
+        .roman-door::after {
+            content: '';
+            position: absolute;
+            inset: -25px;
+            background: 
+                repeating-linear-gradient(90deg, transparent 0px, rgba(0,0,0,0.2) 2px, transparent 4px),
+                repeating-linear-gradient(0deg, transparent 0px, rgba(0,0,0,0.15) 3px, transparent 6px);
+            clip-path: polygon(5% 100%, 0% 25%, 15% 0%, 85% 0%, 100% 25%, 95% 100%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Weathered green double doors */
+        .roman-door .door-panel {
+            position: absolute;
+            inset: 0;
+            background: 
+                linear-gradient(135deg, #2d4a3e 0%, #1a2f26 50%, #0f1f19 100%),
+                url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.2'/%3E%3C/svg%3E");
+            border: 4px solid #1a1a1a;
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.4s;
+            overflow: hidden;
+        }
+
+        /* Door panels and weathering */
+        .roman-door .door-panel::before {
+            content: '';
+            position: absolute;
+            inset: 15px;
+            border: 2px solid rgba(212, 175, 55, 0.15);
+            background: 
+                linear-gradient(90deg, transparent 48%, rgba(0,0,0,0.4) 49%, rgba(0,0,0,0.4) 51%, transparent 52%),
+                linear-gradient(0deg, transparent 30%, rgba(0,0,0,0.3) 31%, rgba(0,0,0,0.3) 33%, transparent 34%),
+                linear-gradient(0deg, transparent 66%, rgba(0,0,0,0.3) 67%, rgba(0,0,0,0.3) 69%, transparent 70%);
+        }
+
+        /* Peeling paint effect */
+        .roman-door .door-panel::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 20% 30%, rgba(139, 115, 85, 0.3) 0%, transparent 25%),
+                radial-gradient(ellipse at 70% 60%, rgba(90, 80, 70, 0.4) 0%, transparent 20%),
+                radial-gradient(ellipse at 40% 80%, rgba(139, 115, 85, 0.2) 0%, transparent 30%);
+            pointer-events: none;
+        }
+
+        .roman-door:hover .door-panel {
+            box-shadow: inset 0 0 80px rgba(0,0,0,0.8), 0 0 30px rgba(45, 74, 62, 0.4);
+        }
+
+        .roman-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            color: var(--gold-dim);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 2.5rem;
+            padding: 0.6rem 1.2rem;
+            border: 1px solid rgba(212, 175, 55, 0.25);
+            background: rgba(0,0,0,0.4);
             z-index: 2;
         }
 
-        .candle::before {
+        /* Old iron handles */
+        .roman-knocker {
+            width: 60px;
+            height: 40px;
+            border: 3px solid #3d382f;
+            border-radius: 4px;
+            position: relative;
+            background: linear-gradient(180deg, #4a4a4a 0%, #2a2a2a 100%);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            z-index: 2;
+            opacity: 0.8;
+            transition: all 0.3s;
+        }
+
+        .roman-knocker::before {
             content: '';
             position: absolute;
             top: -8px;
             left: 50%;
             transform: translateX(-50%);
-            width: 4px;
-            height: 8px;
-            background: radial-gradient(ellipse at center, #FFF 0%, #FFD700 50%, transparent 100%);
-            border-radius: 50%;
-            animation: flicker 2s ease-in-out infinite alternate;
+            width: 8px;
+            height: 12px;
+            background: #2a2a2a;
+            border-radius: 2px;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-        }
-
-        @keyframes flicker {
-            0% { opacity: 0.8; transform: translateX(-50%) scale(1); }
-            100% { opacity: 1; transform: translateX(-50%) scale(1.1); }
-        }
-
-        /* === DUST PARTICLES === */
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: rgba(232, 220, 200, 0.6);
-            border-radius: 50%;
-            animation: drift 10s linear infinite;
-            z-index: 2;
-        }
-
-        @keyframes drift {
-            0% { transform: translateY(100vh) translateX(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: translateY(-10vh) translateX(20px); opacity: 0; }
-        }
-
-        /* === TEXT CONTENT === */
-        #atrium-content {
+        .roman-knocker::after {
+            content: '';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 85%;
-            max-width: 600px;
-            text-align: center;
-            color: #e8dcc8;
-            z-index: 3;
-            padding: 20px;
+            width: 16px;
+            height: 16px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            border: 2px solid #4a4a4a;
+        }
+
+        .door-frame:hover .roman-knocker {
+            border-color: var(--gold-dim);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        /* DOOR 2: PATTERN THOUGHTS - Spiral Portal Tunnel */
+        .portal-door {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50% 50% 0 0 / 15% 15% 0 0;
+            overflow: hidden;
+            box-shadow: 
+                0 0 60px rgba(212, 175, 55, 0.3),
+                inset 0 0 100px rgba(0,0,0,0.8);
+        }
+
+        /* Stone arch frame with columns */
+        .portal-door::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            background: 
+                linear-gradient(180deg, #3d3d3d 0%, #1a1a1a 100%);
+            border-radius: 50% 50% 0 0 / 15% 15% 0 0;
+            z-index: -1;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+        }
+
+        /* The swirling tunnel effect */
+        .portal-vortex {
+            position: absolute;
+            inset: -100%;
+            width: 300%;
+            height: 300%;
+            background: 
+                radial-gradient(circle at 50% 50%, 
+                    rgba(255, 220, 150, 0.9) 0%, 
+                    rgba(212, 175, 55, 0.7) 5%, 
+                    rgba(180, 140, 40, 0.5) 10%,
+                    rgba(139, 115, 85, 0.4) 15%,
+                    rgba(100, 80, 50, 0.3) 20%,
+                    rgba(60, 50, 30, 0.4) 25%,
+                    rgba(40, 35, 25, 0.5) 30%,
+                    rgba(30, 28, 22, 0.6) 35%,
+                    rgba(25, 23, 20, 0.7) 40%,
+                    rgba(20, 18, 15, 0.8) 45%,
+                    rgba(15, 13, 10, 0.9) 50%,
+                    transparent 55%
+                ),
+                repeating-radial-gradient(
+                    circle at 50% 50%,
+                    transparent 0px,
+                    transparent 8px,
+                    rgba(212, 175, 55, 0.1) 9px,
+                    rgba(212, 175, 55, 0.1) 10px,
+                    transparent 11px,
+                    transparent 20px,
+                    rgba(212, 175, 55, 0.15) 21px,
+                    rgba(212, 175, 55, 0.15) 22px,
+                    transparent 23px,
+                    transparent 35px,
+                    rgba(180, 140, 40, 0.1) 36px,
+                    rgba(180, 140, 40, 0.1) 38px,
+                    transparent 39px,
+                    transparent 55px
+                );
+            animation: tunnelRotate 20s linear infinite;
+            filter: brightness(1.1) contrast(1.2);
+        }
+
+        /* Swirling spiral lines */
+        .portal-door .spiral-lines {
+            position: absolute;
+            inset: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                repeating-conic-gradient(
+                    from 0deg at 50% 50%,
+                    transparent 0deg 2deg,
+                    rgba(212, 175, 55, 0.3) 2deg 4deg,
+                    transparent 4deg 10deg,
+                    rgba(255, 220, 150, 0.2) 10deg 12deg,
+                    transparent 12deg 18deg,
+                    rgba(180, 140, 40, 0.25) 18deg 20deg,
+                    transparent 20deg 30deg
+                );
+            animation: spiralSpin 15s linear infinite;
+            mix-blend-mode: screen;
+        }
+
+        /* Light rays emanating from center */
+        .portal-door .light-rays {
+            position: absolute;
+            inset: 0;
+            background: 
+                conic-gradient(
+                    from 0deg at 50% 50%,
+                    transparent 0deg 20deg,
+                    rgba(255, 220, 150, 0.1) 20deg 25deg,
+                    transparent 25deg 50deg,
+                    rgba(212, 175, 55, 0.08) 50deg 60deg,
+                    transparent 60deg 90deg,
+                    rgba(255, 220, 150, 0.12) 90deg 100deg,
+                    transparent 100deg 140deg,
+                    rgba(212, 175, 55, 0.1) 140deg 150deg,
+                    transparent 150deg 180deg,
+                    rgba(255, 220, 150, 0.08) 180deg 190deg,
+                    transparent 190deg 220deg,
+                    rgba(212, 175, 55, 0.1) 220deg 230deg,
+                    transparent 230deg 260deg,
+                    rgba(255, 220, 150, 0.12) 260deg 270deg,
+                    transparent 270deg 300deg,
+                    rgba(212, 175, 55, 0.08) 300deg 310deg,
+                    transparent 310deg 340deg,
+                    rgba(255, 220, 150, 0.1) 340deg 350deg,
+                    transparent 350deg 360deg
+                );
+            animation: rayPulse 4s ease-in-out infinite;
+        }
+
+        /* Particle effects floating toward center */
+        .portal-door .particles {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 50% 50%, transparent 45%, rgba(212, 175, 55, 0.1) 50%, transparent 55%),
+                radial-gradient(circle at 30% 30%, rgba(255, 220, 150, 0.3) 0%, transparent 3%),
+                radial-gradient(circle at 70% 40%, rgba(212, 175, 55, 0.2) 0%, transparent 2%),
+                radial-gradient(circle at 40% 70%, rgba(255, 220, 150, 0.25) 0%, transparent 4%),
+                radial-gradient(circle at 80% 60%, rgba(212, 175, 55, 0.2) 0%, transparent 2%),
+                radial-gradient(circle at 20% 80%, rgba(255, 220, 150, 0.3) 0%, transparent 3%),
+                radial-gradient(circle at 60% 20%, rgba(212, 175, 55, 0.2) 0%, transparent 2.5%);
+            animation: particlesFloat 6s ease-in-out infinite;
+            z-index: 5;
+        }
+
+        @keyframes tunnelRotate {
+            from { transform: rotate(0deg) scale(1); }
+            to { transform: rotate(360deg) scale(1); }
+        }
+
+        @keyframes spiralSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes rayPulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        @keyframes particlesFloat {
+            0%, 100% { 
+                opacity: 0.5; 
+                transform: scale(1) rotate(0deg); 
+            }
+            50% { 
+                opacity: 0.9; 
+                transform: scale(1.1) rotate(180deg); 
+            }
+        }
+
+        /* Stone frame overlay */
+        .portal-door::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border: 3px solid rgba(212, 175, 55, 0.4);
+            border-radius: 50% 50% 0 0 / 15% 15% 0 0;
+            box-shadow: 
+                inset 0 0 40px rgba(0,0,0,0.6),
+                0 0 20px rgba(212, 175, 55, 0.2);
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .portal-label {
+            position: absolute;
+            bottom: 12%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Cormorant SC', serif;
+            font-size: 1rem;
+            color: var(--cream);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.8), 0 2px 10px rgba(0,0,0,0.9);
+            z-index: 20;
+            background: rgba(0,0,0,0.5);
+            padding: 0.6rem 1.2rem;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            backdrop-filter: blur(3px);
+        }
+
+        /* Hover effects - spins faster */
+        .door-frame:hover .portal-vortex {
+            animation-duration: 6s;
+            filter: brightness(1.3) contrast(1.3);
+        }
+
+        .door-frame:hover .spiral-lines {
+            animation-duration: 4s;
+        }
+
+        .door-frame:hover .particles {
+            animation-duration: 2s;
+        }
+
+        /* DOOR 3: STAR OF THE MONTH - Wooden Star Door */
+        .star-door {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Gothic arch stone frame */
+        .star-door::before {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            background: 
+                linear-gradient(180deg, #8b7355 0%, #5c4a3a 30%, #3d2f24 100%);
+            clip-path: polygon(50% 0%, 100% 35%, 100% 100%, 0% 100%, 0% 35%);
+            z-index: -1;
+            box-shadow: 
+                inset 0 0 30px rgba(0,0,0,0.5),
+                0 20px 60px rgba(0,0,0,0.8);
+        }
+
+        /* Stone texture on frame */
+        .star-door::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            background: 
+                repeating-linear-gradient(90deg, transparent 0px, rgba(0,0,0,0.1) 1px, transparent 3px);
+            clip-path: polygon(50% 0%, 100% 35%, 100% 100%, 0% 100%, 0% 35%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Wooden door with rich grain */
+        .star-door .door-panel {
+            position: absolute;
+            inset: 0;
+            background: 
+                linear-gradient(135deg, #6b4423 0%, #4a3018 30%, #3d2512 60%, #2a180a 100%);
+            border: 5px solid #1a0f08;
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: inset 0 0 60px rgba(0,0,0,0.6);
+        }
+
+        /* Chevron/star pattern carved into wood */
+        .star-pattern {
+            position: absolute;
+            inset: 0;
+            background: 
+                /* Top chevrons */
+                repeating-linear-gradient(
+                    45deg,
+                    transparent 0px,
+                    transparent 20px,
+                    rgba(0,0,0,0.2) 20px,
+                    rgba(0,0,0,0.2) 22px,
+                    transparent 22px,
+                    transparent 45px
+                ),
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent 0px,
+                    transparent 20px,
+                    rgba(0,0,0,0.2) 20px,
+                    rgba(0,0,0,0.2) 22px,
+                    transparent 22px,
+                    transparent 45px
+                );
+            opacity: 0.8;
+        }
+
+        /* Inner star outline */
+        .star-outline {
+            position: absolute;
+            inset: 15%;
+            background: 
+                conic-gradient(
+                    from 0deg at 50% 50%,
+                    transparent 0deg 60deg,
+                    rgba(0,0,0,0.3) 60deg 65deg,
+                    transparent 65deg 120deg,
+                    rgba(0,0,0,0.3) 120deg 125deg,
+                    transparent 125deg 180deg,
+                    rgba(0,0,0,0.3) 180deg 185deg,
+                    transparent 185deg 240deg,
+                    rgba(0,0,0,0.3) 240deg 245deg,
+                    transparent 245deg 300deg,
+                    rgba(0,0,0,0.3) 300deg 305deg,
+                    transparent 305deg 360deg
+                );
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            opacity: 0.6;
+        }
+
+        /* Iron star knocker */
+        .central-star {
+            position: relative;
+            font-size: 5rem;
+            color: #2a2a2a;
+            text-shadow: 
+                0 0 20px rgba(212, 175, 55, 0.4),
+                2px 2px 4px rgba(0,0,0,0.8),
+                inset 0 0 10px rgba(0,0,0,0.5);
+            z-index: 3;
+            animation: starGlow 4s ease-in-out infinite;
+            margin-bottom: 1.5rem;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.6));
+        }
+
+        @keyframes starGlow {
+            0%, 100% { 
+                color: #3a3a3a; 
+                text-shadow: 0 0 20px rgba(212, 175, 55, 0.3), 2px 2px 4px rgba(0,0,0,0.8);
+                transform: scale(1);
+            }
+            50% { 
+                color: #4a4a4a; 
+                text-shadow: 0 0 40px rgba(212, 175, 55, 0.6), 2px 2px 4px rgba(0,0,0,0.8);
+                transform: scale(1.05);
+            }
+        }
+
+        .star-label {
+            font-family: 'Cinzel', serif;
+            font-size: 0.75rem;
+            color: var(--gold-dim);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            text-align: center;
+            z-index: 3;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.9);
+            background: rgba(0,0,0,0.4);
+            padding: 0.4rem 0.8rem;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .door-frame:hover .central-star {
+            animation-duration: 1.5s;
+            text-shadow: 0 0 60px rgba(212, 175, 55, 0.8), 2px 2px 4px rgba(0,0,0,0.9);
+        }
+
+        /* Door hint */
+        .enter-hint {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Cinzel', serif;
+            font-size: 0.65rem;
+            color: var(--gold-dim);
+            letter-spacing: 0.2em;
+            opacity: 0;
+            transition: opacity 0.4s;
+            white-space: nowrap;
+        }
+
+        .door-frame:hover .enter-hint {
+            opacity: 0.8;
+        }
+
+        /* --- THE KEY NAVIGATION --- */
+        #atrium-key {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 50;
+            width: 60px;
+            height: 60px;
+            cursor: pointer;
+            display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        #atrium-content h1 {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            font-weight: 600;
-            margin: 0 0 20px 0;
-            line-height: 1.3;
-            text-shadow: 0 2px 15px rgba(0,0,0,0.9), 0 0 30px rgba(0,0,0,0.5);
-            letter-spacing: 0.02em;
+        .key-icon {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--gold-dim);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--gold);
+            transition: all 0.3s;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
         }
 
-        #atrium-content .subtitle {
-            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-            font-style: italic;
-            line-height: 1.6;
-            margin: 0 0 15px 0;
-            text-shadow: 0 1px 8px rgba(0,0,0,0.9);
-            opacity: 0.9;
+        #atrium-key:hover .key-icon {
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            transform: rotate(90deg);
         }
 
-        #atrium-content .body-text {
-            font-size: clamp(0.85rem, 2vw, 1rem);
-            line-height: 1.7;
-            margin: 0;
-            text-shadow: 0 1px 6px rgba(0,0,0,0.9);
-            opacity: 0.85;
-        }
-
-        /* === INTRO SEQUENCE === */
-        #intro-overlay {
+        /* Key menu */
+        .key-menu {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: #000;
-            z-index: 10;
-            animation: introFade 5s ease-out forwards;
-            pointer-events: none;
+            bottom: 70px;
+            right: 0;
+            background: rgba(15, 20, 25, 0.95);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 1.5rem;
+            min-width: 280px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
         }
 
-        @keyframes introFade {
-            0% { opacity: 1; }
-            30% { opacity: 0.8; }
-            60% { opacity: 0.4; }
-            100% { opacity: 0; }
+        #atrium-key.active .key-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
         }
 
-        /* === GO BACK BUTTON === */
-        #back-to-lobby {
-            position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 4;
-            padding: 12px 28px;
-            background: rgba(10, 10, 15, 0.6);
-            border: 1px solid rgba(232, 220, 200, 0.25);
-            color: #e8dcc8;
-            font-family: inherit;
-            font-size: 0.85rem;
-            letter-spacing: 0.05em;
-            cursor: pointer;
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            transition: all 0.4s ease;
+        .key-menu h4 {
+            font-family: 'Cinzel', serif;
+            font-size: 0.7rem;
+            color: var(--gold);
+            letter-spacing: 0.3em;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            padding-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .wing-link {
+            display: block;
+            padding: 0.7rem 0;
+            color: var(--cream);
             text-decoration: none;
-            display: inline-block;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-family: 'Cormorant Garamond', serif;
         }
 
-        #back-to-lobby:hover {
-            background: rgba(232, 220, 200, 0.08);
-            border-color: rgba(232, 220, 200, 0.5);
-            letter-spacing: 0.08em;
+        .wing-link:hover {
+            color: var(--gold);
+            padding-left: 10px;
         }
 
-        /* ============================================
-           MOBILE FIXES
-           ============================================ */
+        .wing-link::before {
+            content: '→ ';
+            opacity: 0.5;
+            font-size: 0.8rem;
+        }
+
+        .wing-link.atrium {
+            margin-top: 0.5rem;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            border-bottom: none;
+            color: var(--gold-dim);
+            font-size: 0.85rem;
+        }
+
+        .wing-link.atrium:hover {
+            color: var(--gold);
+        }
+
+        /* ==================== MOBILE FIXES ==================== */
+        @media (max-width: 1024px) {
+            #doors-container.show {
+                gap: 3rem;
+                transform: translate(-50%, -50%) scale(0.85);
+            }
+        }
+
         @media (max-width: 768px) {
-            #atrium-bg {
-                /* Show full image on mobile */
-                background-size: contain;
-                background-position: center center;
-                background-color: #0a0a0f;
+            body {
+                height: 100vh;
+                height: 100dvh;
             }
 
-            #atrium-content {
-                width: 90%;
-                padding: 15px;
-                /* Lower position so text doesn't overlap image focal point */
-                top: 58%;
+            #doors-container.show {
+                flex-direction: column;
+                gap: 1.5rem;
+                transform: translate(-50%, -50%) scale(0.85);
             }
 
-            #atrium-content h1 {
-                font-size: 1.3rem;
-                margin-bottom: 15px;
+            .door-frame {
+                width: 200px;
+                height: 320px;
             }
 
-            #atrium-content .subtitle {
-                font-size: 0.85rem;
+            /* Always show hints on mobile */
+            .enter-hint {
+                opacity: 0.6;
+                font-size: 0.6rem;
+                bottom: -25px;
             }
 
-            #atrium-content .body-text {
-                font-size: 0.8rem;
+            /* Touch feedback for doors */
+            .door-frame.touch-active {
+                transform: translateY(-5px) scale(0.98);
+            }
+
+            .door-frame.touch-active .enter-hint {
+                opacity: 1;
+            }
+
+            /* Key menu positioning for mobile */
+            #atrium-key {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .key-menu {
+                right: -10px;
+                bottom: 60px;
+                min-width: 250px;
+                padding: 1rem;
+            }
+
+            /* Typewriter text smaller */
+            #typewriter {
+                font-size: 1.2rem;
                 line-height: 1.6;
             }
 
-            #back-to-lobby {
-                bottom: 20px;
-                padding: 10px 22px;
-                font-size: 0.75rem;
-            }
-
-            /* Reduce candle intensity on small screens */
-            .candle {
-                opacity: 0.7;
+            .epigraph {
+                font-size: 0.6rem;
+                margin-bottom: 2rem;
             }
         }
 
         @media (max-width: 480px) {
-            #atrium-content {
-                width: 92%;
-                top: 62%;
+            #doors-container.show {
+                transform: translate(-50%, -50%) scale(0.75);
+                gap: 1rem;
             }
 
-            #atrium-content h1 {
-                font-size: 1.15rem;
+            .door-frame {
+                width: 160px;
+                height: 260px;
             }
 
-            #atrium-content .subtitle {
-                font-size: 0.8rem;
+            .roman-label, .portal-label, .star-label {
+                font-size: 0.7rem;
             }
 
-            #atrium-content .body-text {
-                font-size: 0.75rem;
-            }
-        }
-
-        /* Landscape phones */
-        @media (max-height: 500px) and (orientation: landscape) {
-            #atrium-content {
-                top: 50%;
-            }
-
-            #atrium-content h1 {
-                font-size: 1.2rem;
+            .central-star {
+                font-size: 3.5rem;
             }
         }
     </style>
 <base target="_blank">
 </head>
 <body>
-    <div id="atrium-container">
-        <!-- Intro fade from dark -->
-        <div id="intro-overlay"></div>
 
-        <!-- Background -->
-        <div id="atrium-bg"></div>
+    <div class="atmosphere"></div>
 
-        <!-- Floating candles (generated by JS) -->
-        <div id="candles-layer"></div>
+    <!-- Opening Curtain -->
+    <div id="curtain">
+        <h1 class="wing-title">Study Wing</h1>
+        <p class="wing-subtitle">Where patterns become visible</p>
+    </div>
 
-        <!-- Dust particles (generated by JS) -->
-        <div id="particles-layer"></div>
+    <!-- Pattern Thought (Types then disappears) -->
+    <div id="thought-stage">
+        <span class="epigraph">Pattern Thought · 001</span>
+        <div id="typewriter"></div>
+        <span class="cursor"></span>
+    </div>
 
-        <!-- Content -->
-        <div id="atrium-content">
-            <h1>The Atrium</h1>
-            <p class="subtitle">A calm, sacred digital environment</p>
-            <p class="body-text">
-                Where thought breathes before it becomes word.
-                Light your candle. The house is open.
-            </p>
+    <!-- The Three Doors (Appear after text disappears) -->
+    <div id="doors-container">
+
+        <!-- Reading Room: Roman Weathered Door -->
+        <a href="reading-room.html" class="door-frame">
+            <div class="roman-door">
+                <div class="door-panel">
+                    <div class="roman-label">Reading Room</div>
+                    <div class="roman-knocker"></div>
+                </div>
+            </div>
+            <div class="enter-hint">ENTER LIBRARY</div>
+        </a>
+
+        <!-- Pattern Thoughts: Spiral Portal Tunnel -->
+        <a href="pattern-thoughts.html" class="door-frame">
+            <div class="portal-door">
+                <div class="portal-vortex"></div>
+                <div class="spiral-lines"></div>
+                <div class="particles"></div>
+                <div class="light-rays"></div>
+                <div class="portal-label">Pattern Thoughts</div>
+            </div>
+            <div class="enter-hint">CHASE THE PATTERN</div>
+        </a>
+
+        <!-- Star of the Month: Wooden Star Door -->
+        <a href="star-of-the-month.html" class="door-frame">
+            <div class="star-door">
+                <div class="door-panel">
+                    <div class="star-pattern"></div>
+                    <div class="star-outline"></div>
+                    <div class="central-star">✦</div>
+                    <div class="star-label">Star of the<br>Month</div>
+                </div>
+            </div>
+            <div class="enter-hint">MEET THE STAR</div>
+        </a>
+
+    </div>
+
+    <!-- Atrium Key Navigation -->
+    <div id="atrium-key">
+        <div class="key-icon">⚷</div>
+        <div class="key-menu">
+            <h4>Navigate the Atrium</h4>
+            <a href="glam-wing.html" class="wing-link">Glam Wing (Methodology)</a>
+            <a href="observatory-wing.html" class="wing-link">Observatory Wing (Process)</a>
+            <a href="salon-wing.html" class="wing-link">Salon Wing (Coven)</a>
+            <a href="index.html" class="wing-link atrium">← Return to The Atrium</a>
         </div>
-
-        <!-- Navigation -->
-        <a href="index.html" id="back-to-lobby">← Return to Lobby</a>
     </div>
 
     <script>
-        // Generate floating candles
-        const candlesLayer = document.getElementById('candles-layer');
-        const candleCount = window.innerWidth < 768 ? 5 : 12;
+        // Typewriter Effect
+        const text = "The body remembers what the mind forgets. In the space between clinical protocol and silk drape, we find the pattern: structure is not the enemy of intuition, but its architecture. Notice where your attention rests without effort—that is the door.";
+        const typewriter = document.getElementById('typewriter');
+        let index = 0;
 
-        for (let i = 0; i < candleCount; i++) {
-            const candle = document.createElement('div');
-            candle.className = 'candle';
-            candle.style.left = Math.random() * 100 + '%';
-            candle.style.top = (30 + Math.random() * 50) + '%';
-            candle.style.animationDelay = Math.random() * 6 + 's';
-            candle.style.animationDuration = (5 + Math.random() * 4) + 's';
-            candlesLayer.appendChild(candle);
+        function type() {
+            if (index < text.length) {
+                typewriter.innerHTML += text.charAt(index);
+                index++;
+                setTimeout(type, Math.random() * 40 + 30);
+            } else {
+                // Typing finished - wait then disappear
+                setTimeout(() => {
+                    document.getElementById('thought-stage').classList.add('fade-out');
+                    // Show doors after text fades
+                    setTimeout(() => {
+                        document.getElementById('doors-container').classList.add('show');
+                    }, 2000);
+                }, 2000);
+            }
         }
 
-        // Generate dust particles
-        const particlesLayer = document.getElementById('particles-layer');
-        const particleCount = window.innerWidth < 768 ? 8 : 20;
+        // Start typing after curtain rises
+        setTimeout(type, 6500);
 
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 10 + 's';
-            particle.style.animationDuration = (8 + Math.random() * 6) + 's';
-            particlesLayer.appendChild(particle);
-        }
+        // Key Toggle - FIXED: use correct ID
+        const atriumKey = document.getElementById('atrium-key');
+        
+        atriumKey.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('active');
+        });
+
+        // Close key when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!atriumKey.contains(e.target)) {
+                atriumKey.classList.remove('active');
+            }
+        });
+
+        // Touch feedback for doors
+        const doorFrames = document.querySelectorAll('.door-frame');
+        
+        doorFrames.forEach(door => {
+            door.addEventListener('touchstart', function(e) {
+                this.classList.add('touch-active');
+            });
+            
+            door.addEventListener('touchend', function() {
+                this.classList.remove('touch-active');
+            });
+        });
     </script>
 </body>
 </html>
