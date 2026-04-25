@@ -37,51 +37,55 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: opacity 1.2s ease, visibility 1.2s ease;
+  }
+
+  #telescope-overlay.done {
+    opacity: 0;
+    visibility: hidden;
     pointer-events: none;
   }
 
   #telescope-lens {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(210,175,100,0.3) 0%, rgba(5,9,20,0.9) 60%, #000 100%);
-    filter: blur(20px);
-    animation: telescope-focus 4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    background: radial-gradient(circle, rgba(210,175,100,0.4) 0%, rgba(5,9,20,0.8) 50%, #000 100%);
+    filter: blur(25px);
+    animation: telescope-focus 3.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
 
   @keyframes telescope-focus {
     0% {
-      width: 60px;
-      height: 60px;
-      filter: blur(30px);
-      opacity: 0.3;
+      width: 80px;
+      height: 80px;
+      filter: blur(25px);
+      opacity: 0.4;
     }
-    30% {
-      width: 200px;
-      height: 200px;
-      filter: blur(15px);
+    25% {
+      width: 250px;
+      height: 250px;
+      filter: blur(18px);
       opacity: 0.6;
     }
-    60% {
-      width: 500px;
-      height: 500px;
-      filter: blur(5px);
+    50% {
+      width: 600px;
+      height: 600px;
+      filter: blur(10px);
       opacity: 0.8;
     }
+    75% {
+      width: 1200px;
+      height: 1200px;
+      filter: blur(3px);
+      opacity: 0.9;
+    }
     100% {
-      width: 150vmax;
-      height: 150vmax;
+      width: 300vmax;
+      height: 300vmax;
       filter: blur(0px);
       opacity: 0;
     }
-  }
-
-  #telescope-overlay.fade-out {
-    animation: overlay-fade 0.8s ease forwards 3.5s;
-  }
-
-  @keyframes overlay-fade {
-    to { opacity: 0; visibility: hidden; }
   }
 
   /* ========== SKY SECTION ========== */
@@ -121,7 +125,13 @@
     color: var(--text);
     margin-bottom: 8px;
     opacity: 0;
-    animation: fade-in-up 1s ease 3.8s forwards;
+    transform: translateY(12px);
+    transition: opacity 1s ease, transform 1s ease;
+  }
+
+  #sky-title.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   #sky-tagline {
@@ -130,12 +140,13 @@
     letter-spacing: 0.1em;
     font-weight: 300;
     opacity: 0;
-    animation: fade-in-up 1s ease 4.1s forwards;
+    transform: translateY(12px);
+    transition: opacity 1s ease 0.3s, transform 1s ease 0.3s;
   }
 
-  @keyframes fade-in-up {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
+  #sky-tagline.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   #meta-ghost {
@@ -162,7 +173,13 @@
     max-width: 600px;
     margin: 0 auto 20px;
     opacity: 0;
-    animation: fade-in-up 1s ease 4.4s forwards;
+    transform: translateY(12px);
+    transition: opacity 1s ease 0.6s, transform 1s ease 0.6s;
+  }
+
+  #search-container.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   #search-input {
@@ -193,7 +210,7 @@
     left: 0;
     right: 0;
     margin-top: 8px;
-    background: rgba(5,9,20,0.95);
+    background: rgba(5,9,20,0.98);
     border: 0.5px solid var(--card-border);
     border-radius: 8px;
     overflow: hidden;
@@ -228,14 +245,20 @@
     color: var(--text-secondary);
     letter-spacing: 0.05em;
     opacity: 0;
-    animation: fade-in-up 1s ease 4.7s forwards;
+    transform: translateY(12px);
+    transition: opacity 1s ease 0.9s, transform 1s ease 0.9s;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
   }
 
-  #fast-path.dismissed { display: none; }
+  #fast-path.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  #fast-path.dismissed { display: none !important; }
 
   #fast-path-close {
     background: none;
@@ -254,6 +277,14 @@
     padding: 40px 24px 100px;
     max-width: 1200px;
     margin: 0 auto;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease 1.2s, transform 1s ease 1.2s;
+  }
+
+  #cards-section.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   #cards-grid {
@@ -399,10 +430,12 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
+    background: transparent;
+    border: 0.5px solid var(--card-border);
+    color: var(--text-secondary);
   }
 
   .wing-btn.primary {
-    background: transparent;
     border: 0.5px solid var(--gold-dim);
     color: var(--gold);
   }
@@ -412,15 +445,15 @@
     border-color: var(--gold);
   }
 
-  .wing-btn.secondary {
-    background: transparent;
-    border: 0.5px solid var(--card-border);
-    color: var(--text-secondary);
-  }
-
   .wing-btn.secondary:hover {
     border-color: rgba(255,255,255,0.2);
     color: var(--text);
+  }
+
+  .wing-btn:disabled, .wing-btn.disabled {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
   }
 
   /* ========== DEEP DIVE PANEL ========== */
@@ -520,6 +553,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
   }
 
   .panel-link {
@@ -531,6 +566,11 @@
   }
 
   .panel-link:hover { opacity: 0.8; }
+
+  .panel-link.disabled {
+    opacity: 0.4;
+    pointer-events: none;
+  }
 
   .panel-note {
     font-size: 0.75rem;
@@ -546,6 +586,7 @@
     right: 0;
     background: rgba(5,9,20,0.95);
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border-top: 0.5px solid var(--card-border);
     z-index: 100;
     padding: 12px 16px;
@@ -571,6 +612,7 @@
     text-transform: uppercase;
     cursor: pointer;
     backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
   }
 
   .key-grid {
@@ -582,7 +624,7 @@
   }
 
   @media (max-width: 480px) {
-    .key-grid { grid-template-columns: repeat(3, 1fr); }
+    .key-grid { grid-template-columns: repeat(4, 1fr); }
   }
 
   .key-item {
@@ -615,7 +657,6 @@
   /* ========== UTILITIES ========== */
   .hidden { display: none !important; }
 
-  /* Scrollbar styling */
   ::-webkit-scrollbar { width: 4px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
@@ -685,9 +726,8 @@ function startSpaceHum() {
   try {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-    // Create multiple oscillators for a rich drone
-    const freqs = [55, 110, 165, 220]; // A1, A2, E3, A3 — deep space chord
-    const gains = [0.03, 0.02, 0.015, 0.01];
+    const freqs = [55, 110, 165, 220];
+    const targetGains = [0.03, 0.02, 0.015, 0.01];
 
     freqs.forEach((freq, i) => {
       const osc = audioCtx.createOscillator();
@@ -702,23 +742,29 @@ function startSpaceHum() {
       filter.Q.value = 1;
 
       gain.gain.value = 0;
-      gain.gain.linearRampToValueAtTime(gains[i], audioCtx.currentTime + 4);
 
       osc.connect(filter);
       filter.connect(gain);
       gain.connect(audioCtx.destination);
 
       osc.start();
-      humNodes.push({ osc, gain, filter });
+      humNodes.push({ osc, gain, filter, freq });
     });
+
+    // Fade in
+    setTimeout(() => {
+      humNodes.forEach((node, i) => {
+        node.gain.gain.linearRampToValueAtTime(targetGains[i], audioCtx.currentTime + 3);
+      });
+    }, 100);
 
     // Subtle modulation
     setInterval(() => {
-      humNodes.forEach((node, i) => {
-        const drift = (Math.random() - 0.5) * 2;
+      humNodes.forEach((node) => {
+        const drift = (Math.random() - 0.5) * 1.5;
         node.osc.frequency.linearRampToValueAtTime(
-          freqs[i] + drift, 
-          audioCtx.currentTime + 3
+          node.freq + drift, 
+          audioCtx.currentTime + 4
         );
       });
     }, 4000);
@@ -728,7 +774,6 @@ function startSpaceHum() {
   }
 }
 
-// Start on first interaction (browser policy)
 let humStarted = false;
 function initAudio() {
   if (!humStarted && audioCtx) {
@@ -739,73 +784,78 @@ function initAudio() {
 document.addEventListener('click', initAudio, { once: true });
 document.addEventListener('touchstart', initAudio, { once: true });
 
-// Start hum after telescope begins
-setTimeout(() => {
-  startSpaceHum();
-}, 500);
+// Start hum immediately (will be silent until user interacts, then fade in)
+startSpaceHum();
 
 // ========== STAR CANVAS ==========
 const canvas = document.getElementById('star-canvas');
 const ctx = canvas.getContext('2d');
 let stars = [];
-let constellationLines = [];
 let width, height;
 
 function resizeCanvas() {
-  width = canvas.width = canvas.offsetWidth;
-  height = canvas.height = canvas.offsetHeight;
+  const dpr = window.devicePixelRatio || 1;
+  width = canvas.offsetWidth;
+  height = canvas.offsetHeight;
+  canvas.width = width * dpr;
+  canvas.height = height * dpr;
+  ctx.scale(dpr, dpr);
 }
 resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+window.addEventListener('resize', () => {
+  resizeCanvas();
+  generateStars();
+});
 
-// Generate random stars
 function generateStars() {
   stars = [];
-  const count = Math.floor((width * height) / 2500);
+  const count = Math.max(200, Math.floor((width * height) / 3000));
 
   for (let i = 0; i < count; i++) {
     stars.push({
       x: Math.random() * width,
       y: Math.random() * height,
-      size: Math.random() * 1.5 + 0.3,
-      opacity: Math.random() * 0.6 + 0.2,
-      twinkleSpeed: Math.random() * 0.02 + 0.005,
+      size: Math.random() * 1.8 + 0.2,
+      opacity: Math.random() * 0.5 + 0.15,
+      twinkleSpeed: Math.random() * 0.015 + 0.003,
       twinkleOffset: Math.random() * Math.PI * 2
     });
   }
 }
 generateStars();
 
-// Constellation nodes (MV shape)
-const wingData = [
-  { id: 'study', name: 'Study Wing', x: 0.15, y: 0.65, size: 4, brightness: 0.9, status: 'open' },
-  { id: 'reading', name: 'Reading Room', x: 0.25, y: 0.35, size: 3.5, brightness: 0.85, status: 'open' },
-  { id: 'salon', name: 'Salon', x: 0.55, y: 0.3, size: 4, brightness: 0.9, status: 'open' },
-  { id: 'patterns', name: 'Pattern Thoughts', x: 0.7, y: 0.6, size: 3.5, brightness: 0.8, status: 'open' },
-  { id: 'glam', name: 'Glam Wing', x: 0.35, y: 0.2, size: 3, brightness: 0.5, status: 'sealed' },
-  { id: 'observatory', name: 'Observatory', x: 0.45, y: 0.75, size: 6, brightness: 1, status: 'here' },
-  { id: 'wingv', name: 'Wing V', x: 0.8, y: 0.25, size: 3, brightness: 0.5, status: 'sealed' }
-];
+// Constellation nodes (MV shape) — responsive positions
+function getNodePositions() {
+  return [
+    { id: 'study', name: 'Study Wing', x: width * 0.12, y: height * 0.62, size: 4, brightness: 0.9, status: 'open' },
+    { id: 'reading', name: 'Reading Room', x: width * 0.28, y: height * 0.32, size: 3.5, brightness: 0.85, status: 'open' },
+    { id: 'salon', name: 'Salon', x: width * 0.52, y: height * 0.28, size: 4, brightness: 0.9, status: 'open' },
+    { id: 'patterns', name: 'Pattern Thoughts', x: width * 0.72, y: height * 0.58, size: 3.5, brightness: 0.8, status: 'open' },
+    { id: 'glam', name: 'Glam Wing', x: width * 0.38, y: height * 0.18, size: 3, brightness: 0.5, status: 'sealed' },
+    { id: 'observatory', name: 'Observatory', x: width * 0.45, y: height * 0.78, size: 6, brightness: 1, status: 'here' },
+    { id: 'wingv', name: 'Wing V', x: width * 0.82, y: height * 0.22, size: 3, brightness: 0.5, status: 'sealed' }
+  ];
+}
 
-// MV constellation connections
 const connections = [
   ['study', 'reading'], ['reading', 'salon'], ['salon', 'patterns'],
   ['glam', 'reading'], ['reading', 'observatory'], ['observatory', 'patterns'], ['patterns', 'wingv']
 ];
 
 let time = 0;
+let canvasReady = false;
 
 function drawStars() {
   ctx.clearRect(0, 0, width, height);
 
-  // Background gradient
-  const grad = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, width);
+  // Background
+  const grad = ctx.createRadialGradient(width/2, height/2, 0, width/2, height/2, Math.max(width, height));
   grad.addColorStop(0, '#0a1025');
   grad.addColorStop(1, '#050914');
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, width, height);
 
-  // Draw background stars
+  // Background stars
   stars.forEach(star => {
     const twinkle = Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.3 + 0.7;
     ctx.beginPath();
@@ -814,47 +864,46 @@ function drawStars() {
     ctx.fill();
   });
 
+  const nodes = getNodePositions();
+
   // Draw constellation lines
-  ctx.strokeStyle = 'rgba(210,175,100,0.2)';
-  ctx.lineWidth = 0.5;
+  ctx.strokeStyle = 'rgba(210,175,100,0.25)';
+  ctx.lineWidth = 0.8;
   connections.forEach(([a, b]) => {
-    const nodeA = wingData.find(w => w.id === a);
-    const nodeB = wingData.find(w => w.id === b);
+    const nodeA = nodes.find(w => w.id === a);
+    const nodeB = nodes.find(w => w.id === b);
     if (nodeA && nodeB) {
-      const ax = nodeA.x * width, ay = nodeA.y * height;
-      const bx = nodeB.x * width, by = nodeB.y * height;
       ctx.beginPath();
-      ctx.moveTo(ax, ay);
-      ctx.lineTo(bx, by);
+      ctx.moveTo(nodeA.x, nodeA.y);
+      ctx.lineTo(nodeB.x, nodeB.y);
       ctx.stroke();
     }
   });
 
   // Draw constellation nodes
-  wingData.forEach(node => {
-    const x = node.x * width;
-    const y = node.y * height;
-    const pulse = node.status === 'here' ? Math.sin(time * 0.03) * 0.3 + 0.7 : 1;
+  nodes.forEach(node => {
+    const pulse = node.status === 'here' ? Math.sin(time * 0.025) * 0.25 + 0.75 : 1;
 
     // Glow
-    const glowSize = node.size * (node.status === 'here' ? 8 : 4);
-    const glowGrad = ctx.createRadialGradient(x, y, 0, x, y, glowSize);
-    glowGrad.addColorStop(0, `rgba(210,175,100,${0.3 * node.brightness * pulse})`);
+    const glowSize = node.size * (node.status === 'here' ? 10 : 5);
+    const glowGrad = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, glowSize);
+    glowGrad.addColorStop(0, `rgba(210,175,100,${0.25 * node.brightness * pulse})`);
+    glowGrad.addColorStop(0.5, `rgba(210,175,100,${0.08 * node.brightness * pulse})`);
     glowGrad.addColorStop(1, 'rgba(210,175,100,0)');
     ctx.beginPath();
-    ctx.arc(x, y, glowSize, 0, Math.PI * 2);
+    ctx.arc(node.x, node.y, glowSize, 0, Math.PI * 2);
     ctx.fillStyle = glowGrad;
     ctx.fill();
 
     // Ring
     ctx.beginPath();
-    ctx.arc(x, y, node.size * 2, 0, Math.PI * 2);
+    ctx.arc(node.x, node.y, node.size * 2.5, 0, Math.PI * 2);
     ctx.strokeStyle = node.status === 'sealed' 
-      ? `rgba(210,175,100,${0.3 * node.brightness})`
-      : `rgba(210,175,100,${0.6 * node.brightness})`;
-    ctx.lineWidth = node.status === 'sealed' ? 0.5 : 1;
+      ? `rgba(210,175,100,${0.25 * node.brightness})`
+      : `rgba(210,175,100,${0.7 * node.brightness})`;
+    ctx.lineWidth = node.status === 'sealed' ? 0.6 : 1.2;
     if (node.status === 'sealed') {
-      ctx.setLineDash([3, 3]);
+      ctx.setLineDash([4, 4]);
     } else {
       ctx.setLineDash([]);
     }
@@ -863,21 +912,29 @@ function drawStars() {
 
     // Center dot
     ctx.beginPath();
-    ctx.arc(x, y, node.size * 0.6, 0, Math.PI * 2);
+    ctx.arc(node.x, node.y, node.size * 0.7, 0, Math.PI * 2);
     ctx.fillStyle = `rgba(210,175,100,${node.brightness})`;
     ctx.fill();
 
+    // Inner bright core for "here"
+    if (node.status === 'here') {
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, node.size * 0.3, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.8)';
+      ctx.fill();
+    }
+
     // Label
-    ctx.font = '11px sans-serif';
-    ctx.fillStyle = `rgba(255,255,255,${node.status === 'here' ? 0.8 : 0.5})`;
+    ctx.font = `${window.innerWidth < 640 ? '10px' : '12px'} sans-serif`;
+    ctx.fillStyle = `rgba(255,255,255,${node.status === 'here' ? 0.85 : 0.55})`;
     ctx.textAlign = 'center';
-    const labelY = y + node.size * 3 + 14;
-    ctx.fillText(node.name, x, labelY);
+    const labelY = node.y + node.size * 3.5 + 14;
+    ctx.fillText(node.name, node.x, labelY);
 
     if (node.status === 'here') {
-      ctx.font = '9px sans-serif';
-      ctx.fillStyle = 'rgba(210,175,100,0.6)';
-      ctx.fillText('you are here', x, labelY + 14);
+      ctx.font = `${window.innerWidth < 640 ? '9px' : '10px'} sans-serif`;
+      ctx.fillStyle = 'rgba(210,175,100,0.7)';
+      ctx.fillText('you are here', node.x, labelY + 14);
     }
   });
 
@@ -885,9 +942,22 @@ function drawStars() {
   requestAnimationFrame(drawStars);
 }
 
-// Start drawing after telescope
+// Start canvas immediately
+drawStars();
+
+// ========== TELESCOPE SEQUENCE ==========
 setTimeout(() => {
-  drawStars();
+  document.getElementById('telescope-overlay').classList.add('done');
+
+  // Reveal content
+  setTimeout(() => {
+    document.getElementById('sky-title').classList.add('visible');
+    document.getElementById('sky-tagline').classList.add('visible');
+    document.getElementById('search-container').classList.add('visible');
+    document.getElementById('fast-path').classList.add('visible');
+    document.getElementById('cards-section').classList.add('visible');
+  }, 400);
+
 }, 3500);
 
 // ========== WING DATA ==========
@@ -913,7 +983,7 @@ const wings = [
     name: 'Salon',
     status: 'open',
     desc: 'Real-time conversation. Messages fade. No record. Presence only.',
-    rooms: ['Reader's Corner', 'Writer's Nook', 'Explorer's Spot'],
+    rooms: ["Reader's Corner", "Writer's Nook", "Explorer's Spot"],
     link: 'salon.html',
     briefing: {
       what: 'A living room for real-time conversation between readers, writers, researchers, and explorers. Messages appear and fade after 20 seconds. No scrollback.',
@@ -968,10 +1038,10 @@ wings.forEach(wing => {
   const roomsHtml = wing.rooms.map(r => `<span class="room-tag">${r}</span>`).join('');
 
   const actionsHtml = wing.status === 'here' 
-    ? `<div class="wing-btn primary" style="cursor:default;opacity:0.5">You Are Here</div>`
+    ? `<button class="wing-btn disabled" disabled>You Are Here</button>`
     : wing.status === 'sealed'
-    ? `<div class="wing-btn secondary" style="cursor:default;opacity:0.5">Coming Soon</div>`
-    : `<a href="${wing.link}" class="wing-btn primary">Enter Room →</a><button class="wing-btn secondary" onclick="openPanel('${wing.id}')">Read Briefing</button>`;
+    ? `<button class="wing-btn disabled" disabled>Coming Soon</button>`
+    : `<a href="${wing.link}" class="wing-btn primary">Enter Room →</a><button class="wing-btn secondary" onclick="event.stopPropagation(); openPanel('${wing.id}')">Read Briefing</button>`;
 
   card.innerHTML = `
     <div class="wing-card-header">
@@ -984,7 +1054,6 @@ wings.forEach(wing => {
     <div class="wing-actions">${actionsHtml}</div>
   `;
 
-  // Click card to open panel (unless clicking a button/link)
   card.addEventListener('click', (e) => {
     if (e.target.closest('a') || e.target.closest('button')) return;
     openPanel(wing.id);
@@ -1002,17 +1071,13 @@ function openPanel(wingId) {
   const wing = wings.find(w => w.id === wingId);
   if (!wing) return;
 
-  // Update active card
   document.querySelectorAll('.wing-card').forEach(c => c.classList.remove('active'));
   document.querySelector(`.wing-card[data-id="${wingId}"]`).classList.add('active');
 
-  // Highlight constellation node
-  highlightConstellationNode(wingId);
-
   const linkHtml = wing.status === 'here' 
-    ? `<span class="panel-link" style="opacity:0.5">You are here</span>`
+    ? `<span class="panel-link disabled">You are here</span>`
     : wing.status === 'sealed'
-    ? `<span class="panel-link" style="opacity:0.5">Sealed — coming soon</span>`
+    ? `<span class="panel-link disabled">Sealed — coming soon</span>`
     : `<a href="${wing.link}" class="panel-link">Enter the ${wing.name} →</a>`;
 
   panelContent.innerHTML = `
@@ -1048,10 +1113,8 @@ function openPanel(wingId) {
 
   panelPlaceholder.classList.add('hidden');
   panelContent.classList.remove('hidden');
-
   activePanel = wingId;
 
-  // Scroll to panel
   setTimeout(() => {
     panelContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }, 100);
@@ -1064,25 +1127,20 @@ function closePanel() {
   activePanel = null;
 }
 
-function highlightConstellationNode(wingId) {
-  // Visual feedback on canvas — could add a flash effect
-  // For now, the card active state provides the feedback
-}
-
 // ========== SEARCH ==========
 const searchInput = document.getElementById('search-input');
 const searchHints = document.getElementById('search-hints');
 
 const searchTerms = [
-  { term: 'salon', action: () => { scrollToCard('salon'); openPanel('salon'); } },
-  { term: 'study', action: () => { scrollToCard('study'); openPanel('study'); } },
-  { term: 'reading', action: () => { scrollToCard('study'); openPanel('study'); } },
-  { term: 'essays', action: () => { scrollToCard('study'); openPanel('study'); } },
-  { term: 'pattern', action: () => { scrollToCard('study'); openPanel('study'); } },
-  { term: 'glam', action: () => { scrollToCard('glam'); openPanel('glam'); } },
-  { term: 'how does this work', action: () => { scrollToCard('observatory'); openPanel('observatory'); } },
-  { term: 'map', action: () => { scrollToCard('observatory'); openPanel('observatory'); } },
-  { term: 'observatory', action: () => { scrollToCard('observatory'); openPanel('observatory'); } }
+  { term: 'salon', label: 'Salon — real-time conversation room', action: () => { scrollToCard('salon'); openPanel('salon'); } },
+  { term: 'study', label: 'Study Wing — essays and research', action: () => { scrollToCard('study'); openPanel('study'); } },
+  { term: 'reading', label: 'Reading Room — categorized essays', action: () => { scrollToCard('study'); openPanel('study'); } },
+  { term: 'essays', label: 'Essays — in the Study Wing', action: () => { scrollToCard('study'); openPanel('study'); } },
+  { term: 'pattern', label: 'Pattern Thoughts — micro-essays', action: () => { scrollToCard('study'); openPanel('study'); } },
+  { term: 'glam', label: 'Glam Wing — fashion archive (coming)', action: () => { scrollToCard('glam'); openPanel('glam'); } },
+  { term: 'how does this work', label: 'How MetaVoxa works — Observatory briefing', action: () => { scrollToCard('observatory'); openPanel('observatory'); } },
+  { term: 'map', label: 'System map — Observatory', action: () => { scrollToCard('observatory'); openPanel('observatory'); } },
+  { term: 'observatory', label: 'Observatory — you are here', action: () => { scrollToCard('observatory'); openPanel('observatory'); } }
 ];
 
 function scrollToCard(wingId) {
@@ -1099,11 +1157,11 @@ searchInput.addEventListener('input', (e) => {
     return;
   }
 
-  const matches = searchTerms.filter(s => s.term.includes(val) || val.includes(s.term));
+  const matches = searchTerms.filter(s => s.term.includes(val) || val.includes(s.term) || s.label.toLowerCase().includes(val));
 
   if (matches.length > 0) {
     searchHints.innerHTML = matches.map(m => 
-      `<div class="search-hint" data-term="${m.term}"><strong>${m.term}</strong> — press Enter</div>`
+      `<div class="search-hint" data-term="${m.term}"><strong>${m.term}</strong> — ${m.label}</div>`
     ).join('');
     searchHints.classList.add('active');
   } else {
@@ -1159,7 +1217,6 @@ keyToggle.addEventListener('click', () => {
   keyToggle.textContent = keyOpen ? 'Navigate' : 'Open Key';
 });
 
-// Auto-hide key on scroll down, show on scroll up
 let lastScroll = 0;
 window.addEventListener('scroll', () => {
   const currentScroll = window.scrollY;
@@ -1174,15 +1231,6 @@ window.addEventListener('scroll', () => {
   }
   lastScroll = currentScroll;
 });
-
-// ========== TELESCOPE CLEANUP ==========
-setTimeout(() => {
-  document.getElementById('telescope-overlay').classList.add('fade-out');
-}, 100);
-
-setTimeout(() => {
-  document.getElementById('telescope-overlay').style.display = 'none';
-}, 4500);
 </script>
 
 </body>
