@@ -7,1010 +7,532 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-
 <style>
-:root {
-  --sky:              #050914;
-  --text:             #f0ead8;
-  --text-muted:       rgba(240,234,216,0.38);
-  --gold:             rgba(217,184,124,1);
-  --gold-mid:         rgba(217,184,124,0.55);
-  --gold-dim:         rgba(217,184,124,0.28);
-  --gold-faint:       rgba(217,184,124,0.09);
-  --card-bg:          rgba(255,255,255,0.04);
-  --card-border:      rgba(255,255,255,0.08);
-  --card-active-bg:   rgba(217,184,124,0.055);
-  --card-active-brd:  rgba(217,184,124,0.48);
-  --font-display:     'Cormorant Garamond', Georgia, serif;
-  --font-body:        'Outfit', system-ui, sans-serif;
+:root{
+  --sky:#050914;--text:#f0ead8;
+  --gold:rgba(217,184,124,1);--gold-mid:rgba(217,184,124,0.55);
+  --gold-dim:rgba(217,184,124,0.28);--gold-faint:rgba(217,184,124,0.09);
+  --card-bg:rgba(255,255,255,0.04);--card-border:rgba(255,255,255,0.08);
+  --card-active-bg:rgba(217,184,124,0.055);--card-active-brd:rgba(217,184,124,0.48);
+  --font-d:'Cormorant Garamond',Georgia,serif;--font-b:'Outfit',system-ui,sans-serif;
 }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--sky);color:var(--text);font-family:var(--font-b);font-weight:300;min-height:100vh;overflow-x:hidden}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* SKY */
+#sky{position:relative;width:100%;background:var(--sky);overflow:hidden}
+#sky::after{content:'';position:absolute;bottom:0;left:0;right:0;height:90px;background:linear-gradient(to bottom,transparent,var(--sky));pointer-events:none;z-index:2}
+#sky-svg{width:100%;height:auto;display:block;animation:scope 9.5s cubic-bezier(0.06,0,0.2,1) forwards}
+@keyframes scope{
+  0%  {clip-path:circle(0.3% at 50% 52%);filter:blur(50px) brightness(0.04)}
+  10% {clip-path:circle(2%   at 50% 52%);filter:blur(36px) brightness(0.15)}
+  25% {clip-path:circle(8%   at 50% 52%);filter:blur(24px) brightness(0.38)}
+  44% {clip-path:circle(22%  at 50% 52%);filter:blur(13px) brightness(0.62)}
+  64% {clip-path:circle(50%  at 50% 52%);filter:blur(5px)  brightness(0.84)}
+  82% {clip-path:circle(88%  at 50% 52%);filter:blur(1.5px)brightness(0.96)}
+  100%{clip-path:circle(180% at 50% 52%);filter:blur(0)    brightness(1)}
+}
+@keyframes twa{0%,100%{opacity:.44}50%{opacity:.08}}
+@keyframes twb{0%,100%{opacity:.34}56%{opacity:.06}}
+@keyframes twc{0%,100%{opacity:.26}40%{opacity:.05}}
+@keyframes twd{0%,100%{opacity:.18}65%{opacity:.03}}
+.twa{animation:twa 4.8s ease-in-out infinite}
+.twb{animation:twb 6.4s ease-in-out infinite}
+.twc{animation:twc 3.9s ease-in-out infinite}
+.twd{animation:twd 7.7s ease-in-out infinite}
+.cnode{cursor:pointer}
+.cnode:hover{filter:drop-shadow(0 0 12px rgba(217,184,124,.8))}
+.cnode.highlighted{animation:npulse 1.5s ease-in-out infinite}
+@keyframes npulse{0%,100%{filter:drop-shadow(0 0 10px rgba(217,184,124,.55))}50%{filter:drop-shadow(0 0 28px rgba(217,184,124,1))}}
+.cnode.anode{filter:drop-shadow(0 0 14px rgba(217,184,124,.5))}
+.sealed-node{pointer-events:none}
 
-html { scroll-behavior: smooth; }
+#audio-btn{position:absolute;top:14px;right:16px;z-index:10;background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);border-radius:5px;padding:4px 11px;font-size:10px;letter-spacing:.07em;color:rgba(255,255,255,.25);cursor:pointer;font-family:var(--font-b);transition:all .25s}
+#audio-btn:hover{color:rgba(255,255,255,.58);background:rgba(255,255,255,.1)}
+#audio-btn.on{color:rgba(217,184,124,.55);border-color:rgba(217,184,124,.25)}
 
-body {
-  background: var(--sky);
-  color: var(--text);
-  font-family: var(--font-body);
-  font-weight: 300;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+/* CONTENT */
+#content{max-width:860px;margin:0 auto;padding:0 24px 72px;opacity:0;animation:rise 1s ease forwards;animation-delay:9.9s}
+@keyframes rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 
-/* ─────────────────────────────────────
-   SKY SECTION
-───────────────────────────────────── */
-#sky-section {
-  position: relative;
-  width: 100%;
-  background: var(--sky);
-  overflow: hidden;
-}
+/* BANNER */
+#adhd-banner{display:flex;align-items:center;justify-content:space-between;gap:14px;background:rgba(217,184,124,.07);border:.5px solid rgba(217,184,124,.22);border-radius:8px;padding:11px 16px;margin:22px 0 0;font-size:clamp(11px,1.4vw,13px);color:rgba(217,184,124,.72);letter-spacing:.03em;line-height:1.5;max-height:80px;overflow:hidden;transition:opacity .4s,max-height .45s,margin .35s,padding .35s}
+#adhd-dismiss{background:none;border:none;color:rgba(217,184,124,.38);cursor:pointer;font-size:20px;flex-shrink:0;line-height:1;padding:0 2px;transition:color .2s}
+#adhd-dismiss:hover{color:rgba(217,184,124,.9)}
 
-#sky-section::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 70px;
-  background: linear-gradient(to bottom, transparent, var(--sky));
-  pointer-events: none;
-  z-index: 2;
-}
+/* SEARCH */
+#search-wrap{position:relative;margin:18px 0 20px}
+#search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:rgba(255,255,255,.18);font-size:16px;pointer-events:none;line-height:1}
+#search-input{width:100%;background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.1);border-radius:8px;padding:clamp(9px,1.2vw,12px) 16px clamp(9px,1.2vw,12px) 38px;color:var(--text);font-size:clamp(12px,1.5vw,14px);font-family:var(--font-b);font-weight:300;outline:none;transition:border-color .2s}
+#search-input::placeholder{color:rgba(255,255,255,.18)}
+#search-input:focus{border-color:rgba(217,184,124,.42)}
 
-#sky-svg {
-  width: 100%;
-  height: auto;
-  display: block;
-  animation: telescope-open 3.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
+/* CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:11px;margin-bottom:13px}
+.wcard{background:var(--card-bg);border:.5px solid var(--card-border);border-radius:10px;padding:clamp(13px,1.8vw,18px);display:flex;flex-direction:column;gap:12px;transition:border-color .2s}
+.wcard:not(.sealed):hover{border-color:rgba(255,255,255,.2)}
+.wcard.active{border-color:var(--card-active-brd);background:var(--card-active-bg)}
+.wcard.sealed{opacity:.36}
+.wcard.smatch{border-color:rgba(217,184,124,.55);background:rgba(217,184,124,.07)}
+.wnum{font-size:clamp(9px,1.1vw,11px);letter-spacing:.1em;color:rgba(255,255,255,.2);text-transform:uppercase;margin-bottom:5px}
+.wtitle{font-size:clamp(14px,1.8vw,16px);font-weight:500;color:var(--text);margin-bottom:5px}
+.wdesc{font-size:clamp(11px,1.3vw,12.5px);color:rgba(255,255,255,.3);line-height:1.55}
+.sealed-pill{font-size:9px;color:rgba(255,255,255,.18);border:.5px solid rgba(255,255,255,.1);border-radius:3px;padding:1px 5px;display:inline-block;margin-top:5px;letter-spacing:.05em}
+.card-actions{display:flex;flex-direction:column;gap:7px;margin-top:auto}
+.btn-briefing{background:rgba(255,255,255,.05);border:.5px solid rgba(255,255,255,.12);border-radius:6px;padding:7px 12px;font-size:clamp(11px,1.3vw,12px);color:rgba(255,255,255,.45);cursor:pointer;font-family:var(--font-b);font-weight:400;text-align:center;letter-spacing:.03em;transition:all .2s;width:100%}
+.btn-briefing:hover:not(:disabled){background:rgba(255,255,255,.1);color:rgba(255,255,255,.82)}
+.btn-briefing:disabled{opacity:.35;cursor:default}
+.btn-enter{display:block;background:rgba(217,184,124,.09);border:.5px solid rgba(217,184,124,.28);border-radius:6px;padding:7px 12px;font-size:clamp(11px,1.3vw,12px);color:rgba(217,184,124,.75);text-decoration:none;text-align:center;letter-spacing:.03em;font-weight:400;transition:all .2s}
+.btn-enter:hover{background:rgba(217,184,124,.17);color:rgba(217,184,124,1)}
+.btn-here{font-size:clamp(9px,1.1vw,10px);color:rgba(217,184,124,.35);text-align:center;padding:3px 0;letter-spacing:.09em}
 
-@keyframes telescope-open {
-  0%   { clip-path: circle(0.5% at 50% 54%); filter: blur(38px) brightness(0.08) saturate(0.15); }
-  16%  { clip-path: circle(4.5% at 50% 54%); filter: blur(24px) brightness(0.32) saturate(0.4);  }
-  40%  { clip-path: circle(22%  at 50% 54%); filter: blur(10px) brightness(0.68) saturate(0.78); }
-  70%  { clip-path: circle(60%  at 50% 54%); filter: blur(2.5px) brightness(0.94) saturate(0.96);}
-  100% { clip-path: circle(160% at 50% 54%); filter: blur(0) brightness(1) saturate(1);           }
-}
+/* PANEL */
+#panel{background:rgba(255,255,255,.03);border:.5px solid rgba(217,184,124,.2);border-radius:10px;padding:clamp(18px,2.2vw,24px) clamp(18px,2.5vw,28px);margin-bottom:13px;display:none;animation:pi .35s ease}
+@keyframes pi{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+.ph{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
+.ph h3{font-family:var(--font-d);font-size:clamp(17px,2.2vw,22px);font-weight:400;color:var(--text);letter-spacing:.02em;line-height:1.3}
+.pc{background:none;border:none;font-size:clamp(10px,1.3vw,12px);color:rgba(255,255,255,.2);cursor:pointer;font-family:var(--font-b);letter-spacing:.05em;flex-shrink:0;margin-left:12px;margin-top:2px;transition:color .2s}
+.pc:hover{color:rgba(255,255,255,.58)}
+.pr{display:flex;gap:16px;padding:12px 0;border-bottom:.5px solid rgba(255,255,255,.05)}
+.pr:last-of-type{border-bottom:none}
+.pl{font-size:clamp(9px,1.1vw,10.5px);letter-spacing:.12em;color:rgba(255,255,255,.18);text-transform:uppercase;min-width:80px;flex-shrink:0;padding-top:1px;font-weight:500}
+.pt{font-size:clamp(12px,1.5vw,13.5px);color:rgba(255,255,255,.44);line-height:1.72}
+.plink{display:inline-block;font-size:clamp(11px,1.4vw,13px);color:rgba(217,184,124,.62);text-decoration:none;margin-top:16px;letter-spacing:.04em;transition:color .2s}
+.plink:hover{color:rgba(217,184,124,1)}
+#panel-hint{font-size:clamp(9px,1.1vw,10px);color:rgba(255,255,255,.13);text-align:center;padding:10px 0 4px;letter-spacing:.04em}
 
-#replay-btn {
-  position: absolute;
-  bottom: 14px; right: 16px;
-  z-index: 10;
-  background: rgba(255,255,255,0.05);
-  border: 0.5px solid rgba(255,255,255,0.12);
-  border-radius: 5px;
-  padding: 4px 11px;
-  font-size: 10px;
-  letter-spacing: 0.07em;
-  color: rgba(255,255,255,0.25);
-  cursor: pointer;
-  font-family: var(--font-body);
-  transition: all 0.25s;
-}
-#replay-btn:hover { color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.1); }
+/* FOOTER */
+#bkey{border-top:.5px solid rgba(255,255,255,.06);padding-top:26px;margin-top:10px}
+.klabel{font-size:clamp(8px,1vw,9px);letter-spacing:.2em;color:rgba(255,255,255,.14);text-transform:uppercase;font-weight:500;margin-bottom:14px}
+.klinks{display:flex;flex-wrap:wrap;gap:8px}
+.klink{font-size:clamp(10px,1.3vw,12px);color:rgba(255,255,255,.26);text-decoration:none;border:.5px solid rgba(255,255,255,.07);border-radius:5px;padding:6px 13px;letter-spacing:.04em;transition:all .2s}
+.klink:hover{color:rgba(217,184,124,.82);border-color:rgba(217,184,124,.28)}
+.klink.cur{color:rgba(217,184,124,.52);border-color:rgba(217,184,124,.22);cursor:default}
 
-/* twinkle keyframes */
-@keyframes tw-a { 0%,100%{opacity:.46}44%{opacity:.09} }
-@keyframes tw-b { 0%,100%{opacity:.36}58%{opacity:.07} }
-@keyframes tw-c { 0%,100%{opacity:.28}38%{opacity:.05} }
-@keyframes tw-d { 0%,100%{opacity:.2} 62%{opacity:.04} }
-.tw-a { animation: tw-a 4.3s ease-in-out infinite; }
-.tw-b { animation: tw-b 5.9s ease-in-out infinite; }
-.tw-c { animation: tw-c 3.6s ease-in-out infinite; }
-.tw-d { animation: tw-d 7.2s ease-in-out infinite; }
-
-/* constellation interactions */
-.const-node {
-  cursor: pointer;
-  transition: filter 0.3s ease;
-}
-.const-node:hover {
-  filter: drop-shadow(0 0 10px rgba(217,184,124,0.7));
-}
-.const-node.highlighted {
-  animation: node-pulse 1.4s ease-in-out infinite;
-}
-@keyframes node-pulse {
-  0%,100% { filter: drop-shadow(0 0 10px rgba(217,184,124,0.55)); }
-  50%      { filter: drop-shadow(0 0 24px rgba(217,184,124,1));    }
-}
-.active-node {
-  filter: drop-shadow(0 0 8px rgba(217,184,124,0.4));
-}
-.sealed-node {
-  cursor: default;
-  pointer-events: none;
-}
-
-/* ─────────────────────────────────────
-   CONTENT SECTION
-───────────────────────────────────── */
-#content {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 20px 64px;
-  opacity: 0;
-  animation: content-rise 0.8s ease forwards;
-  animation-delay: 4.1s;
-}
-@keyframes content-rise {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: none; }
-}
-
-/* ─────────────────────────────────────
-   ADHD FAST-PATH BANNER
-───────────────────────────────────── */
-#adhd-banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  background: rgba(217,184,124,0.07);
-  border: 0.5px solid rgba(217,184,124,0.22);
-  border-radius: 8px;
-  padding: 10px 14px;
-  margin: 20px 0 0;
-  font-size: 12px;
-  color: rgba(217,184,124,0.72);
-  letter-spacing: 0.03em;
-  line-height: 1.5;
-  overflow: hidden;
-  transition: opacity 0.4s, max-height 0.45s, margin 0.35s, padding 0.35s;
-  max-height: 80px;
-}
-#adhd-dismiss {
-  background: none;
-  border: none;
-  color: rgba(217,184,124,0.38);
-  cursor: pointer;
-  font-size: 18px;
-  flex-shrink: 0;
-  line-height: 1;
-  padding: 0 2px;
-  transition: color 0.2s;
-}
-#adhd-dismiss:hover { color: rgba(217,184,124,0.85); }
-
-/* ─────────────────────────────────────
-   SEARCH
-───────────────────────────────────── */
-#search-wrap {
-  position: relative;
-  margin: 16px 0 18px;
-}
-#search-icon {
-  position: absolute;
-  left: 13px; top: 50%;
-  transform: translateY(-50%);
-  color: rgba(255,255,255,0.18);
-  font-size: 15px;
-  pointer-events: none;
-  line-height: 1;
-}
-#search-input {
-  width: 100%;
-  background: rgba(255,255,255,0.05);
-  border: 0.5px solid rgba(255,255,255,0.1);
-  border-radius: 8px;
-  padding: 10px 14px 10px 36px;
-  color: var(--text);
-  font-size: 13px;
-  font-family: var(--font-body);
-  font-weight: 300;
-  outline: none;
-  transition: border-color 0.2s;
-}
-#search-input::placeholder { color: rgba(255,255,255,0.18); }
-#search-input:focus { border-color: rgba(217,184,124,0.42); }
-
-/* ─────────────────────────────────────
-   WING CARDS
-───────────────────────────────────── */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(158px, 1fr));
-  gap: 10px;
-  margin-bottom: 12px;
-}
-
-.wcard {
-  background: var(--card-bg);
-  border: 0.5px solid var(--card-border);
-  border-radius: 10px;
-  padding: 14px 14px 13px;
-  display: flex;
-  flex-direction: column;
-  gap: 11px;
-  transition: border-color 0.2s;
-}
-.wcard:not(.sealed):hover { border-color: rgba(255,255,255,0.2); }
-.wcard.active  { border-color: var(--card-active-brd); background: var(--card-active-bg); }
-.wcard.sealed  { opacity: 0.35; }
-.wcard.search-match { border-color: rgba(217,184,124,0.55); background: rgba(217,184,124,0.07); }
-
-.card-top .wnum   { font-size: 10px; letter-spacing: 0.1em; color: rgba(255,255,255,0.2); text-transform: uppercase; margin-bottom: 5px; }
-.card-top .wtitle { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
-.card-top .wdesc  { font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.55; }
-.sealed-pill {
-  font-size: 9px; color: rgba(255,255,255,0.18);
-  border: 0.5px solid rgba(255,255,255,0.1);
-  border-radius: 3px; padding: 1px 5px;
-  display: inline-block; margin-top: 5px;
-  letter-spacing: 0.05em;
-}
-
-.card-actions { display: flex; flex-direction: column; gap: 6px; margin-top: auto; }
-
-.btn-briefing {
-  background: rgba(255,255,255,0.05);
-  border: 0.5px solid rgba(255,255,255,0.12);
-  border-radius: 6px;
-  padding: 6px 10px;
-  font-size: 11px;
-  color: rgba(255,255,255,0.45);
-  cursor: pointer;
-  font-family: var(--font-body);
-  font-weight: 400;
-  text-align: center;
-  letter-spacing: 0.03em;
-  transition: all 0.2s;
-  width: 100%;
-}
-.btn-briefing:hover:not(:disabled) { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.82); }
-.btn-briefing:disabled { opacity: 0.35; cursor: default; }
-
-.btn-enter {
-  display: block;
-  background: rgba(217,184,124,0.09);
-  border: 0.5px solid rgba(217,184,124,0.28);
-  border-radius: 6px;
-  padding: 6px 10px;
-  font-size: 11px;
-  color: rgba(217,184,124,0.75);
-  text-decoration: none;
-  text-align: center;
-  letter-spacing: 0.03em;
-  font-weight: 400;
-  transition: all 0.2s;
-}
-.btn-enter:hover { background: rgba(217,184,124,0.17); color: rgba(217,184,124,1); }
-
-.btn-here {
-  font-size: 10px;
-  color: rgba(217,184,124,0.35);
-  text-align: center;
-  padding: 3px 0;
-  letter-spacing: 0.08em;
-}
-
-/* ─────────────────────────────────────
-   DEEP-DIVE PANEL
-───────────────────────────────────── */
-#panel {
-  background: rgba(255,255,255,0.03);
-  border: 0.5px solid rgba(217,184,124,0.2);
-  border-radius: 10px;
-  padding: 20px 22px;
-  margin-bottom: 12px;
-  display: none;
-  animation: panel-in 0.32s ease;
-}
-@keyframes panel-in {
-  from { opacity: 0; transform: translateY(-10px); }
-  to   { opacity: 1; transform: none; }
-}
-
-.panel-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 16px;
-}
-.panel-head h3 {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 400;
-  color: var(--text);
-  letter-spacing: 0.02em;
-  line-height: 1.3;
-}
-.panel-close {
-  background: none;
-  border: none;
-  font-size: 11px;
-  color: rgba(255,255,255,0.2);
-  cursor: pointer;
-  font-family: var(--font-body);
-  letter-spacing: 0.05em;
-  flex-shrink: 0;
-  margin-left: 12px;
-  margin-top: 2px;
-  transition: color 0.2s;
-}
-.panel-close:hover { color: rgba(255,255,255,0.58); }
-
-.panel-row {
-  display: flex;
-  gap: 14px;
-  padding: 11px 0;
-  border-bottom: 0.5px solid rgba(255,255,255,0.05);
-}
-.panel-row:last-of-type { border-bottom: none; }
-
-.panel-label {
-  font-size: 9.5px;
-  letter-spacing: 0.11em;
-  color: rgba(255,255,255,0.18);
-  text-transform: uppercase;
-  min-width: 72px;
-  flex-shrink: 0;
-  padding-top: 1px;
-  font-weight: 500;
-}
-.panel-text {
-  font-size: 12.5px;
-  color: rgba(255,255,255,0.42);
-  line-height: 1.7;
-}
-
-.panel-link {
-  display: inline-block;
-  font-size: 12px;
-  color: rgba(217,184,124,0.62);
-  text-decoration: none;
-  margin-top: 15px;
-  letter-spacing: 0.04em;
-  transition: color 0.2s;
-}
-.panel-link:hover { color: rgba(217,184,124,1); }
-
-#panel-hint {
-  font-size: 10px;
-  color: rgba(255,255,255,0.13);
-  text-align: center;
-  padding: 10px 0 4px;
-  letter-spacing: 0.04em;
-}
-
-/* ─────────────────────────────────────
-   CHASE THE PATTERN — FOOTER NAV
-───────────────────────────────────── */
-#bottom-key {
-  border-top: 0.5px solid rgba(255,255,255,0.06);
-  padding-top: 24px;
-  margin-top: 10px;
-}
-.key-label {
-  font-size: 9px;
-  letter-spacing: 0.2em;
-  color: rgba(255,255,255,0.14);
-  text-transform: uppercase;
-  font-weight: 500;
-  margin-bottom: 14px;
-}
-.key-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-}
-.key-link {
-  font-size: 11px;
-  color: rgba(255,255,255,0.26);
-  text-decoration: none;
-  border: 0.5px solid rgba(255,255,255,0.07);
-  border-radius: 5px;
-  padding: 5px 11px;
-  letter-spacing: 0.04em;
-  transition: all 0.2s;
-}
-.key-link:hover   { color: rgba(217,184,124,0.82); border-color: rgba(217,184,124,0.28); }
-.key-link.current { color: rgba(217,184,124,0.52); border-color: rgba(217,184,124,0.22); cursor: default; }
-
-/* ─────────────────────────────────────
-   RESPONSIVE
-───────────────────────────────────── */
-@media (max-width: 480px) {
-  .cards-grid { grid-template-columns: 1fr 1fr; }
-  #content { padding: 0 14px 44px; }
-  .panel-label { min-width: 58px; font-size: 9px; }
-  .panel-text { font-size: 12px; }
-}
+@media(max-width:500px){.cards-grid{grid-template-columns:1fr 1fr}#content{padding:0 14px 48px}.pl{min-width:60px}}
 </style>
 </head>
-
 <body>
 
-<!-- ═══════════════════════════════════
-     TELESCOPE + NIGHT SKY
-════════════════════════════════════ -->
-<div id="sky-section">
-  <button id="replay-btn" onclick="replayAnim()">replay ↺</button>
+<div id="sky">
+  <button id="audio-btn" onclick="toggleHum()">♩ hum</button>
+  <svg id="sky-svg" viewBox="0 0 700 490" preserveAspectRatio="xMidYMid meet"
+       xmlns="http://www.w3.org/2000/svg" role="img"
+       aria-label="MetaVoxa night sky — MV constellation connecting the wings of the house">
+    <defs>
+      <radialGradient id="gxl" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="rgba(255,248,210,.72)"/>
+        <stop offset="28%"  stop-color="rgba(217,184,124,.28)"/>
+        <stop offset="65%"  stop-color="rgba(217,184,124,.07)"/>
+        <stop offset="100%" stop-color="rgba(217,184,124,0)"/>
+      </radialGradient>
+      <radialGradient id="glg" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="rgba(255,248,210,.62)"/>
+        <stop offset="35%"  stop-color="rgba(217,184,124,.2)"/>
+        <stop offset="100%" stop-color="rgba(217,184,124,0)"/>
+      </radialGradient>
+      <radialGradient id="gmd" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="rgba(255,248,210,.5)"/>
+        <stop offset="42%"  stop-color="rgba(217,184,124,.14)"/>
+        <stop offset="100%" stop-color="rgba(217,184,124,0)"/>
+      </radialGradient>
+      <radialGradient id="gsm" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="rgba(255,248,210,.4)"/>
+        <stop offset="100%" stop-color="rgba(217,184,124,0)"/>
+      </radialGradient>
+      <radialGradient id="mky" cx="50%" cy="50%" r="50%">
+        <stop offset="0%"   stop-color="rgba(160,185,240,.055)"/>
+        <stop offset="100%" stop-color="rgba(140,165,225,0)"/>
+      </radialGradient>
+    </defs>
 
-  <svg id="sky-svg" viewBox="0 0 700 445"
-       preserveAspectRatio="xMidYMid meet"
-       xmlns="http://www.w3.org/2000/svg"
-       role="img" aria-label="MetaVoxa night sky — MV constellation formed by stars representing the wings of the house">
+    <rect width="700" height="490" fill="#050914"/>
+    <ellipse cx="340" cy="295" rx="88" ry="165" fill="url(#mky)" transform="rotate(-20 340 295)"/>
 
-    <rect width="700" height="445" fill="#050914"/>
+    <!-- BACKGROUND STARS -->
+    <circle cx="16"  cy="12"  r=".7"  fill="#fff" opacity=".3"/>
+    <circle cx="46"  cy="28"  r="1"   fill="#fff" opacity=".42" class="twb"/>
+    <circle cx="74"  cy="9"   r=".6"  fill="#fff" opacity=".2"/>
+    <circle cx="99"  cy="35"  r=".8"  fill="#fff" opacity=".34"/>
+    <circle cx="128" cy="16"  r=".7"  fill="#fff" opacity=".24" class="twa"/>
+    <circle cx="160" cy="42"  r="1.1" fill="#fff" opacity=".46"/>
+    <circle cx="192" cy="18"  r=".5"  fill="#fff" opacity=".18"/>
+    <circle cx="240" cy="30"  r=".8"  fill="#fff" opacity=".3" class="twc"/>
+    <circle cx="274" cy="10"  r=".7"  fill="#fff" opacity=".22"/>
+    <circle cx="306" cy="38"  r=".6"  fill="#fff" opacity=".3"/>
+    <circle cx="348" cy="14"  r=".8"  fill="#fff" opacity=".28" class="twb"/>
+    <circle cx="388" cy="36"  r=".7"  fill="#fff" opacity=".24"/>
+    <circle cx="424" cy="12"  r=".9"  fill="#fff" opacity=".36"/>
+    <circle cx="462" cy="34"  r=".6"  fill="#fff" opacity=".2" class="twd"/>
+    <circle cx="502" cy="16"  r=".8"  fill="#fff" opacity=".32"/>
+    <circle cx="540" cy="40"  r=".7"  fill="#fff" opacity=".26"/>
+    <circle cx="574" cy="14"  r="1"   fill="#fff" opacity=".44" class="twa"/>
+    <circle cx="610" cy="32"  r=".6"  fill="#fff" opacity=".2"/>
+    <circle cx="644" cy="10"  r=".8"  fill="#fff" opacity=".3"/>
+    <circle cx="680" cy="28"  r=".7"  fill="#fff" opacity=".24"/>
+    <circle cx="12"  cy="68"  r=".7"  fill="#fff" opacity=".22"/>
+    <circle cx="30"  cy="98"  r=".9"  fill="#fff" opacity=".36" class="twc"/>
+    <circle cx="14"  cy="132" r=".6"  fill="#fff" opacity=".18"/>
+    <circle cx="42"  cy="162" r=".8"  fill="#fff" opacity=".3"/>
+    <circle cx="18"  cy="198" r=".7"  fill="#fff" opacity=".24" class="twb"/>
+    <circle cx="50"  cy="232" r=".9"  fill="#fff" opacity=".34"/>
+    <circle cx="20"  cy="268" r=".6"  fill="#fff" opacity=".18"/>
+    <circle cx="46"  cy="300" r=".8"  fill="#fff" opacity=".28" class="twa"/>
+    <circle cx="16"  cy="336" r=".7"  fill="#fff" opacity=".22"/>
+    <circle cx="48"  cy="368" r=".9"  fill="#fff" opacity=".32" class="twd"/>
+    <circle cx="22"  cy="402" r=".6"  fill="#fff" opacity=".18"/>
+    <circle cx="54"  cy="434" r=".8"  fill="#fff" opacity=".24"/>
+    <circle cx="28"  cy="466" r=".7"  fill="#fff" opacity=".2"/>
+    <circle cx="688" cy="60"  r=".8"  fill="#fff" opacity=".3"/>
+    <circle cx="670" cy="92"  r=".6"  fill="#fff" opacity=".2" class="twa"/>
+    <circle cx="690" cy="124" r=".9"  fill="#fff" opacity=".38"/>
+    <circle cx="665" cy="158" r=".7"  fill="#fff" opacity=".26"/>
+    <circle cx="685" cy="192" r=".8"  fill="#fff" opacity=".32" class="twb"/>
+    <circle cx="660" cy="226" r=".6"  fill="#fff" opacity=".18"/>
+    <circle cx="688" cy="260" r=".9"  fill="#fff" opacity=".36"/>
+    <circle cx="658" cy="294" r=".7"  fill="#fff" opacity=".24" class="twc"/>
+    <circle cx="680" cy="330" r=".8"  fill="#fff" opacity=".28"/>
+    <circle cx="650" cy="364" r=".6"  fill="#fff" opacity=".18"/>
+    <circle cx="676" cy="400" r=".9"  fill="#fff" opacity=".27"/>
+    <circle cx="648" cy="436" r=".7"  fill="#fff" opacity=".2" class="twd"/>
+    <circle cx="90"  cy="72"  r=".7"  fill="#fff" opacity=".26"/>
+    <circle cx="138" cy="85"  r=".5"  fill="#fff" opacity=".18" class="twb"/>
+    <circle cx="82"  cy="116" r=".8"  fill="#fff" opacity=".32"/>
+    <circle cx="128" cy="145" r=".6"  fill="#fff" opacity=".22"/>
+    <circle cx="76"  cy="178" r=".7"  fill="#fff" opacity=".26" class="twa"/>
+    <circle cx="106" cy="210" r=".9"  fill="#fff" opacity=".34"/>
+    <circle cx="80"  cy="245" r=".6"  fill="#fff" opacity=".18"/>
+    <circle cx="122" cy="278" r=".8"  fill="#fff" opacity=".28" class="twc"/>
+    <circle cx="86"  cy="315" r=".7"  fill="#fff" opacity=".22"/>
+    <circle cx="116" cy="350" r=".9"  fill="#fff" opacity=".3" class="twd"/>
+    <circle cx="84"  cy="388" r=".6"  fill="#fff" opacity=".18"/>
+    <circle cx="114" cy="420" r=".8"  fill="#fff" opacity=".24"/>
+    <circle cx="600" cy="72"  r=".7"  fill="#fff" opacity=".26" class="twa"/>
+    <circle cx="570" cy="104" r=".6"  fill="#fff" opacity=".2"/>
+    <circle cx="608" cy="138" r=".8"  fill="#fff" opacity=".32"/>
+    <circle cx="576" cy="170" r=".7"  fill="#fff" opacity=".24" class="twb"/>
+    <circle cx="604" cy="204" r=".9"  fill="#fff" opacity=".34"/>
+    <circle cx="572" cy="238" r=".6"  fill="#fff" opacity=".18"/>
+    <circle cx="600" cy="272" r=".8"  fill="#fff" opacity=".28" class="twc"/>
+    <circle cx="570" cy="308" r=".7"  fill="#fff" opacity=".22"/>
+    <circle cx="598" cy="342" r=".9"  fill="#fff" opacity=".3" class="twd"/>
+    <circle cx="200" cy="56"  r=".6"  fill="#fff" opacity=".2"/>
+    <circle cx="252" cy="72"  r=".8"  fill="#fff" opacity=".28" class="twa"/>
+    <circle cx="300" cy="56"  r=".7"  fill="#fff" opacity=".22"/>
+    <circle cx="400" cy="54"  r=".8"  fill="#fff" opacity=".28" class="twb"/>
+    <circle cx="504" cy="56"  r=".6"  fill="#fff" opacity=".18"/>
+    <circle cx="155" cy="62"  r="1.3" fill="#fff" opacity=".5" class="twa"/>
+    <circle cx="480" cy="50"  r="1.2" fill="#fff" opacity=".46"/>
+    <circle cx="62"  cy="316" r="1.1" fill="#fff" opacity=".42" class="twb"/>
+    <circle cx="632" cy="220" r="1.3" fill="#fff" opacity=".48" class="twc"/>
+    <circle cx="332" cy="54"  r="1"   fill="#fff" opacity=".4"/>
+    <circle cx="264" cy="58"  r="1.1" fill="#fff" opacity=".44" class="twa"/>
+    <circle cx="170" cy="438" r=".7"  fill="#fff" opacity=".2"/>
+    <circle cx="270" cy="446" r=".8"  fill="#fff" opacity=".22"/>
+    <circle cx="390" cy="454" r=".6"  fill="#fff" opacity=".16" class="twb"/>
+    <circle cx="500" cy="448" r=".7"  fill="#fff" opacity=".18"/>
+    <!-- near-constellation ambient -->
+    <circle cx="226" cy="185" r=".7"  fill="#fff" opacity=".18"/>
+    <circle cx="285" cy="158" r=".6"  fill="#fff" opacity=".15"/>
+    <circle cx="308" cy="200" r=".5"  fill="#fff" opacity=".14"/>
+    <circle cx="374" cy="165" r=".6"  fill="#fff" opacity=".14"/>
+    <circle cx="432" cy="168" r=".7"  fill="#fff" opacity=".18"/>
+    <circle cx="516" cy="258" r=".6"  fill="#fff" opacity=".16"/>
+    <circle cx="530" cy="300" r=".7"  fill="#fff" opacity=".14"/>
 
-    <!-- ─── BACKGROUND STAR FIELD ─── -->
-    <!-- top band -->
-    <circle cx="18"  cy="14"  r=".8"  fill="#fff" opacity=".28"/>
-    <circle cx="44"  cy="30"  r="1.1" fill="#fff" opacity=".42" class="tw-b"/>
-    <circle cx="70"  cy="11"  r=".6"  fill="#fff" opacity=".2"/>
-    <circle cx="95"  cy="38"  r=".9"  fill="#fff" opacity=".35"/>
-    <circle cx="120" cy="17"  r=".7"  fill="#fff" opacity=".26" class="tw-a"/>
-    <circle cx="150" cy="44"  r="1.2" fill="#fff" opacity=".48"/>
-    <circle cx="178" cy="20"  r=".6"  fill="#fff" opacity=".2"/>
-    <circle cx="216" cy="36"  r=".8"  fill="#fff" opacity=".32" class="tw-c"/>
-    <circle cx="244" cy="13"  r=".7"  fill="#fff" opacity=".24"/>
-    <circle cx="272" cy="46"  r=".9"  fill="#fff" opacity=".35"/>
-    <circle cx="302" cy="18"  r=".5"  fill="#fff" opacity=".18"/>
-    <circle cx="336" cy="40"  r=".7"  fill="#fff" opacity=".27"/>
-    <circle cx="366" cy="15"  r=".8"  fill="#fff" opacity=".3"  class="tw-b"/>
-    <circle cx="398" cy="43"  r=".6"  fill="#fff" opacity=".2"/>
-    <circle cx="432" cy="21"  r="1"   fill="#fff" opacity=".4"/>
-    <circle cx="465" cy="38"  r=".7"  fill="#fff" opacity=".25" class="tw-d"/>
-    <circle cx="496" cy="14"  r=".8"  fill="#fff" opacity=".32"/>
-    <circle cx="528" cy="36"  r=".6"  fill="#fff" opacity=".2"/>
-    <circle cx="558" cy="17"  r="1.1" fill="#fff" opacity=".45" class="tw-a"/>
-    <circle cx="590" cy="41"  r=".7"  fill="#fff" opacity=".27"/>
-    <circle cx="622" cy="15"  r=".9"  fill="#fff" opacity=".35"/>
-    <circle cx="652" cy="32"  r=".6"  fill="#fff" opacity=".22"/>
-    <circle cx="684" cy="12"  r=".8"  fill="#fff" opacity=".28"/>
+    <!-- BOUNDARY CIRCLE -->
+    <circle cx="358" cy="255" r="214" fill="none" stroke="rgba(217,184,124,.11)" stroke-width=".7"/>
+    <!-- crosshairs -->
+    <line x1="358" y1="26"  x2="358" y2="50"  stroke="rgba(217,184,124,.28)" stroke-width=".8"/>
+    <line x1="350" y1="38"  x2="366" y2="38"  stroke="rgba(217,184,124,.28)" stroke-width=".8"/>
+    <circle cx="358" cy="38"  r="2.5" fill="none" stroke="rgba(217,184,124,.24)" stroke-width=".7"/>
+    <line x1="358" y1="460" x2="358" y2="484" stroke="rgba(217,184,124,.28)" stroke-width=".8"/>
+    <line x1="350" y1="472" x2="366" y2="472" stroke="rgba(217,184,124,.28)" stroke-width=".8"/>
+    <circle cx="358" cy="472" r="2.5" fill="none" stroke="rgba(217,184,124,.24)" stroke-width=".7"/>
+    <line x1="130" y1="255" x2="154" y2="255" stroke="rgba(217,184,124,.16)" stroke-width=".6"/>
+    <line x1="142" y1="248" x2="142" y2="262" stroke="rgba(217,184,124,.16)" stroke-width=".6"/>
+    <line x1="562" y1="255" x2="586" y2="255" stroke="rgba(217,184,124,.16)" stroke-width=".6"/>
+    <line x1="574" y1="248" x2="574" y2="262" stroke="rgba(217,184,124,.16)" stroke-width=".6"/>
 
-    <!-- left band -->
-    <circle cx="14"  cy="70"  r=".7"  fill="#fff" opacity=".24"/>
-    <circle cx="34"  cy="98"  r=".9"  fill="#fff" opacity=".38" class="tw-c"/>
-    <circle cx="18"  cy="130" r=".6"  fill="#fff" opacity=".2"/>
-    <circle cx="46"  cy="158" r="1"   fill="#fff" opacity=".42"/>
-    <circle cx="22"  cy="190" r=".7"  fill="#fff" opacity=".27" class="tw-b"/>
-    <circle cx="60"  cy="220" r=".8"  fill="#fff" opacity=".32"/>
-    <circle cx="24"  cy="252" r=".6"  fill="#fff" opacity=".18"/>
-    <circle cx="50"  cy="282" r=".9"  fill="#fff" opacity=".34"/>
-    <circle cx="18"  cy="315" r=".7"  fill="#fff" opacity=".24"/>
-    <circle cx="54"  cy="348" r=".8"  fill="#fff" opacity=".3"  class="tw-d"/>
-    <circle cx="28"  cy="382" r=".6"  fill="#fff" opacity=".2"/>
-    <circle cx="64"  cy="415" r=".9"  fill="#fff" opacity=".28"/>
+    <!-- CONSTELLATION LINES — solid bright gold -->
+    <!-- Salon→Observatory -->
+    <line x1="88"  y1="310" x2="198" y2="145" stroke="rgba(230,200,140,.72)" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Observatory→Step1 -->
+    <line x1="198" y1="145" x2="275" y2="200" stroke="rgba(230,200,140,.65)" stroke-width="1.3" stroke-linecap="round"/>
+    <!-- Step1→StudyWing -->
+    <line x1="275" y1="200" x2="348" y2="258" stroke="rgba(230,200,140,.6)"  stroke-width="1.2" stroke-linecap="round"/>
+    <!-- StudyWing→ReadingRoom -->
+    <line x1="348" y1="258" x2="448" y2="148" stroke="rgba(230,200,140,.7)"  stroke-width="1.4" stroke-linecap="round"/>
+    <!-- ReadingRoom→Step2 -->
+    <line x1="448" y1="148" x2="503" y2="205" stroke="rgba(230,200,140,.58)" stroke-width="1.1" stroke-linecap="round"/>
+    <!-- Step2→StarOfMonth -->
+    <line x1="503" y1="205" x2="488" y2="368" stroke="rgba(230,200,140,.66)" stroke-width="1.3" stroke-linecap="round"/>
+    <!-- StarOfMonth→PatternThoughts -->
+    <line x1="488" y1="368" x2="562" y2="268" stroke="rgba(230,200,140,.62)" stroke-width="1.2" stroke-linecap="round"/>
+    <!-- PatternThoughts→GlamWing -->
+    <line x1="562" y1="268" x2="628" y2="172" stroke="rgba(230,200,140,.5)"  stroke-width="1.1" stroke-linecap="round"/>
 
-    <!-- right band -->
-    <circle cx="688" cy="68"  r=".8"  fill="#fff" opacity=".32"/>
-    <circle cx="666" cy="100" r=".6"  fill="#fff" opacity=".22" class="tw-a"/>
-    <circle cx="690" cy="135" r="1"   fill="#fff" opacity=".4"/>
-    <circle cx="658" cy="168" r=".7"  fill="#fff" opacity=".27"/>
-    <circle cx="682" cy="200" r=".8"  fill="#fff" opacity=".34" class="tw-b"/>
-    <circle cx="660" cy="232" r=".6"  fill="#fff" opacity=".2"/>
-    <circle cx="688" cy="265" r=".9"  fill="#fff" opacity=".38"/>
-    <circle cx="655" cy="298" r=".7"  fill="#fff" opacity=".24" class="tw-c"/>
-    <circle cx="678" cy="332" r=".8"  fill="#fff" opacity=".3"/>
-    <circle cx="648" cy="368" r=".6"  fill="#fff" opacity=".18"/>
-    <circle cx="674" cy="402" r=".9"  fill="#fff" opacity=".27"/>
+    <!-- STAR NODES -->
 
-    <!-- mid-left scatter -->
-    <circle cx="96"  cy="74"  r=".8"  fill="#fff" opacity=".3"/>
-    <circle cx="144" cy="90"  r=".6"  fill="#fff" opacity=".22" class="tw-d"/>
-    <circle cx="88"  cy="118" r=".9"  fill="#fff" opacity=".36"/>
-    <circle cx="125" cy="148" r=".7"  fill="#fff" opacity=".24"/>
-    <circle cx="80"  cy="175" r=".6"  fill="#fff" opacity=".2"/>
-    <circle cx="110" cy=".08" r=".8"  fill="#fff" opacity=".3"/>
-    <circle cx="84"  cy="242" r=".7"  fill="#fff" opacity=".24" class="tw-a"/>
-    <circle cx="128" cy="272" r=".9"  fill="#fff" opacity=".34"/>
-    <circle cx="92"  cy="302" r=".6"  fill="#fff" opacity=".18"/>
-    <circle cx="120" cy="336" r=".8"  fill="#fff" opacity=".27"/>
-    <circle cx="86"  cy="372" r=".7"  fill="#fff" opacity=".22" class="tw-b"/>
-    <circle cx="116" cy="408" r=".6"  fill="#fff" opacity=".18"/>
-    <circle cx="158" cy="120" r=".7"  fill="#fff" opacity=".26"/>
-    <circle cx="164" cy="188" r=".5"  fill="#fff" opacity=".18"/>
-    <circle cx="150" cy="240" r=".8"  fill="#fff" opacity=".3"  class="tw-c"/>
-    <circle cx="172" cy="308" r=".6"  fill="#fff" opacity=".2"/>
-    <circle cx="156" cy=".65" r=".7"  fill="#fff" opacity=".22"/>
-    <circle cx="170" cy="418" r=".8"  fill="#fff" opacity=".24"/>
-
-    <!-- mid-right scatter -->
-    <circle cx="612" cy="76"  r=".8"  fill="#fff" opacity=".3"/>
-    <circle cx="582" cy="108" r=".6"  fill="#fff" opacity=".22" class="tw-a"/>
-    <circle cx="618" cy="140" r=".9"  fill="#fff" opacity=".36"/>
-    <circle cx="586" cy="172" r=".7"  fill="#fff" opacity=".24"/>
-    <circle cx="610" cy="205" r=".6"  fill="#fff" opacity=".2"  class="tw-d"/>
-    <circle cx="580" cy="240" r=".8"  fill="#fff" opacity=".3"/>
-    <circle cx="614" cy="275" r=".7"  fill="#fff" opacity=".24"/>
-    <circle cx="583" cy="310" r=".9"  fill="#fff" opacity=".34" class="tw-b"/>
-    <circle cx="618" cy="348" r=".6"  fill="#fff" opacity=".18"/>
-    <circle cx="580" cy="382" r=".8"  fill="#fff" opacity=".27"/>
-    <circle cx="608" cy="418" r=".7"  fill="#fff" opacity=".22"/>
-    <circle cx="550" cy="90"  r=".6"  fill="#fff" opacity=".2"/>
-    <circle cx="534" cy="130" r=".7"  fill="#fff" opacity=".24"/>
-    <circle cx="558" cy="170" r=".8"  fill="#fff" opacity=".3"  class="tw-c"/>
-    <circle cx="536" cy="218" r=".6"  fill="#fff" opacity=".18"/>
-    <circle cx="554" cy="260" r=".7"  fill="#fff" opacity=".22"/>
-    <circle cx="540" cy="298" r=".8"  fill="#fff" opacity=".27"/>
-    <circle cx="560" cy="340" r=".6"  fill="#fff" opacity=".2"  class="tw-a"/>
-    <circle cx="534" cy="378" r=".7"  fill="#fff" opacity=".24"/>
-    <circle cx="554" cy="415" r=".8"  fill="#fff" opacity=".2"/>
-
-    <!-- center gap fill (between constellation letters and edges) -->
-    <circle cx="382" cy="90"  r=".7"  fill="#fff" opacity=".24"/>
-    <circle cx="424" cy="74"  r=".8"  fill="#fff" opacity=".3"  class="tw-b"/>
-    <circle cx="365" cy="116" r=".6"  fill="#fff" opacity=".2"/>
-    <circle cx="470" cy="96"  r=".7"  fill="#fff" opacity=".24"/>
-    <circle cx="410" cy="120" r=".5"  fill="#fff" opacity=".18"/>
-    <circle cx="390" cy="362" r=".8"  fill="#fff" opacity=".27"/>
-    <circle cx="430" cy="380" r=".6"  fill="#fff" opacity=".2"/>
-    <circle cx="370" cy="392" r=".7"  fill="#fff" opacity=".22" class="tw-d"/>
-    <circle cx="454" cy="408" r=".8"  fill="#fff" opacity=".24"/>
-    <circle cx="494" cy=".68" r=".6"  fill="#fff" opacity=".18"/>
-    <circle cx="340" cy="368" r=".7"  fill="#fff" opacity=".2"/>
-
-    <!-- brighter accent stars scattered -->
-    <circle cx="207" cy="60"  r="1.4" fill="#fff" opacity=".52" class="tw-a"/>
-    <circle cx="490" cy="54"  r="1.3" fill="#fff" opacity=".46"/>
-    <circle cx="74"  cy="312" r="1.2" fill="#fff" opacity=".44" class="tw-c"/>
-    <circle cx="636" cy="212" r="1.4" fill="#fff" opacity=".5"  class="tw-b"/>
-    <circle cx="344" cy="60"  r="1.1" fill="#fff" opacity=".42"/>
-    <circle cx="157" cy="422" r="1.2" fill="#fff" opacity=".38" class="tw-d"/>
-    <circle cx="570" cy="418" r="1.1" fill="#fff" opacity=".36"/>
-
-    <!-- ambient near constellation — adds nebulosity -->
-    <circle cx="224" cy="175" r=".9"  fill="#fff" opacity=".26"/>
-    <circle cx="250" cy="118" r=".7"  fill="#fff" opacity=".2"/>
-    <circle cx="287" cy="140" r=".6"  fill="#fff" opacity=".18"/>
-    <circle cx="300" cy="180" r=".8"  fill="#fff" opacity=".24"/>
-    <circle cx="315" cy="270" r=".7"  fill="#fff" opacity=".2"/>
-    <circle cx="255" cy="262" r=".6"  fill="#fff" opacity=".18"/>
-    <circle cx="234" cy="294" r=".8"  fill="#fff" opacity=".22"/>
-    <circle cx="368" cy="252" r=".7"  fill="#fff" opacity=".2"/>
-    <circle cx="382" cy="280" r=".6"  fill="#fff" opacity=".17"/>
-    <circle cx="424" cy="160" r=".8"  fill="#fff" opacity=".22"/>
-    <circle cx="447" cy="180" r=".6"  fill="#fff" opacity=".18"/>
-    <circle cx="437" cy="258" r=".7"  fill="#fff" opacity=".22"/>
-    <circle cx="480" cy="198" r=".8"  fill="#fff" opacity=".2"/>
-    <circle cx="500" cy="167" r=".6"  fill="#fff" opacity=".18"/>
-    <circle cx="488" cy="260" r=".7"  fill="#fff" opacity=".2"/>
-    <circle cx="510" cy="230" r=".6"  fill="#fff" opacity=".17"/>
-
-    <!-- ─── GHOSTED MV LETTERFORM (barely visible, atmospheric) ─── -->
-    <text x="345" y="228"
-          text-anchor="middle"
-          font-size="164" font-weight="700"
-          fill="rgba(217,184,124,0.018)"
-          font-family="Georgia, serif"
-          letter-spacing="14">MV</text>
-
-    <!-- ─── CONSTELLATION LINES ───
-         M nodes: BL(198,322) TL(222,148) MID(274,204) TR(330,144) BR(355,320)
-         V nodes: TL(400,138) BOT(462,330) TR(524,133)
-    ─── -->
-    <line x1="198" y1="322" x2="222" y2="148"
-          stroke="rgba(217,184,124,.26)" stroke-width=".9"
-          stroke-dasharray="4.5,7" stroke-linecap="round"/>
-    <line x1="222" y1="148" x2="274" y2="204"
-          stroke="rgba(217,184,124,.22)" stroke-width=".85"
-          stroke-dasharray="4.5,7" stroke-linecap="round"/>
-    <line x1="274" y1="204" x2="330" y2="144"
-          stroke="rgba(217,184,124,.22)" stroke-width=".85"
-          stroke-dasharray="4.5,7" stroke-linecap="round"/>
-    <line x1="330" y1="144" x2="355" y2="320"
-          stroke="rgba(217,184,124,.26)" stroke-width=".9"
-          stroke-dasharray="4.5,7" stroke-linecap="round"/>
-    <!-- V -->
-    <line x1="400" y1="138" x2="462" y2="330"
-          stroke="rgba(217,184,124,.3)"  stroke-width=".9"
-          stroke-dasharray="4.5,7" stroke-linecap="round"/>
-    <line x1="462" y1="330" x2="524" y2="133"
-          stroke="rgba(217,184,124,.27)" stroke-width=".9"
-          stroke-dasharray="4.5,7" stroke-linecap="round"/>
-
-    <!-- ─── CONSTELLATION NODES ─── -->
-
-    <!-- Study Wing — BL of M -->
-    <g id="node-study" class="const-node"
-       onclick="handleNodeClick('study')"
-       tabindex="0" role="button" aria-label="Open Study Wing briefing">
-      <circle cx="198" cy="322" r="20" fill="rgba(217,184,124,.04)"/>
-      <circle cx="198" cy="322" r="9.5" fill="rgba(217,184,124,.1)"
-              stroke="rgba(217,184,124,.32)" stroke-width=".8"/>
-      <circle cx="198" cy="322" r="2.8" fill="rgba(242,222,162,.9)"/>
-      <text x="188" y="308" text-anchor="middle" font-size="9"
-            fill="rgba(217,184,124,.48)"
-            font-family="Outfit, sans-serif" letter-spacing=".04em">Study Wing</text>
+    <!-- SALON WING -->
+    <g id="node-salon" class="cnode" onclick="handleNodeClick('salon')" tabindex="0" role="button" aria-label="Salon Wing">
+      <circle cx="88" cy="310" r="38" fill="url(#glg)"/>
+      <circle cx="88" cy="310" r="17" fill="url(#gmd)"/>
+      <line x1="46"  y1="310" x2="130" y2="310" stroke="rgba(255,248,204,.55)" stroke-width=".7"/>
+      <line x1="88"  y1="268" x2="88"  y2="352" stroke="rgba(255,248,204,.55)" stroke-width=".7"/>
+      <line x1="59"  y1="281" x2="117" y2="339" stroke="rgba(255,248,204,.2)"  stroke-width=".5"/>
+      <line x1="117" y1="281" x2="59"  y2="339" stroke="rgba(255,248,204,.2)"  stroke-width=".5"/>
+      <circle cx="88" cy="310" r="4.5" fill="rgba(255,253,238,.98)"/>
+      <text x="88" y="294" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.7)">Salon Wing</text>
     </g>
 
-    <!-- Reading Room — TL of M -->
-    <g id="node-reading" class="const-node"
-       onclick="handleNodeClick('study')"
-       tabindex="0" role="button" aria-label="Open Study Wing briefing (Reading Room)">
-      <circle cx="222" cy="148" r="24" fill="rgba(217,184,124,.04)"/>
-      <circle cx="222" cy="148" r="11" fill="rgba(217,184,124,.12)"
-              stroke="rgba(217,184,124,.36)" stroke-width=".85"/>
-      <circle cx="222" cy="148" r="3.4" fill="rgba(248,230,178,.95)"/>
-      <text x="222" y="131" text-anchor="middle" font-size="9"
-            fill="rgba(217,184,124,.52)"
-            font-family="Outfit, sans-serif" letter-spacing=".04em">Reading Room</text>
+    <!-- OBSERVATORY — BRIGHTEST -->
+    <g id="node-obs" class="cnode anode" onclick="handleNodeClick('obs')" tabindex="0" role="button" aria-label="Observatory — you are here">
+      <circle cx="198" cy="145" r="62" fill="url(#gxl)"/>
+      <circle cx="198" cy="145" r="34" fill="url(#glg)"/>
+      <circle cx="198" cy="145" r="16" fill="url(#gmd)"/>
+      <line x1="138" y1="145" x2="258" y2="145" stroke="rgba(255,252,212,.65)" stroke-width=".95"/>
+      <line x1="198" y1="85"  x2="198" y2="205" stroke="rgba(255,252,212,.65)" stroke-width=".95"/>
+      <line x1="155" y1="102" x2="241" y2="188" stroke="rgba(255,252,212,.28)" stroke-width=".65"/>
+      <line x1="241" y1="102" x2="155" y2="188" stroke="rgba(255,252,212,.28)" stroke-width=".65"/>
+      <circle cx="198" cy="145" r="7" fill="rgba(255,253,242,.98)"/>
+      <text x="185" y="120" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="14" letter-spacing=".06em" fill="rgba(217,184,124,.82)">Observatory</text>
+      <text x="185" y="134" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11" font-style="italic" letter-spacing=".04em" fill="rgba(217,184,124,.52)">you are here</text>
     </g>
 
-    <!-- Mid (anonymous peak of M) -->
-    <circle cx="274" cy="204" r="5.5" fill="rgba(217,184,124,.07)"
-            stroke="rgba(217,184,124,.2)" stroke-width=".7"/>
-    <circle cx="274" cy="204" r="1.6" fill="rgba(217,184,124,.65)"/>
+    <!-- STEP1 unnamed -->
+    <circle cx="275" cy="200" r="24" fill="url(#gsm)"/>
+    <line x1="253" y1="200" x2="297" y2="200" stroke="rgba(255,248,200,.36)" stroke-width=".55"/>
+    <line x1="275" y1="178" x2="275" y2="222" stroke="rgba(255,248,200,.36)" stroke-width=".55"/>
+    <circle cx="275" cy="200" r="3.2" fill="rgba(255,252,232,.88)"/>
 
-    <!-- Salon — TR of M -->
-    <g id="node-salon" class="const-node"
-       onclick="handleNodeClick('salon')"
-       tabindex="0" role="button" aria-label="Open Salon briefing">
-      <circle cx="330" cy="144" r="24" fill="rgba(217,184,124,.04)"/>
-      <circle cx="330" cy="144" r="11" fill="rgba(217,184,124,.12)"
-              stroke="rgba(217,184,124,.36)" stroke-width=".85"/>
-      <circle cx="330" cy="144" r="3.4" fill="rgba(248,230,178,.95)"/>
-      <text x="350" y="131" text-anchor="start" font-size="9"
-            fill="rgba(217,184,124,.52)"
-            font-family="Outfit, sans-serif" letter-spacing=".04em">Salon</text>
+    <!-- STUDY WING -->
+    <g id="node-study" class="cnode" onclick="handleNodeClick('study')" tabindex="0" role="button" aria-label="Study Wing">
+      <circle cx="348" cy="258" r="48" fill="url(#glg)"/>
+      <circle cx="348" cy="258" r="23" fill="url(#gmd)"/>
+      <line x1="302" y1="258" x2="394" y2="258" stroke="rgba(255,248,204,.58)" stroke-width=".8"/>
+      <line x1="348" y1="212" x2="348" y2="304" stroke="rgba(255,248,204,.58)" stroke-width=".8"/>
+      <line x1="314" y1="224" x2="382" y2="292" stroke="rgba(255,248,204,.2)"  stroke-width=".55"/>
+      <line x1="382" y1="224" x2="314" y2="292" stroke="rgba(255,248,204,.2)"  stroke-width=".55"/>
+      <circle cx="348" cy="258" r="6" fill="rgba(255,253,238,.98)"/>
+      <text x="348" y="278" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.68)">Study Wing</text>
     </g>
 
-    <!-- Pattern Thoughts — BR of M -->
-    <g id="node-pattern" class="const-node"
-       onclick="handleNodeClick('study')"
-       tabindex="0" role="button" aria-label="Open Study Wing briefing (Pattern Thoughts)">
-      <circle cx="355" cy="320" r="17" fill="rgba(217,184,124,.04)"/>
-      <circle cx="355" cy="320" r="8.5" fill="rgba(217,184,124,.1)"
-              stroke="rgba(217,184,124,.28)" stroke-width=".8"/>
-      <circle cx="355" cy="320" r="2.5" fill="rgba(242,222,162,.88)"/>
-      <text x="378" y="324" text-anchor="start" font-size="9"
-            fill="rgba(217,184,124,.44)"
-            font-family="Outfit, sans-serif" letter-spacing=".04em">Pattern Thoughts</text>
+    <!-- READING ROOM -->
+    <g id="node-reading" class="cnode" onclick="handleNodeClick('study')" tabindex="0" role="button" aria-label="Reading Room">
+      <circle cx="448" cy="148" r="52" fill="url(#glg)"/>
+      <circle cx="448" cy="148" r="25" fill="url(#gmd)"/>
+      <line x1="396" y1="148" x2="500" y2="148" stroke="rgba(255,248,204,.62)" stroke-width=".85"/>
+      <line x1="448" y1="96"  x2="448" y2="200" stroke="rgba(255,248,204,.62)" stroke-width=".85"/>
+      <line x1="412" y1="112" x2="484" y2="184" stroke="rgba(255,248,204,.22)" stroke-width=".6"/>
+      <line x1="484" y1="112" x2="412" y2="184" stroke="rgba(255,248,204,.22)" stroke-width=".6"/>
+      <circle cx="448" cy="148" r="6.2" fill="rgba(255,253,238,.98)"/>
+      <text x="466" y="127" text-anchor="start" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.72)">Reading</text>
+      <text x="466" y="141" text-anchor="start" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.72)">Room</text>
     </g>
 
-    <!-- Glam Wing — TL of V (sealed) -->
-    <g id="node-glam" class="sealed-node" aria-label="Glam Wing — sealed">
-      <circle cx="400" cy="138" r="15" fill="rgba(217,184,124,.03)"/>
-      <circle cx="400" cy="138" r="7.5" fill="rgba(217,184,124,.06)"
-              stroke="rgba(217,184,124,.17)" stroke-width=".8" stroke-dasharray="2,2"/>
-      <circle cx="400" cy="138" r="1.9" fill="rgba(217,184,124,.44)"/>
-      <text x="390" y="125" text-anchor="middle" font-size="8.5"
-            fill="rgba(217,184,124,.24)"
-            font-family="Outfit, sans-serif" letter-spacing=".04em">Glam Wing · sealed</text>
+    <!-- STEP2 unnamed -->
+    <circle cx="503" cy="205" r="20" fill="url(#gsm)"/>
+    <line x1="483" y1="205" x2="523" y2="205" stroke="rgba(255,248,200,.33)" stroke-width=".5"/>
+    <line x1="503" y1="185" x2="503" y2="225" stroke="rgba(255,248,200,.33)" stroke-width=".5"/>
+    <circle cx="503" cy="205" r="3" fill="rgba(255,252,230,.85)"/>
+
+    <!-- STAR OF THE MONTH -->
+    <g id="node-star" class="cnode" onclick="handleNodeClick('study')" tabindex="0" role="button" aria-label="Star of the Month">
+      <circle cx="488" cy="368" r="54" fill="url(#glg)"/>
+      <circle cx="488" cy="368" r="27" fill="url(#gmd)"/>
+      <line x1="434" y1="368" x2="542" y2="368" stroke="rgba(255,248,204,.6)"  stroke-width=".82"/>
+      <line x1="488" y1="314" x2="488" y2="422" stroke="rgba(255,248,204,.6)"  stroke-width=".82"/>
+      <line x1="450" y1="330" x2="526" y2="406" stroke="rgba(255,248,204,.2)"  stroke-width=".55"/>
+      <line x1="526" y1="330" x2="450" y2="406" stroke="rgba(255,248,204,.2)"  stroke-width=".55"/>
+      <circle cx="488" cy="368" r="6.2" fill="rgba(255,253,238,.98)"/>
+      <text x="488" y="390" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.65)">Star of</text>
+      <text x="488" y="404" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.65)">the Month</text>
     </g>
 
-    <!-- ★ Observatory — bottom of V — BRIGHTEST ★ -->
-    <g id="node-obs" class="const-node active-node"
-       onclick="handleNodeClick('obs')"
-       tabindex="0" role="button" aria-label="Observatory — you are here">
-      <circle cx="462" cy="330" r="40" fill="rgba(217,184,124,.035)"/>
-      <circle cx="462" cy="330" r="25" fill="rgba(217,184,124,.055)"/>
-      <circle cx="462" cy="330" r="15" fill="rgba(217,184,124,.1)"
-              stroke="rgba(217,184,124,.58)" stroke-width="1"/>
-      <circle cx="462" cy="330" r="5"  fill="rgba(252,240,198,.98)"/>
-      <text x="462" y="360" text-anchor="middle" font-size="9.5"
-            fill="rgba(217,184,124,.72)"
-            font-family="Outfit, sans-serif" letter-spacing=".06em">Observatory · you are here</text>
+    <!-- PATTERN THOUGHTS -->
+    <g id="node-pattern" class="cnode" onclick="handleNodeClick('study')" tabindex="0" role="button" aria-label="Pattern Thoughts">
+      <circle cx="562" cy="268" r="42" fill="url(#glg)"/>
+      <circle cx="562" cy="268" r="20" fill="url(#gmd)"/>
+      <line x1="522" y1="268" x2="602" y2="268" stroke="rgba(255,248,204,.54)" stroke-width=".75"/>
+      <line x1="562" y1="228" x2="562" y2="308" stroke="rgba(255,248,204,.54)" stroke-width=".75"/>
+      <line x1="534" y1="240" x2="590" y2="296" stroke="rgba(255,248,204,.18)" stroke-width=".5"/>
+      <line x1="590" y1="240" x2="534" y2="296" stroke="rgba(255,248,204,.18)" stroke-width=".5"/>
+      <circle cx="562" cy="268" r="5.4" fill="rgba(255,253,235,.96)"/>
+      <text x="580" y="258" text-anchor="start" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.65)">Pattern</text>
+      <text x="580" y="272" text-anchor="start" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.65)">Thoughts</text>
     </g>
 
-    <!-- Wing V — TR of V (coming) -->
-    <g id="node-wing5" class="sealed-node" aria-label="Wing V — coming soon">
-      <circle cx="524" cy="133" r="15" fill="rgba(217,184,124,.03)"/>
-      <circle cx="524" cy="133" r="7.5" fill="rgba(217,184,124,.06)"
-              stroke="rgba(217,184,124,.15)" stroke-width=".8" stroke-dasharray="2,2"/>
-      <circle cx="524" cy="133" r="1.9" fill="rgba(217,184,124,.38)"/>
-      <text x="538" y="121" text-anchor="start" font-size="8.5"
-            fill="rgba(217,184,124,.2)"
-            font-family="Outfit, sans-serif" letter-spacing=".04em">Wing V · coming</text>
+    <!-- GLAM WING (sealed) -->
+    <g class="sealed-node" aria-label="Glam Wing — sealed">
+      <circle cx="628" cy="172" r="30" fill="url(#gsm)" opacity=".45"/>
+      <line x1="600" y1="172" x2="656" y2="172" stroke="rgba(255,248,200,.22)" stroke-width=".5"/>
+      <line x1="628" y1="144" x2="628" y2="200" stroke="rgba(255,248,200,.22)" stroke-width=".5"/>
+      <circle cx="628" cy="172" r="3.8" fill="rgba(255,252,228,.55)"/>
+      <text x="628" y="155" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11" letter-spacing=".06em" opacity=".42" fill="rgba(217,184,124,.8)">Glam Wing</text>
     </g>
 
-    <!-- ─── PAGE HEADER ─── -->
-    <text x="38" y="58"
-          font-family="Cormorant Garamond, Georgia, serif"
-          font-size="30" font-weight="300"
-          fill="rgba(240,234,216,.92)"
-          letter-spacing=".02em">The Observatory</text>
-    <text x="38" y="80"
-          font-family="Outfit, sans-serif"
-          font-size="12" font-weight="300"
-          fill="rgba(255,255,255,.26)"
-          letter-spacing=".05em">Where distance creates clarity</text>
-
+    <!-- PAGE HEADER -->
+    <text x="36" y="58" font-family="Cormorant Garamond,Georgia,serif" font-size="33" font-weight="300" fill="rgba(240,234,216,.92)" letter-spacing=".02em">The Observatory</text>
+    <text x="36" y="78" font-family="Outfit,sans-serif" font-size="12.5" font-weight="300" fill="rgba(255,255,255,.24)" letter-spacing=".07em">Where distance creates clarity</text>
   </svg>
 </div>
 
-<!-- ═══════════════════════════════════
-     CONTENT
-════════════════════════════════════ -->
 <div id="content">
-
-  <!-- ADHD Fast-Path Banner -->
   <div id="adhd-banner">
     <span>Already know what you want? Use the key below ↓ or search above ↑</span>
-    <button id="adhd-dismiss" onclick="dismissBanner()" aria-label="Dismiss banner">×</button>
+    <button id="adhd-dismiss" onclick="dismissBanner()" aria-label="Dismiss">×</button>
   </div>
-
-  <!-- Search -->
   <div id="search-wrap">
     <span id="search-icon" aria-hidden="true">⌕</span>
-    <input id="search-input"
-           type="text"
-           autocomplete="off"
-           spellcheck="false"
-           placeholder="Search — try 'salon', 'essays', 'how does this work'..."
+    <input id="search-input" type="text" autocomplete="off" spellcheck="false"
+           placeholder="Search — try 'salon', 'essays', 'pattern thoughts', 'how does this work'..."
            oninput="handleSearch(this.value)"/>
   </div>
-
-  <!-- Wing Cards -->
   <div class="cards-grid">
-
-    <!-- Wing I — Study Wing -->
-    <div class="wcard" id="card-study" data-wing="study">
-      <div class="card-top">
-        <p class="wnum">Wing I</p>
-        <p class="wtitle">Study Wing</p>
-        <p class="wdesc">Reading Room, Pattern Thoughts, Star of the Month</p>
-      </div>
+    <div class="wcard" id="card-study">
+      <div><p class="wnum">Wing I</p><p class="wtitle">Study Wing</p><p class="wdesc">Reading Room, Pattern Thoughts, Star of the Month</p></div>
       <div class="card-actions">
-        <button class="btn-briefing" onclick="openPanel('study', this.closest('.wcard'))">Read Briefing</button>
+        <button class="btn-briefing" onclick="openPanel('study',this.closest('.wcard'))">Read Briefing</button>
         <a class="btn-enter" href="/study-wing.html">Enter Room →</a>
       </div>
     </div>
-
-    <!-- Wing II — Salon -->
-    <div class="wcard" id="card-salon" data-wing="salon">
-      <div class="card-top">
-        <p class="wnum">Wing II · open</p>
-        <p class="wtitle">The Salon</p>
-        <p class="wdesc">Real-time room. Messages that fade. No record.</p>
-      </div>
+    <div class="wcard" id="card-salon">
+      <div><p class="wnum">Wing II · open</p><p class="wtitle">The Salon</p><p class="wdesc">Real-time room. Messages that fade. No record.</p></div>
       <div class="card-actions">
-        <button class="btn-briefing" onclick="openPanel('salon', this.closest('.wcard'))">Read Briefing</button>
+        <button class="btn-briefing" onclick="openPanel('salon',this.closest('.wcard'))">Read Briefing</button>
         <a class="btn-enter" href="/salon.html">Enter Room →</a>
       </div>
     </div>
-
-    <!-- Wing III — Observatory (current) -->
-    <div class="wcard active" id="card-obs" data-wing="obs">
-      <div class="card-top">
-        <p class="wnum">Wing III · you are here</p>
-        <p class="wtitle">Observatory</p>
-        <p class="wdesc">The map room. Everything explained.</p>
-      </div>
+    <div class="wcard active" id="card-obs">
+      <div><p class="wnum">Wing III · you are here</p><p class="wtitle">Observatory</p><p class="wdesc">The map room. Everything explained.</p></div>
       <div class="card-actions">
-        <button class="btn-briefing" onclick="openPanel('obs', this.closest('.wcard'))">Read Briefing</button>
+        <button class="btn-briefing" onclick="openPanel('obs',this.closest('.wcard'))">Read Briefing</button>
         <p class="btn-here">· you are here ·</p>
       </div>
     </div>
-
-    <!-- Wing IV — Glam Wing (sealed) -->
-    <div class="wcard sealed" id="card-glam" data-wing="glam">
-      <div class="card-top">
-        <p class="wnum">Wing IV</p>
-        <p class="wtitle">Glam Wing</p>
-        <p class="wdesc">Five continents. Fashion archive world.</p>
-        <span class="sealed-pill">sealed</span>
-      </div>
-      <div class="card-actions">
-        <button class="btn-briefing" disabled>Sealed</button>
-      </div>
+    <div class="wcard sealed" id="card-glam">
+      <div><p class="wnum">Wing IV</p><p class="wtitle">Glam Wing</p><p class="wdesc">Five continents. Fashion archive world.</p><span class="sealed-pill">sealed</span></div>
+      <div class="card-actions"><button class="btn-briefing" disabled>Sealed</button></div>
     </div>
-
-  </div><!-- end cards-grid -->
-
-  <!-- Deep-Dive Panel -->
+  </div>
   <div id="panel">
-    <div class="panel-head">
-      <h3 id="panel-title"></h3>
-      <button class="panel-close" onclick="closePanel()">close ✕</button>
-    </div>
+    <div class="ph"><h3 id="panel-title"></h3><button class="pc" onclick="closePanel()">close ✕</button></div>
     <div id="panel-body"></div>
-    <p id="panel-hint">← click any wing card or constellation star to read its full briefing</p>
+    <p id="panel-hint">← click a wing card or a constellation star to read its full briefing</p>
   </div>
-
-  <!-- Chase the Pattern — bottom nav -->
-  <div id="bottom-key">
-    <p class="key-label">Chase the pattern</p>
-    <div class="key-links">
-      <a class="key-link" href="/index.html">Lobby</a>
-      <a class="key-link" href="/atrium.html">Atrium</a>
-      <a class="key-link" href="/study-wing.html">Study Wing</a>
-      <a class="key-link" href="/salon.html">Salon</a>
-      <a class="key-link" href="/reading-room.html">Reading Room</a>
-      <a class="key-link" href="/pattern-thoughts.html">Pattern Thoughts</a>
-      <a class="key-link" href="/star-of-the-month.html">Star of the Month</a>
-      <a class="key-link current" href="/observatory.html">Observatory ·</a>
+  <div id="bkey">
+    <p class="klabel">Chase the pattern</p>
+    <div class="klinks">
+      <a class="klink" href="/index.html">Lobby</a>
+      <a class="klink" href="/atrium.html">Atrium</a>
+      <a class="klink" href="/study-wing.html">Study Wing</a>
+      <a class="klink" href="/salon.html">Salon</a>
+      <a class="klink" href="/reading-room.html">Reading Room</a>
+      <a class="klink" href="/pattern-thoughts.html">Pattern Thoughts</a>
+      <a class="klink" href="/star-of-the-month.html">Star of the Month</a>
+      <a class="klink cur" href="/observatory.html">Observatory ·</a>
     </div>
   </div>
-
-</div><!-- end content -->
-
+</div>
 
 <script>
-/* ─────────────────────────
-   PANEL CONTENT
-───────────────────────── */
-const PANELS = {
-  study: {
-    title: 'Study Wing — full briefing',
-    rows: [
-      ['What it is',   'Three rooms built for sustained attention. The Reading Room holds curated essays and books. Pattern Thoughts releases one numbered observation per day from a 360-node archive. Star of the Month features a person or idea worth sustained focus.'],
-      ['How it works', 'Each room runs on its own rhythm. Pattern Thoughts uses node numbers, not calendar dates — the archive builds like a library, not a feed. The Reading Room links outward to the sources that shaped the essays.'],
-      ['Why it exists','For the kind of thinking that doesn\'t happen in 30 seconds. The Study Wing is where MetaVoxa does its intellectual work out loud, slowly, in public.'],
-      ['Right now',    'All three rooms are open. Pattern Thoughts is live and updating daily. The Reading Room and Star of the Month are actively curated.']
-    ],
-    link: 'Enter the Study Wing →', href: '/study-wing.html'
-  },
-  salon: {
-    title: 'The Salon — full briefing',
-    rows: [
-      ['What it is',   'A real-time conversation room entered by choosing a role — Reader, Writer, Researcher, or Explorer. Each places you in a different zone. Presence appears as a coloured dot, not a name.'],
-      ['How it works', 'Messages float across the room and fade after 20 seconds. No scrollback. No archive. The room resets when it empties. Optional ambient audio — rain and fire — sets the atmosphere.'],
-      ['Why it exists','MetaVoxa needed a space for live thought that leaves no record. The Salon is where ideas pass through rather than stay. What happens there doesn\'t feed the essays or archive. That\'s the point.'],
-      ['Right now',    'The Salon is open. Enter from here, from the Lobby, or from the Atrium.']
-    ],
-    link: 'Enter the Salon →', href: '/salon.html'
-  },
-  obs: {
-    title: 'The Observatory — full briefing',
-    rows: [
-      ['What it is',   'The map room. A complete briefing on how MetaVoxa works — every wing, every system, every essay thread — for anyone who walked in and immediately thought: wait, what is this place?'],
-      ['Who it\'s for','Built specifically for ADHD brains, impatient visitors, and people who need the legend before they explore. Answers first. Wandering later, if at all. Both paths are valid.'],
-      ['Why it exists','MetaVoxa has an architecture. Five wings. A Substack. A Lobby. An Atrium. The Observatory makes that logic immediately legible — no navigation required to reverse-engineer it.'],
-      ['You are here', 'The Observatory is the brightest node in the constellation — the bottom point of the V. The MV in the sky is MetaVoxa. The whole house is mapped above you. You\'re already inside.']
-    ],
-    link: 'You are here', href: null
-  }
+const PANELS={
+  study:{title:'Study Wing — full briefing',rows:[
+    ['What it is','Three rooms built for sustained attention. The Reading Room holds curated essays and books. Pattern Thoughts releases one numbered observation per day from a 360-node archive. Star of the Month features a person or idea worth sustained focus.'],
+    ['How it works','Each room runs on its own rhythm. Pattern Thoughts uses node numbers, not calendar dates — the archive builds like a library, not a feed. The Reading Room links outward to the sources that shaped the essays.'],
+    ['Why it exists','For the kind of thinking that doesn\'t happen in 30 seconds. The Study Wing is where MetaVoxa does its intellectual work out loud, slowly, in public.'],
+    ['Right now','All three rooms are open. Pattern Thoughts is live and updating daily. The Reading Room and Star of the Month are actively curated.']
+  ],link:'Enter the Study Wing →',href:'/study-wing.html'},
+  salon:{title:'The Salon — full briefing',rows:[
+    ['What it is','A real-time conversation room entered by choosing a role — Reader, Writer, Researcher, or Explorer. Each places you in a different zone. Presence appears as a coloured dot, not a name.'],
+    ['How it works','Messages float across the room and fade after 20 seconds. No scrollback. No archive. The room resets when it empties. Optional ambient audio — rain and fire — sets the atmosphere.'],
+    ['Why it exists','MetaVoxa needed a space for live thought that leaves no record. The Salon is where ideas pass through rather than stay. What happens there doesn\'t feed the essays or the archive. That\'s the point.'],
+    ['Right now','The Salon is open. Enter from here, from the Lobby, or from the Atrium.']
+  ],link:'Enter the Salon →',href:'/salon.html'},
+  obs:{title:'The Observatory — full briefing',rows:[
+    ['What it is','The map room. A complete briefing on how MetaVoxa works — every wing, every system, every essay thread — for anyone who walked in and immediately thought: wait, what is this place?'],
+    ['Who it\'s for','Built specifically for ADHD brains, impatient visitors, and people who need the legend before they explore. Answers first. Wandering later, if at all. Both paths are valid.'],
+    ['Why it exists','MetaVoxa has an architecture. Five wings. A Substack. A Lobby. An Atrium. The Observatory makes that logic immediately legible — no navigation required to reverse-engineer it.'],
+    ['You are here','The Observatory is the brightest node in the constellation. The whole house is mapped above you. You\'re already inside.']
+  ],link:'You are here',href:null}
 };
+const SI={salon:'salon',chat:'salon','real-time':'salon',realtime:'salon',messages:'salon',writer:'salon',reader:'salon',researcher:'salon',explorer:'salon',fire:'salon',rain:'salon',ambient:'salon',live:'salon',conversation:'salon',fade:'salon',study:'study',reading:'study',books:'study',essays:'study',pattern:'study',thoughts:'study',star:'study',archive:'study',library:'study',substack:'study',newsletter:'study',observatory:'obs',map:'obs',explain:'obs',briefing:'obs',guide:'obs',help:'obs',wings:'obs',house:'obs',system:'obs',works:'obs',navigate:'obs'};
+const NM={study:['node-study','node-reading','node-pattern','node-star'],salon:['node-salon'],obs:['node-obs']};
+let stimer=null;
 
-/* ─────────────────────────
-   SEARCH INDEX
-───────────────────────── */
-const SEARCH_INDEX = {
-  salon: 'salon', chat: 'salon', 'real-time': 'salon', realtime: 'salon',
-  messages: 'salon', writer: 'salon', reader: 'salon', researcher: 'salon',
-  explorer: 'salon', fire: 'salon', rain: 'salon', ambient: 'salon',
-  live: 'salon', conversation: 'salon', fade: 'salon',
-  study: 'study', reading: 'study', books: 'study', essays: 'study',
-  pattern: 'study', thoughts: 'study', star: 'study', archive: 'study',
-  library: 'study', substack: 'study', newsletter: 'study', writing: 'study',
-  publish: 'study', posts: 'study',
-  observatory: 'obs', map: 'obs', explain: 'obs', briefing: 'obs',
-  guide: 'obs', help: 'obs', wings: 'obs', house: 'obs', system: 'obs',
-  works: 'obs', navigate: 'obs', overview: 'obs'
-};
-
-/* node IDs per wing key */
-const NODE_MAP = {
-  study: ['node-study', 'node-reading', 'node-pattern'],
-  salon: ['node-salon'],
-  obs:   ['node-obs']
-};
-
-let searchTimer = null;
-
-/* ─────────────────────────
-   OPEN PANEL
-───────────────────────── */
-function openPanel(key, cardEl) {
-  const d = PANELS[key];
-  if (!d) return;
-
-  /* active card state */
-  document.querySelectorAll('.wcard').forEach(c => c.classList.remove('active'));
-  if (cardEl) cardEl.classList.add('active');
-
-  /* build panel */
-  document.getElementById('panel-title').textContent = d.title;
-  let html = d.rows.map(([label, text]) => `
-    <div class="panel-row">
-      <span class="panel-label">${label}</span>
-      <p class="panel-text">${text}</p>
-    </div>`).join('');
-  html += d.href
-    ? `<a class="panel-link" href="${d.href}">${d.link}</a>`
-    : `<span class="panel-link" style="cursor:default;opacity:.55">${d.link}</span>`;
-
-  document.getElementById('panel-body').innerHTML = html;
-  document.getElementById('panel-hint').style.display = 'none';
-
-  const panel = document.getElementById('panel');
-  panel.style.animation = 'none';
-  void panel.offsetWidth;
-  panel.style.display = 'block';
-  panel.style.animation = 'panel-in .32s ease';
-  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+function openPanel(k,card){
+  const d=PANELS[k];if(!d)return;
+  document.querySelectorAll('.wcard').forEach(c=>c.classList.remove('active'));
+  if(card)card.classList.add('active');
+  document.getElementById('panel-title').textContent=d.title;
+  let h=d.rows.map(([l,t])=>`<div class="pr"><span class="pl">${l}</span><p class="pt">${t}</p></div>`).join('');
+  h+=d.href?`<a class="plink" href="${d.href}">${d.link}</a>`:`<span class="plink" style="cursor:default;opacity:.5">${d.link}</span>`;
+  document.getElementById('panel-body').innerHTML=h;
+  document.getElementById('panel-hint').style.display='none';
+  const p=document.getElementById('panel');
+  p.style.animation='none';void p.offsetWidth;
+  p.style.display='block';p.style.animation='pi .35s ease';
+  p.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
-
-/* ─────────────────────────
-   CLOSE PANEL
-───────────────────────── */
-function closePanel() {
-  document.getElementById('panel').style.display = 'none';
-  document.querySelectorAll('.wcard').forEach(c => c.classList.remove('active'));
+function closePanel(){
+  document.getElementById('panel').style.display='none';
+  document.querySelectorAll('.wcard').forEach(c=>c.classList.remove('active'));
   document.getElementById('card-obs').classList.add('active');
-  document.getElementById('panel-hint').style.display = 'block';
+  document.getElementById('panel-hint').style.display='block';
 }
-
-/* ─────────────────────────
-   CONSTELLATION CLICK
-───────────────────────── */
-function handleNodeClick(key) {
-  const card = document.getElementById('card-' + key);
-  if (card && !card.classList.contains('sealed')) {
-    openPanel(key, card);
-    highlightNodes(key);
-    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+function handleNodeClick(k){
+  const c=document.getElementById('card-'+k);
+  if(c&&!c.classList.contains('sealed')){
+    openPanel(k,c);highlightNodes(k);
+    setTimeout(()=>c.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
   }
 }
-
-/* ─────────────────────────
-   SEARCH
-───────────────────────── */
-function handleSearch(val) {
-  clearTimeout(searchTimer);
-  clearHighlights();
-  if (!val || val.length < 2) return;
-
-  searchTimer = setTimeout(() => {
-    const q = val.toLowerCase().trim();
-    let matchKey = null;
-    for (const [term, key] of Object.entries(SEARCH_INDEX)) {
-      if (q.includes(term)) { matchKey = key; break; }
-    }
-    if (!matchKey) return;
-
-    /* highlight constellation star */
-    highlightNodes(matchKey);
-
-    /* highlight card */
-    const card = document.getElementById('card-' + matchKey);
-    if (card) {
-      card.classList.add('search-match');
-      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      /* open briefing after short pause */
-      setTimeout(() => openPanel(matchKey, card), 420);
-    }
-  }, 340);
+function handleSearch(v){
+  clearTimeout(stimer);clearHighlights();
+  if(!v||v.length<2)return;
+  stimer=setTimeout(()=>{
+    const q=v.toLowerCase().trim();
+    let mk=null;
+    for(const[t,k]of Object.entries(SI)){if(q.includes(t)){mk=k;break}}
+    if(!mk)return;
+    highlightNodes(mk);
+    const c=document.getElementById('card-'+mk);
+    if(c){c.classList.add('smatch');c.scrollIntoView({behavior:'smooth',block:'nearest'});setTimeout(()=>openPanel(mk,c),420)}
+  },340);
 }
+function highlightNodes(k){(NM[k]||[]).forEach(id=>{const e=document.getElementById(id);if(e)e.classList.add('highlighted')})}
+function clearHighlights(){document.querySelectorAll('.highlighted').forEach(e=>e.classList.remove('highlighted'));document.querySelectorAll('.smatch').forEach(e=>e.classList.remove('smatch'))}
+function dismissBanner(){const b=document.getElementById('adhd-banner');b.style.opacity='0';b.style.maxHeight='0';b.style.marginTop='0';b.style.padding='0';setTimeout(()=>b.remove(),460)}
+document.querySelectorAll('.cnode[tabindex]').forEach(n=>{n.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();n.click()}})});
 
-function highlightNodes(key) {
-  (NODE_MAP[key] || []).forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.classList.add('highlighted');
+/* AMBIENT HUM */
+let hCtx=null,hGains=[],hOn=false;
+function buildHum(){
+  const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+  hCtx=new AC();
+  [[48,.038],[96,.016],[144,.008],[192,.004]].forEach(([f,v],i)=>{
+    const o=hCtx.createOscillator(),g=hCtx.createGain();
+    o.type='sine';o.frequency.value=f;g.gain.value=0;
+    o.connect(g);
+    if(hCtx.createStereoPanner){const p=hCtx.createStereoPanner();p.pan.value=i%2===0?-.1:.1;g.connect(p);p.connect(hCtx.destination)}
+    else g.connect(hCtx.destination);
+    o.start();hGains.push({g,v});
   });
 }
-
-function clearHighlights() {
-  document.querySelectorAll('.highlighted').forEach(el => el.classList.remove('highlighted'));
-  document.querySelectorAll('.search-match').forEach(el => el.classList.remove('search-match'));
+function toggleHum(){
+  const btn=document.getElementById('audio-btn');
+  if(!hCtx)buildHum();
+  if(hCtx.state==='suspended')hCtx.resume();
+  if(!hOn){
+    hGains.forEach(({g,v})=>{g.gain.cancelScheduledValues(hCtx.currentTime);g.gain.setValueAtTime(g.gain.value,hCtx.currentTime);g.gain.linearRampToValueAtTime(v,hCtx.currentTime+3.5)});
+    hOn=true;btn.textContent='♩ on';btn.classList.add('on');
+  }else{
+    hGains.forEach(({g})=>{g.gain.cancelScheduledValues(hCtx.currentTime);g.gain.setValueAtTime(g.gain.value,hCtx.currentTime);g.gain.linearRampToValueAtTime(0,hCtx.currentTime+2.5)});
+    hOn=false;btn.textContent='♩ hum';btn.classList.remove('on');
+  }
 }
-
-/* ─────────────────────────
-   ADHD BANNER DISMISS
-───────────────────────── */
-function dismissBanner() {
-  const b = document.getElementById('adhd-banner');
-  b.style.opacity     = '0';
-  b.style.maxHeight   = '0';
-  b.style.marginTop   = '0';
-  b.style.padding     = '0';
-  b.style.overflow    = 'hidden';
-  setTimeout(() => b.remove(), 460);
-}
-
-/* ─────────────────────────
-   REPLAY TELESCOPE
-───────────────────────── */
-function replayAnim() {
-  const svg = document.getElementById('sky-svg');
-  svg.style.animation = 'none';
-  void svg.offsetWidth;
-  svg.style.animation = 'telescope-open 3.9s cubic-bezier(0.16, 1, 0.3, 1) forwards';
-}
-
-/* keyboard support for SVG nodes */
-document.querySelectorAll('.const-node[tabindex]').forEach(node => {
-  node.addEventListener('keydown', e => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      node.dispatchEvent(new MouseEvent('click'));
-    }
-  });
-});
 </script>
 </body>
 </html>
