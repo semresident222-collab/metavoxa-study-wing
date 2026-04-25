@@ -119,7 +119,7 @@ body{background:var(--sky);color:var(--text);font-family:var(--font-b);font-weig
   <button id="audio-btn" onclick="toggleHum()">♩ hum</button>
   <svg id="sky-svg" viewBox="0 0 700 490" preserveAspectRatio="xMidYMid meet"
        xmlns="http://www.w3.org/2000/svg" role="img"
-       aria-label="MetaVoxa night sky — MV constellation connecting the wings of the house">
+       aria-label="MetaVoxa night sky — abstract constellation connecting the wings of the house">
     <defs>
       <radialGradient id="gxl" cx="50%" cy="50%" r="50%">
         <stop offset="0%"   stop-color="rgba(255,248,210,.72)"/>
@@ -232,7 +232,6 @@ body{background:var(--sky);color:var(--text);font-family:var(--font-b);font-weig
     <circle cx="270" cy="446" r=".8"  fill="#fff" opacity=".22"/>
     <circle cx="390" cy="454" r=".6"  fill="#fff" opacity=".16" class="twb"/>
     <circle cx="500" cy="448" r=".7"  fill="#fff" opacity=".18"/>
-    <!-- near-constellation ambient -->
     <circle cx="226" cy="185" r=".7"  fill="#fff" opacity=".18"/>
     <circle cx="285" cy="158" r=".6"  fill="#fff" opacity=".15"/>
     <circle cx="308" cy="200" r=".5"  fill="#fff" opacity=".14"/>
@@ -243,7 +242,6 @@ body{background:var(--sky);color:var(--text);font-family:var(--font-b);font-weig
 
     <!-- BOUNDARY CIRCLE -->
     <circle cx="358" cy="255" r="214" fill="none" stroke="rgba(217,184,124,.11)" stroke-width=".7"/>
-    <!-- crosshairs -->
     <line x1="358" y1="26"  x2="358" y2="50"  stroke="rgba(217,184,124,.28)" stroke-width=".8"/>
     <line x1="350" y1="38"  x2="366" y2="38"  stroke="rgba(217,184,124,.28)" stroke-width=".8"/>
     <circle cx="358" cy="38"  r="2.5" fill="none" stroke="rgba(217,184,124,.24)" stroke-width=".7"/>
@@ -255,122 +253,128 @@ body{background:var(--sky);color:var(--text);font-family:var(--font-b);font-weig
     <line x1="562" y1="255" x2="586" y2="255" stroke="rgba(217,184,124,.16)" stroke-width=".6"/>
     <line x1="574" y1="248" x2="574" y2="262" stroke="rgba(217,184,124,.16)" stroke-width=".6"/>
 
-    <!-- CONSTELLATION LINES — solid bright gold -->
-    <!-- Salon→Observatory -->
-    <line x1="88"  y1="310" x2="198" y2="145" stroke="rgba(230,200,140,.72)" stroke-width="1.5" stroke-linecap="round"/>
-    <!-- Observatory→Step1 -->
-    <line x1="198" y1="145" x2="275" y2="200" stroke="rgba(230,200,140,.65)" stroke-width="1.3" stroke-linecap="round"/>
-    <!-- Step1→StudyWing -->
-    <line x1="275" y1="200" x2="348" y2="258" stroke="rgba(230,200,140,.6)"  stroke-width="1.2" stroke-linecap="round"/>
-    <!-- StudyWing→ReadingRoom -->
-    <line x1="348" y1="258" x2="448" y2="148" stroke="rgba(230,200,140,.7)"  stroke-width="1.4" stroke-linecap="round"/>
-    <!-- ReadingRoom→Step2 -->
-    <line x1="448" y1="148" x2="503" y2="205" stroke="rgba(230,200,140,.58)" stroke-width="1.1" stroke-linecap="round"/>
-    <!-- Step2→StarOfMonth -->
-    <line x1="503" y1="205" x2="488" y2="368" stroke="rgba(230,200,140,.66)" stroke-width="1.3" stroke-linecap="round"/>
-    <!-- StarOfMonth→PatternThoughts -->
-    <line x1="488" y1="368" x2="562" y2="268" stroke="rgba(230,200,140,.62)" stroke-width="1.2" stroke-linecap="round"/>
-    <!-- PatternThoughts→GlamWing -->
-    <line x1="562" y1="268" x2="628" y2="172" stroke="rgba(230,200,140,.5)"  stroke-width="1.1" stroke-linecap="round"/>
+    <!-- CONSTELLATION LINES — updated to match generated image -->
+    <line x1="95"  y1="295" x2="140" y2="225" stroke="rgba(230,200,140,.65)" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="140" y1="225" x2="205" y2="125" stroke="rgba(230,200,140,.78)" stroke-width="1.5" stroke-linecap="round"/>
+    <line x1="205" y1="125" x2="260" y2="180" stroke="rgba(230,200,140,.65)" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="260" y1="180" x2="315" y2="225" stroke="rgba(230,200,140,.58)" stroke-width="1.1" stroke-linecap="round"/>
+    <line x1="315" y1="225" x2="385" y2="125" stroke="rgba(230,200,140,.75)" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="385" y1="125" x2="430" y2="225" stroke="rgba(230,200,140,.6)" stroke-width="1.1" stroke-linecap="round"/>
+    <line x1="430" y1="225" x2="505" y2="365" stroke="rgba(230,200,140,.7)" stroke-width="1.4" stroke-linecap="round"/>
+    <line x1="505" y1="365" x2="555" y2="300" stroke="rgba(230,200,140,.62)" stroke-width="1.2" stroke-linecap="round"/>
+    <line x1="555" y1="300" x2="590" y2="250" stroke="rgba(230,200,140,.58)" stroke-width="1.1" stroke-linecap="round"/>
+    <line x1="590" y1="250" x2="645" y2="180" stroke="rgba(230,200,140,.52)" stroke-width="1.1" stroke-linecap="round"/>
 
     <!-- STAR NODES -->
 
     <!-- SALON WING -->
     <g id="node-salon" class="cnode" onclick="handleNodeClick('salon')" tabindex="0" role="button" aria-label="Salon Wing">
-      <circle cx="88" cy="310" r="38" fill="url(#glg)"/>
-      <circle cx="88" cy="310" r="17" fill="url(#gmd)"/>
-      <line x1="46"  y1="310" x2="130" y2="310" stroke="rgba(255,248,204,.55)" stroke-width=".7"/>
-      <line x1="88"  y1="268" x2="88"  y2="352" stroke="rgba(255,248,204,.55)" stroke-width=".7"/>
-      <line x1="59"  y1="281" x2="117" y2="339" stroke="rgba(255,248,204,.2)"  stroke-width=".5"/>
-      <line x1="117" y1="281" x2="59"  y2="339" stroke="rgba(255,248,204,.2)"  stroke-width=".5"/>
-      <circle cx="88" cy="310" r="4.5" fill="rgba(255,253,238,.98)"/>
-      <text x="88" y="294" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.7)">Salon Wing</text>
+      <circle cx="95" cy="295" r="38" fill="url(#glg)"/>
+      <circle cx="95" cy="295" r="17" fill="url(#gmd)"/>
+      <line x1="53"  y1="295" x2="137" y2="295" stroke="rgba(255,248,204,.55)" stroke-width=".7"/>
+      <line x1="95"  y1="253" x2="95"  y2="337" stroke="rgba(255,248,204,.55)" stroke-width=".7"/>
+      <line x1="66"  y1="266" x2="124" y2="324" stroke="rgba(255,248,204,.2)"  stroke-width=".5"/>
+      <line x1="124" y1="266" x2="66"  y2="324" stroke="rgba(255,248,204,.2)"  stroke-width=".5"/>
+      <circle cx="95" cy="295" r="4.5" fill="rgba(255,253,238,.98)"/>
+      <text x="82" y="322" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.7)">Salon Wing</text>
     </g>
 
-    <!-- OBSERVATORY — BRIGHTEST -->
+    <!-- left rising connector -->
+    <circle cx="140" cy="225" r="24" fill="url(#gsm)"/>
+    <line x1="118" y1="225" x2="162" y2="225" stroke="rgba(255,248,200,.36)" stroke-width=".55"/>
+    <line x1="140" y1="203" x2="140" y2="247" stroke="rgba(255,248,200,.36)" stroke-width=".55"/>
+    <circle cx="140" cy="225" r="3.2" fill="rgba(255,252,232,.88)"/>
+
+    <!-- OBSERVATORY — YOU ARE HERE / BRIGHTEST -->
     <g id="node-obs" class="cnode anode" onclick="handleNodeClick('obs')" tabindex="0" role="button" aria-label="Observatory — you are here">
-      <circle cx="198" cy="145" r="62" fill="url(#gxl)"/>
-      <circle cx="198" cy="145" r="34" fill="url(#glg)"/>
-      <circle cx="198" cy="145" r="16" fill="url(#gmd)"/>
-      <line x1="138" y1="145" x2="258" y2="145" stroke="rgba(255,252,212,.65)" stroke-width=".95"/>
-      <line x1="198" y1="85"  x2="198" y2="205" stroke="rgba(255,252,212,.65)" stroke-width=".95"/>
-      <line x1="155" y1="102" x2="241" y2="188" stroke="rgba(255,252,212,.28)" stroke-width=".65"/>
-      <line x1="241" y1="102" x2="155" y2="188" stroke="rgba(255,252,212,.28)" stroke-width=".65"/>
-      <circle cx="198" cy="145" r="7" fill="rgba(255,253,242,.98)"/>
-      <text x="185" y="120" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="14" letter-spacing=".06em" fill="rgba(217,184,124,.82)">Observatory</text>
-      <text x="185" y="134" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11" font-style="italic" letter-spacing=".04em" fill="rgba(217,184,124,.52)">you are here</text>
+      <circle cx="205" cy="125" r="62" fill="url(#gxl)"/>
+      <circle cx="205" cy="125" r="34" fill="url(#glg)"/>
+      <circle cx="205" cy="125" r="16" fill="url(#gmd)"/>
+      <line x1="145" y1="125" x2="265" y2="125" stroke="rgba(255,252,212,.65)" stroke-width=".95"/>
+      <line x1="205" y1="65"  x2="205" y2="185" stroke="rgba(255,252,212,.65)" stroke-width=".95"/>
+      <line x1="162" y1="82" x2="248" y2="168" stroke="rgba(255,252,212,.28)" stroke-width=".65"/>
+      <line x1="248" y1="82" x2="162" y2="168" stroke="rgba(255,252,212,.28)" stroke-width=".65"/>
+      <circle cx="205" cy="125" r="7" fill="rgba(255,253,242,.98)"/>
+      <text x="172" y="92" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="14" letter-spacing=".06em" fill="rgba(217,184,124,.82)">Observatory</text>
+      <text x="172" y="106" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11" font-style="italic" letter-spacing=".04em" fill="rgba(217,184,124,.52)">you are here</text>
     </g>
 
-    <!-- STEP1 unnamed -->
-    <circle cx="275" cy="200" r="24" fill="url(#gsm)"/>
-    <line x1="253" y1="200" x2="297" y2="200" stroke="rgba(255,248,200,.36)" stroke-width=".55"/>
-    <line x1="275" y1="178" x2="275" y2="222" stroke="rgba(255,248,200,.36)" stroke-width=".55"/>
-    <circle cx="275" cy="200" r="3.2" fill="rgba(255,252,232,.88)"/>
+    <!-- first descent connector -->
+    <circle cx="260" cy="180" r="24" fill="url(#gsm)"/>
+    <line x1="238" y1="180" x2="282" y2="180" stroke="rgba(255,248,200,.36)" stroke-width=".55"/>
+    <line x1="260" y1="158" x2="260" y2="202" stroke="rgba(255,248,200,.36)" stroke-width=".55"/>
+    <circle cx="260" cy="180" r="3.2" fill="rgba(255,252,232,.88)"/>
 
     <!-- STUDY WING -->
     <g id="node-study" class="cnode" onclick="handleNodeClick('study')" tabindex="0" role="button" aria-label="Study Wing">
-      <circle cx="348" cy="258" r="48" fill="url(#glg)"/>
-      <circle cx="348" cy="258" r="23" fill="url(#gmd)"/>
-      <line x1="302" y1="258" x2="394" y2="258" stroke="rgba(255,248,204,.58)" stroke-width=".8"/>
-      <line x1="348" y1="212" x2="348" y2="304" stroke="rgba(255,248,204,.58)" stroke-width=".8"/>
-      <line x1="314" y1="224" x2="382" y2="292" stroke="rgba(255,248,204,.2)"  stroke-width=".55"/>
-      <line x1="382" y1="224" x2="314" y2="292" stroke="rgba(255,248,204,.2)"  stroke-width=".55"/>
-      <circle cx="348" cy="258" r="6" fill="rgba(255,253,238,.98)"/>
-      <text x="348" y="278" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.68)">Study Wing</text>
+      <circle cx="315" cy="225" r="48" fill="url(#glg)"/>
+      <circle cx="315" cy="225" r="23" fill="url(#gmd)"/>
+      <line x1="269" y1="225" x2="361" y2="225" stroke="rgba(255,248,204,.58)" stroke-width=".8"/>
+      <line x1="315" y1="179" x2="315" y2="271" stroke="rgba(255,248,204,.58)" stroke-width=".8"/>
+      <line x1="281" y1="191" x2="349" y2="259" stroke="rgba(255,248,204,.2)"  stroke-width=".55"/>
+      <line x1="349" y1="191" x2="281" y2="259" stroke="rgba(255,248,204,.2)"  stroke-width=".55"/>
+      <circle cx="315" cy="225" r="6" fill="rgba(255,253,238,.98)"/>
+      <text x="315" y="249" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.68)">Study Wing</text>
     </g>
 
     <!-- READING ROOM -->
     <g id="node-reading" class="cnode" onclick="handleNodeClick('study')" tabindex="0" role="button" aria-label="Reading Room">
-      <circle cx="448" cy="148" r="52" fill="url(#glg)"/>
-      <circle cx="448" cy="148" r="25" fill="url(#gmd)"/>
-      <line x1="396" y1="148" x2="500" y2="148" stroke="rgba(255,248,204,.62)" stroke-width=".85"/>
-      <line x1="448" y1="96"  x2="448" y2="200" stroke="rgba(255,248,204,.62)" stroke-width=".85"/>
-      <line x1="412" y1="112" x2="484" y2="184" stroke="rgba(255,248,204,.22)" stroke-width=".6"/>
-      <line x1="484" y1="112" x2="412" y2="184" stroke="rgba(255,248,204,.22)" stroke-width=".6"/>
-      <circle cx="448" cy="148" r="6.2" fill="rgba(255,253,238,.98)"/>
-      <text x="466" y="127" text-anchor="start" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.72)">Reading</text>
-      <text x="466" y="141" text-anchor="start" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.72)">Room</text>
+      <circle cx="385" cy="125" r="52" fill="url(#glg)"/>
+      <circle cx="385" cy="125" r="25" fill="url(#gmd)"/>
+      <line x1="333" y1="125" x2="437" y2="125" stroke="rgba(255,248,204,.62)" stroke-width=".85"/>
+      <line x1="385" y1="73"  x2="385" y2="177" stroke="rgba(255,248,204,.62)" stroke-width=".85"/>
+      <line x1="349" y1="89" x2="421" y2="161" stroke="rgba(255,248,204,.22)" stroke-width=".6"/>
+      <line x1="421" y1="89" x2="349" y2="161" stroke="rgba(255,248,204,.22)" stroke-width=".6"/>
+      <circle cx="385" cy="125" r="6.2" fill="rgba(255,253,238,.98)"/>
+      <text x="422" y="124" text-anchor="start" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.72)">Reading</text>
+      <text x="422" y="138" text-anchor="start" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.72)">Room</text>
     </g>
 
-    <!-- STEP2 unnamed -->
-    <circle cx="503" cy="205" r="20" fill="url(#gsm)"/>
-    <line x1="483" y1="205" x2="523" y2="205" stroke="rgba(255,248,200,.33)" stroke-width=".5"/>
-    <line x1="503" y1="185" x2="503" y2="225" stroke="rgba(255,248,200,.33)" stroke-width=".5"/>
-    <circle cx="503" cy="205" r="3" fill="rgba(255,252,230,.85)"/>
+    <!-- V descent connector -->
+    <circle cx="430" cy="225" r="22" fill="url(#gsm)"/>
+    <line x1="410" y1="225" x2="450" y2="225" stroke="rgba(255,248,200,.33)" stroke-width=".5"/>
+    <line x1="430" y1="205" x2="430" y2="245" stroke="rgba(255,248,200,.33)" stroke-width=".5"/>
+    <circle cx="430" cy="225" r="3.2" fill="rgba(255,252,230,.85)"/>
 
     <!-- STAR OF THE MONTH -->
     <g id="node-star" class="cnode" onclick="handleNodeClick('study')" tabindex="0" role="button" aria-label="Star of the Month">
-      <circle cx="488" cy="368" r="54" fill="url(#glg)"/>
-      <circle cx="488" cy="368" r="27" fill="url(#gmd)"/>
-      <line x1="434" y1="368" x2="542" y2="368" stroke="rgba(255,248,204,.6)"  stroke-width=".82"/>
-      <line x1="488" y1="314" x2="488" y2="422" stroke="rgba(255,248,204,.6)"  stroke-width=".82"/>
-      <line x1="450" y1="330" x2="526" y2="406" stroke="rgba(255,248,204,.2)"  stroke-width=".55"/>
-      <line x1="526" y1="330" x2="450" y2="406" stroke="rgba(255,248,204,.2)"  stroke-width=".55"/>
-      <circle cx="488" cy="368" r="6.2" fill="rgba(255,253,238,.98)"/>
-      <text x="488" y="390" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.65)">Star of</text>
-      <text x="488" y="404" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.65)">the Month</text>
+      <circle cx="505" cy="365" r="54" fill="url(#glg)"/>
+      <circle cx="505" cy="365" r="27" fill="url(#gmd)"/>
+      <line x1="451" y1="365" x2="559" y2="365" stroke="rgba(255,248,204,.6)"  stroke-width=".82"/>
+      <line x1="505" y1="311" x2="505" y2="419" stroke="rgba(255,248,204,.6)"  stroke-width=".82"/>
+      <line x1="467" y1="327" x2="543" y2="403" stroke="rgba(255,248,204,.2)"  stroke-width=".55"/>
+      <line x1="543" y1="327" x2="467" y2="403" stroke="rgba(255,248,204,.2)"  stroke-width=".55"/>
+      <circle cx="505" cy="365" r="6.2" fill="rgba(255,253,238,.98)"/>
+      <text x="505" y="389" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.65)">Star of</text>
+      <text x="505" y="403" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.65)">the Month</text>
     </g>
+
+    <!-- right arm connector -->
+    <circle cx="555" cy="300" r="21" fill="url(#gsm)"/>
+    <line x1="535" y1="300" x2="575" y2="300" stroke="rgba(255,248,200,.33)" stroke-width=".5"/>
+    <line x1="555" y1="280" x2="555" y2="320" stroke="rgba(255,248,200,.33)" stroke-width=".5"/>
+    <circle cx="555" cy="300" r="3.2" fill="rgba(255,252,230,.85)"/>
 
     <!-- PATTERN THOUGHTS -->
     <g id="node-pattern" class="cnode" onclick="handleNodeClick('study')" tabindex="0" role="button" aria-label="Pattern Thoughts">
-      <circle cx="562" cy="268" r="42" fill="url(#glg)"/>
-      <circle cx="562" cy="268" r="20" fill="url(#gmd)"/>
-      <line x1="522" y1="268" x2="602" y2="268" stroke="rgba(255,248,204,.54)" stroke-width=".75"/>
-      <line x1="562" y1="228" x2="562" y2="308" stroke="rgba(255,248,204,.54)" stroke-width=".75"/>
-      <line x1="534" y1="240" x2="590" y2="296" stroke="rgba(255,248,204,.18)" stroke-width=".5"/>
-      <line x1="590" y1="240" x2="534" y2="296" stroke="rgba(255,248,204,.18)" stroke-width=".5"/>
-      <circle cx="562" cy="268" r="5.4" fill="rgba(255,253,235,.96)"/>
-      <text x="580" y="258" text-anchor="start" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.65)">Pattern</text>
-      <text x="580" y="272" text-anchor="start" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.65)">Thoughts</text>
+      <circle cx="590" cy="250" r="42" fill="url(#glg)"/>
+      <circle cx="590" cy="250" r="20" fill="url(#gmd)"/>
+      <line x1="550" y1="250" x2="630" y2="250" stroke="rgba(255,248,204,.54)" stroke-width=".75"/>
+      <line x1="590" y1="210" x2="590" y2="290" stroke="rgba(255,248,204,.54)" stroke-width=".75"/>
+      <line x1="562" y1="222" x2="618" y2="278" stroke="rgba(255,248,204,.18)" stroke-width=".5"/>
+      <line x1="618" y1="222" x2="562" y2="278" stroke="rgba(255,248,204,.18)" stroke-width=".5"/>
+      <circle cx="590" cy="250" r="5.4" fill="rgba(255,253,235,.96)"/>
+      <text x="604" y="274" text-anchor="start" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.65)">Pattern</text>
+      <text x="604" y="288" text-anchor="start" font-family="Cormorant Garamond,Georgia,serif" font-size="13" letter-spacing=".06em" fill="rgba(217,184,124,.65)">Thoughts</text>
     </g>
 
     <!-- GLAM WING (sealed) -->
     <g class="sealed-node" aria-label="Glam Wing — sealed">
-      <circle cx="628" cy="172" r="30" fill="url(#gsm)" opacity=".45"/>
-      <line x1="600" y1="172" x2="656" y2="172" stroke="rgba(255,248,200,.22)" stroke-width=".5"/>
-      <line x1="628" y1="144" x2="628" y2="200" stroke="rgba(255,248,200,.22)" stroke-width=".5"/>
-      <circle cx="628" cy="172" r="3.8" fill="rgba(255,252,228,.55)"/>
-      <text x="628" y="155" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11" letter-spacing=".06em" opacity=".42" fill="rgba(217,184,124,.8)">Glam Wing</text>
+      <circle cx="645" cy="180" r="34" fill="url(#gsm)" opacity=".45"/>
+      <line x1="613" y1="180" x2="677" y2="180" stroke="rgba(255,248,200,.22)" stroke-width=".5"/>
+      <line x1="645" y1="148" x2="645" y2="212" stroke="rgba(255,248,200,.22)" stroke-width=".5"/>
+      <circle cx="645" cy="180" r="4.1" fill="rgba(255,252,228,.55)"/>
+      <text x="643" y="160" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="11" letter-spacing=".06em" opacity=".42" fill="rgba(217,184,124,.8)">Glam Wing</text>
     </g>
 
     <!-- PAGE HEADER -->
@@ -536,3 +540,4 @@ function toggleHum(){
 </script>
 </body>
 </html>
+
