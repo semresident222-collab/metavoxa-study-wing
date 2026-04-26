@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Terra Somnia — Glam Wing · MetaVoxa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
+<style>
+:root{
+  --bg:       #07090e;
+  --mist:     rgba(188,200,218,1);
+  --mist-mid: rgba(188,200,218,0.45);
+  --mist-dim: rgba(188,200,218,0.18);
+  --pale:     rgba(225,230,238,0.88);
+  --font-d:   'Cormorant Garamond',Georgia,serif;
+  --font-b:   'Outfit',system-ui,sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden}
+
+body{
+  background:var(--bg);
+  font-family:var(--font-b);
+  font-weight:300;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ══ ENTRY — fade in from white like waking from a dream ══ */
+#dream-veil{
+  position:fixed;inset:0;z-index:100;pointer-events:none;
+  background:#d8dde6;
+  animation:dream-clear 4.5s ease forwards;
+}
+@keyframes dream-clear{
+  0%  {opacity:1}
+  30% {opacity:0.9}
+  100%{opacity:0}
+}
+
+/* ══ MIST PARTICLES ══ */
+#mist-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.mist-cloud{
+  position:absolute;
+  border-radius:50%;
+  background:radial-gradient(ellipse at center,
+    rgba(188,200,218,0.07) 0%,
+    rgba(188,200,218,0.03) 50%,
+    transparent 75%
+  );
+  animation:cloud-drift var(--dur,20s) ease-in-out var(--delay,0s) infinite alternate;
+}
+@keyframes cloud-drift{
+  0%  {transform:translate(0,0) scale(1)}
+  100%{transform:translate(var(--dx,30px),var(--dy,-20px)) scale(1.08)}
+}
+
+/* floating dream fragments */
+.dream-dot{
+  position:absolute;
+  border-radius:50%;
+  background:rgba(188,200,218,0.35);
+  animation:dot-float var(--dur,8s) ease-in-out var(--delay,0s) infinite alternate;
+}
+@keyframes dot-float{
+  0%  {transform:translateY(0) translateX(0);opacity:0.25}
+  50% {opacity:0.6}
+  100%{transform:translateY(var(--dy,-12px)) translateX(var(--dx,8px));opacity:0.2}
+}
+
+/* ══ FAINT MAP OUTLINE ══ */
+#map-ghost{
+  position:fixed;inset:0;z-index:1;pointer-events:none;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;
+  animation:ghost-appear 4s ease forwards;
+  animation-delay:1.5s;
+}
+@keyframes ghost-appear{
+  from{opacity:0}to{opacity:1}
+}
+
+/* ══ CENTRE CONTENT ══ */
+#centre{
+  position:relative;z-index:10;
+  text-align:center;
+  padding:40px 32px;
+  max-width:480px;
+  opacity:0;
+  animation:content-rise 1.2s ease forwards;
+  animation-delay:2.2s;
+}
+@keyframes content-rise{
+  from{opacity:0;transform:translateY(14px)}
+  to  {opacity:1;transform:none}
+}
+
+.eyebrow{
+  font-family:var(--font-b);
+  font-size:clamp(8px,1vw,9.5px);
+  letter-spacing:.26em;
+  color:rgba(188,200,218,0.3);
+  text-transform:uppercase;
+  margin-bottom:20px;
+  display:block;
+}
+
+h1{
+  font-family:var(--font-d);
+  font-size:clamp(38px,6vw,68px);
+  font-weight:300;font-style:italic;
+  color:rgba(225,230,238,0.72);
+  letter-spacing:.04em;line-height:1.08;
+  margin-bottom:8px;
+}
+
+.subtitle{
+  font-family:var(--font-d);
+  font-size:clamp(14px,1.8vw,18px);
+  font-style:italic;
+  color:rgba(188,200,218,0.38);
+  letter-spacing:.06em;
+  margin-bottom:40px;
+  display:block;
+}
+
+/* the sealed message */
+.message{
+  font-family:var(--font-d);
+  font-size:clamp(15px,2vw,20px);
+  font-style:italic;
+  color:rgba(188,200,218,0.52);
+  line-height:1.72;
+  margin-bottom:48px;
+  letter-spacing:.03em;
+}
+.message em{
+  color:rgba(225,230,238,0.68);
+  font-style:normal;
+}
+
+/* seal line */
+.seal{
+  display:flex;align-items:center;gap:16px;
+  justify-content:center;margin-bottom:44px;
+}
+.seal-line{
+  height:.5px;width:60px;
+  background:linear-gradient(to right,transparent,rgba(188,200,218,0.28));
+}
+.seal-line.r{
+  background:linear-gradient(to left,transparent,rgba(188,200,218,0.28));
+}
+.seal-mark{
+  font-family:var(--font-d);
+  font-size:11px;letter-spacing:.22em;
+  color:rgba(188,200,218,0.28);
+  text-transform:uppercase;
+}
+
+/* coordinates */
+.coordinates{
+  font-family:var(--font-b);
+  font-size:clamp(9px,1.1vw,10px);
+  letter-spacing:.18em;
+  color:rgba(188,200,218,0.18);
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:36px;
+}
+
+/* back link */
+#back-map{
+  font-family:var(--font-b);
+  font-size:clamp(9px,1.1vw,10px);
+  letter-spacing:.16em;
+  color:rgba(188,200,218,0.24);
+  text-decoration:none;text-transform:uppercase;
+  border:.5px solid rgba(188,200,218,0.14);
+  border-radius:4px;padding:7px 16px;
+  transition:all .28s;display:inline-block;
+}
+#back-map:hover{
+  color:rgba(188,200,218,0.65);
+  border-color:rgba(188,200,218,0.32);
+}
+
+/* breathing glow behind title */
+.title-glow{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:320px;height:120px;
+  background:radial-gradient(ellipse at center,
+    rgba(188,200,218,0.06) 0%,transparent 70%
+  );
+  pointer-events:none;
+  animation:glow-breathe 5s ease-in-out infinite;
+}
+@keyframes glow-breathe{
+  0%,100%{opacity:0.5;transform:translate(-50%,-50%) scale(1)}
+  50%    {opacity:1;  transform:translate(-50%,-50%) scale(1.12)}
+}
+</style>
+</head>
+<body>
+
+<div id="dream-veil"></div>
+
+<!-- mist layer -->
+<div id="mist-layer"></div>
+
+<!-- faint continent outline in background -->
+<div id="map-ghost">
+  <svg viewBox="0 0 700 420" width="90vw" style="max-width:700px;opacity:1"
+       xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+    <!-- Australia outline — rough silhouette -->
+    <path d="
+      M280,120 Q295,108 318,110 Q340,108 358,118
+      Q375,125 388,140 Q398,155 402,172
+      Q408,188 405,205 Q402,222 394,238
+      Q385,255 372,268 Q355,282 335,288
+      Q318,292 300,288 Q280,282 265,270
+      Q250,258 244,242 Q238,225 240,208
+      Q240,192 248,178 Q256,162 265,150
+      Q272,138 280,120Z"
+      fill="none"
+      stroke="rgba(188,200,218,0.12)"
+      stroke-width="1.2"/>
+    <!-- Cape York peninsula -->
+    <path d="M358,118 Q370,105 375,90 Q368,95 360,110Z"
+          fill="none" stroke="rgba(188,200,218,0.1)" stroke-width="1"/>
+
+    <!-- New Zealand north island — small -->
+    <path d="M460,175 Q470,165 478,172 Q484,182 480,195 Q474,205 464,202 Q456,196 460,175Z"
+          fill="none" stroke="rgba(188,200,218,0.09)" stroke-width=".9"/>
+    <!-- NZ south island -->
+    <path d="M455,208 Q468,200 476,210 Q480,222 472,235 Q462,244 452,238 Q444,228 455,208Z"
+          fill="none" stroke="rgba(188,200,218,0.09)" stroke-width=".9"/>
+
+    <!-- Papua New Guinea hint -->
+    <path d="M330,98 Q345,88 365,85 Q378,90 380,100 Q370,108 355,112 Q338,110 330,98Z"
+          fill="none" stroke="rgba(188,200,218,0.07)" stroke-width=".8"/>
+
+    <!-- scattered islands — Pacific -->
+    <circle cx="520" cy="140" r="3" fill="none" stroke="rgba(188,200,218,0.07)" stroke-width=".7"/>
+    <circle cx="545" cy="165" r="2" fill="none" stroke="rgba(188,200,218,0.06)" stroke-width=".7"/>
+    <circle cx="505" cy="190" r="2.5" fill="none" stroke="rgba(188,200,218,0.06)" stroke-width=".7"/>
+    <circle cx="560" cy="210" r="1.8" fill="none" stroke="rgba(188,200,218,0.05)" stroke-width=".7"/>
+    <circle cx="420" cy="250" r="2" fill="none" stroke="rgba(188,200,218,0.06)" stroke-width=".7"/>
+    <circle cx="395" cy="310" r="2.5" fill="none" stroke="rgba(188,200,218,0.05)" stroke-width=".7"/>
+    <circle cx="430" cy="290" r="1.5" fill="none" stroke="rgba(188,200,218,0.05)" stroke-width=".7"/>
+    <circle cx="235" cy="295" r="2" fill="none" stroke="rgba(188,200,218,0.05)" stroke-width=".7"/>
+    <circle cx="215" cy="270" r="1.8" fill="none" stroke="rgba(188,200,218,0.05)" stroke-width=".7"/>
+
+    <!-- "Terra Somnia" ghost label inside the continent -->
+    <text x="322" y="210"
+          text-anchor="middle"
+          font-family="Cormorant Garamond, Georgia, serif"
+          font-size="13" font-style="italic"
+          fill="rgba(188,200,218,0.08)"
+          letter-spacing=".12em">Terra Somnia</text>
+
+    <!-- sea monster hint — lower right -->
+    <path d="M570,300 Q580,288 594,292 Q600,302 592,312 Q582,318 572,310 Q566,304 570,300Z"
+          fill="none" stroke="rgba(188,200,218,0.06)" stroke-width=".8"/>
+    <path d="M594,292 Q608,280 618,288"
+          fill="none" stroke="rgba(188,200,218,0.05)" stroke-width=".8"/>
+
+    <!-- mermaid hint — bottom -->
+    <path d="M150,340 Q158,328 166,332 Q170,342 162,352 Q154,356 148,348 Q146,344 150,340Z"
+          fill="none" stroke="rgba(188,200,218,0.06)" stroke-width=".8"/>
+    <path d="M162,352 Q158,365 162,372 Q155,370 148,375"
+          fill="none" stroke="rgba(188,200,218,0.05)" stroke-width=".8"/>
+
+    <!-- Uncharted Waters label bottom right -->
+    <text x="580" y="370"
+          text-anchor="middle"
+          font-family="Outfit, sans-serif"
+          font-size="8"
+          fill="rgba(188,200,218,0.06)"
+          letter-spacing=".14em">UNCHARTED WATERS</text>
+    <text x="580" y="380"
+          text-anchor="middle"
+          font-family="Outfit, sans-serif"
+          font-size="8"
+          fill="rgba(188,200,218,0.05)"
+          letter-spacing=".12em">TERRA INCEGOSIS</text>
+  </svg>
+</div>
+
+<!-- centre content -->
+<div id="centre">
+  <div class="title-glow"></div>
+
+  <span class="eyebrow">Glam Wing · Wing V</span>
+  <h1>Terra Somnia</h1>
+  <span class="subtitle">Oceania · The Dreaming Continent</span>
+
+  <p class="message">
+    Some places arrive in their own time.<br/>
+    This one is <em>still being dreamed.</em><br/>
+    Come back when the waters clear.
+  </p>
+
+  <div class="seal">
+    <span class="seal-line"></span>
+    <span class="seal-mark">sealed</span>
+    <span class="seal-line r"></span>
+  </div>
+
+  <span class="coordinates">25°S 133°E · Uncharted Waters</span>
+
+  <a id="back-map" href="glam-wing.html">← Back to the map</a>
+</div>
+
+<script>
+/* mist clouds */
+(function(){
+  var c = document.getElementById('mist-layer');
+  for(var i=0;i<8;i++){
+    var cloud = document.createElement('div');
+    cloud.className = 'mist-cloud';
+    var w = 200+Math.random()*400;
+    cloud.style.width  = w+'px';
+    cloud.style.height = (w*0.6)+'px';
+    cloud.style.left   = Math.random()*110-10+'vw';
+    cloud.style.top    = Math.random()*110-10+'vh';
+    cloud.style.setProperty('--dur',   (15+Math.random()*20)+'s');
+    cloud.style.setProperty('--delay', (Math.random()*8)+'s');
+    cloud.style.setProperty('--dx',    (Math.random()*60-30)+'px');
+    cloud.style.setProperty('--dy',    (Math.random()*40-20)+'px');
+    c.appendChild(cloud);
+  }
+  /* dream dots */
+  for(var j=0;j<22;j++){
+    var dot = document.createElement('div');
+    dot.className = 'dream-dot';
+    var sz = 1+Math.random()*3;
+    dot.style.width  = sz+'px';
+    dot.style.height = sz+'px';
+    dot.style.left   = Math.random()*100+'vw';
+    dot.style.top    = Math.random()*100+'vh';
+    dot.style.setProperty('--dur',   (6+Math.random()*10)+'s');
+    dot.style.setProperty('--delay', (Math.random()*6)+'s');
+    dot.style.setProperty('--dy',    (Math.random()*30-15)+'px');
+    dot.style.setProperty('--dx',    (Math.random()*20-10)+'px');
+    c.appendChild(dot);
+  }
+})();
+</script>
+</body>
+</html>
