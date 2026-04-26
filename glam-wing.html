@@ -294,40 +294,31 @@
     var activeZone = null;
 
     /* mobile: first tap shows label, second tap navigates */
-    if (isMobile) {
-        zones.forEach(function (zone) {
-            zone.addEventListener('touchstart', function (e) {
-                e.stopPropagation();
-                var continent = this.dataset.continent;
+if (isMobile) {
+    zones.forEach(function (zone) {
+        zone.addEventListener('touchstart', function (e) {
+            e.stopPropagation();
 
-                if (continent === 'terra-somnia') {
-                    e.preventDefault();
-                    if (activeZone && activeZone !== this) activeZone.classList.remove('active');
-                    this.classList.toggle('active');
-                    activeZone = this.classList.contains('active') ? this : null;
-                    return;
-                }
-
-                if (this.classList.contains('active')) {
-                    /* already active — let link navigate */
-                    return;
-                } else {
-                    e.preventDefault();
-                    if (activeZone && activeZone !== this) activeZone.classList.remove('active');
-                    this.classList.add('active');
-                    activeZone = this;
-                }
-            }, { passive: false });
-        });
-
-        document.addEventListener('touchstart', function (e) {
-            if (!e.target.closest('.continent-zone')) {
-                zones.forEach(function (z) { z.classList.remove('active'); });
-                activeZone = null;
+            if (this.classList.contains('active')) {
+              window.location.href = this.getAttribute('href');
+                return;
+            } else {
+                e.preventDefault();
+                if (activeZone && activeZone !== this) activeZone.classList.remove('active');
+                this.classList.add('active');
+                activeZone = this;
             }
-        });
-    }
+        }, { passive: false });
+    });
 
+    document.addEventListener('touchstart', function (e) {
+        if (!e.target.closest('.continent-zone')) {
+            zones.forEach(function (z) { z.classList.remove('active'); });
+            activeZone = null;
+        }
+    });
+}
+    
     /* pin bounce on hover */
     zones.forEach(function (zone) {
         zone.addEventListener('mouseenter', function () {
