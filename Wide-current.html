@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>The Wide Current — Glam Wing · MetaVoxa</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
@@ -10,140 +10,861 @@
 
 <style>
 :root{
-  --deep:#0a1628;
-  --current:#d4af37;
-  --current-mid:rgba(212,175,55,0.6);
-  --current-dim:rgba(212,175,55,0.3);
-  --current-faint:rgba(212,175,55,0.1);
-  --land:#a0522d;
-  --land-mid:rgba(160,82,45,0.5);
-  --land-dim:rgba(160,82,45,0.25);
-  --sky:#5a7a52;
-  --sky-mid:rgba(90,122,82,0.45);
-  --sky-dim:rgba(90,122,82,0.2);
-  --light:#f5e6c8;
-  --light-mid:rgba(245,230,200,0.55);
-  --light-dim:rgba(245,230,200,0.25);
-  --bg:#0a1628;
-  --slate:#0d1b2a;
-  --text:rgba(245,230,200,0.92);
-  --text-muted:rgba(200,190,170,0.5);
-  --box-bg:#0f1f35;
+  --bg:#080e08;
+  --gold:rgba(212,165,50,1);
+  --gold-mid:rgba(212,165,50,0.55);
+  --gold-dim:rgba(212,165,50,0.26);
+  --terra:rgba(180,82,40,1);
+  --terra-mid:rgba(180,82,40,0.55);
+  --terra-dim:rgba(180,82,40,0.26);
+  --forest:rgba(40,80,50,1);
+  --river:rgba(38,98,112,1);
+  --text:rgba(245,235,210,0.92);
+  --text-muted:rgba(210,195,160,0.42);
+  --box-bg:#0c1209;
   --font-d:'Cormorant Garamond',Georgia,serif;
   --font-b:'Outfit',system-ui,sans-serif;
 }
+
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--font-b);font-weight:300;min-height:100vh;overflow-x:hidden}
 
-#water-veil{position:fixed;inset:0;z-index:200;pointer-events:none;background:var(--deep);animation:veil-clear 4s ease forwards}
-@keyframes veil-clear{0%{opacity:1}60%{opacity:1}100%{opacity:0}}
-#water-ripple{position:fixed;inset:0;z-index:201;pointer-events:none;overflow:hidden}
-.ripple-ring{position:absolute;border-radius:50%;border:2px solid rgba(212,175,55,0.25);animation:ripple-expand var(--dur,4s) ease-out var(--delay,0s) forwards}
-@keyframes ripple-expand{0%{width:0;height:0;opacity:0.8;left:50%;top:50%;transform:translate(-50%,-50%)}100%{width:200vmax;height:200vmax;opacity:0;left:50%;top:50%;transform:translate(-50%,-50%)}}
-#surface-light{position:fixed;top:0;left:0;right:0;height:35vh;z-index:199;pointer-events:none;background:linear-gradient(to bottom,rgba(212,175,55,0.1) 0%,rgba(245,230,200,0.05) 40%,transparent 80%);animation:surface-fade 3.5s ease forwards}
-@keyframes surface-fade{0%{opacity:0;transform:translateY(-20px)}50%{opacity:1}100%{opacity:0;transform:translateY(0)}}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-b);
+  font-weight:300;
+  min-height:100vh;
+  overflow-x:hidden;
+}
 
-#americas-wall{position:fixed;inset:0;z-index:0;overflow:hidden}
-#americas-wall::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 100%, rgba(160,82,45,0.15) 0%,transparent 60%),radial-gradient(ellipse 50% 45% at 20% 20%, rgba(90,122,82,0.1) 0%,transparent 55%),radial-gradient(ellipse 55% 50% at 80% 20%, rgba(212,175,55,0.08) 0%,transparent 55%),radial-gradient(ellipse 45% 40% at 50% 50%, rgba(10,22,40,0.3) 0%,transparent 55%),linear-gradient(180deg,#0a1628 0%,#0d1b2a 40%,#0f1f35 70%,#0a1628 100%)}
-#wall-svg{position:absolute;inset:0;width:100%;height:100%;opacity:1}
+/* ═════════════════════════════════════
+   ENTRY — THE WIDE CURRENT
+   Dark water. Gold current. Slow reveal.
+═════════════════════════════════════ */
 
-.quad-label{position:fixed;font-family:var(--font-d);font-style:italic;font-size:clamp(9px,1vw,11px);letter-spacing:.18em;color:rgba(212,175,55,0.25);text-transform:uppercase;pointer-events:none;z-index:1}
-#ql-n{top:14px;left:50%;transform:translateX(-50%)}#ql-s{bottom:14px;left:50%;transform:translateX(-50%)}#ql-w{top:50%;left:16px;transform:translateY(-50%) rotate(-90deg)}#ql-e{top:50%;right:16px;transform:translateY(-50%) rotate(90deg)}
+#current-intro{
+  position:fixed;
+  inset:0;
+  z-index:300;
+  pointer-events:none;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse at 28% 58%, rgba(38,98,112,.17), transparent 42%),
+    radial-gradient(ellipse at 76% 38%, rgba(180,82,40,.12), transparent 46%),
+    radial-gradient(ellipse at 50% 50%, rgba(212,165,50,.07), transparent 55%),
+    linear-gradient(145deg, #030604 0%, #071009 46%, #020403 100%);
+  animation:current-fade 7.4s ease forwards;
+}
 
-#page{position:relative;z-index:2;min-height:100vh}
-#room-header{padding:30px 32px 0;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;opacity:0;animation:rise .7s ease forwards;animation-delay:.5s}
-.room-eyebrow{font-size:clamp(9px,1.1vw,10px);letter-spacing:.22em;color:var(--current-mid);text-transform:uppercase;margin-bottom:5px}
-h1{font-family:var(--font-d);font-size:clamp(26px,4vw,44px);font-weight:300;font-style:italic;color:var(--text);letter-spacing:.04em;line-height:1.1}
-.room-sub{font-size:clamp(10px,1.2vw,12px);letter-spacing:.14em;color:var(--text-muted);text-transform:uppercase;margin-top:4px}
-#back-map{font-family:var(--font-b);font-size:clamp(9px,1.1vw,10px);letter-spacing:.15em;color:var(--current-dim);text-decoration:none;text-transform:uppercase;border:.5px solid var(--current-dim);border-radius:4px;padding:6px 14px;transition:all .22s;white-space:nowrap;align-self:center}
-#back-map:hover{color:var(--current);border-color:var(--current-mid);background:rgba(212,175,55,0.05)}
-.room-divider{height:1px;background:linear-gradient(to right,transparent,var(--current-dim) 30%,var(--current-mid) 50%,var(--current-dim) 70%,transparent);margin:20px 32px 0;opacity:0;animation:rise .6s ease forwards;animation-delay:.65s}
+@keyframes current-fade{
+  0%{opacity:1}
+  72%{opacity:1}
+  100%{opacity:0;visibility:hidden}
+}
 
-#wall{position:relative;z-index:2;padding:28px 28px 80px;display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:22px;max-width:1200px;margin:0 auto}
+#current-light{
+  position:absolute;
+  inset:-20%;
+  background:
+    linear-gradient(115deg,
+      transparent 0%,
+      transparent 30%,
+      rgba(38,98,112,.08) 40%,
+      rgba(212,165,50,.22) 50%,
+      rgba(180,82,40,.13) 56%,
+      rgba(38,98,112,.08) 62%,
+      transparent 74%,
+      transparent 100%);
+  filter:blur(22px);
+  transform:translateX(-78%);
+  animation:current-sweep 7s cubic-bezier(.16,.02,.09,1) forwards;
+}
 
-.pack{position:relative;background:var(--box-bg);border:1.5px solid rgba(212,175,55,0.4);border-radius:6px;cursor:pointer;transition:transform .32s cubic-bezier(.2,0,.2,1),border-color .28s,box-shadow .28s;opacity:0;animation:pack-appear .5s ease forwards}
-.pack:hover{transform:translateY(-10px) scale(1.015);border-color:var(--current);box-shadow:0 18px 52px rgba(212,175,55,.15),0 0 0 .5px rgba(212,175,55,.25)}
-.pack:nth-child(1){animation-delay:.8s}.pack:nth-child(2){animation-delay:.98s}.pack:nth-child(3){animation-delay:1.16s}.pack:nth-child(n+4){animation-delay:1.3s}
-@keyframes pack-appear{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
-.pack-band{display:flex;justify-content:space-between;align-items:center;background:rgba(212,175,55,.08);border-bottom:1px solid rgba(212,175,55,.2);padding:8px 12px}
-.pack-band .loc{font-size:10px;letter-spacing:.14em;color:rgba(245,230,200,0.9);text-transform:uppercase;font-weight:500}
-.pack-band .season{font-size:9px;letter-spacing:.1em;color:rgba(200,190,170,.35);text-transform:uppercase}
-.pack-window{margin:10px;border:1px solid rgba(212,175,55,.18);border-radius:4px;overflow:hidden;aspect-ratio:3/4;background:#0a1420;position:relative}
-.pack-window img{width:100%;height:100%;object-fit:contain;object-position:center center;display:block;transition:transform .4s ease}
-.pack:hover .pack-window img{transform:scale(1.04)}
-.perfume-badge{position:absolute;bottom:6px;right:6px;background:rgba(10,20,32,.9);border:1px solid rgba(212,175,55,.35);border-radius:3px;padding:3px 7px;font-size:8px;letter-spacing:.07em;color:rgba(212,175,55,.8);font-family:var(--font-d);font-style:italic}
-.pack-foot{padding:10px 12px 12px;border-top:1px solid rgba(212,175,55,.12)}
-.pack-foot .city-name{font-family:var(--font-d);font-size:clamp(13px,1.6vw,15px);font-style:italic;color:var(--text);margin-bottom:2px}
-.pack-foot .continent-tag{font-size:8.5px;letter-spacing:.14em;color:var(--text-muted);text-transform:uppercase}
-.pack-hint{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:8px;letter-spacing:.12em;color:var(--current-dim);text-transform:uppercase;white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
-.pack:hover .pack-hint{opacity:1}
+@keyframes current-sweep{
+  0%{transform:translateX(-78%);opacity:0}
+  18%{opacity:1}
+  66%{opacity:.95}
+  100%{transform:translateX(78%);opacity:0}
+}
 
-#lb-overlay{position:fixed;inset:0;background:rgba(6,12,22,.95);backdrop-filter:blur(12px);z-index:100;display:none;align-items:center;justify-content:center;padding:16px;animation:lb-in .3s ease}
-#lb-overlay.open{display:flex}
-@keyframes lb-in{from{opacity:0}to{opacity:1}}
-#lb{position:relative;background:var(--box-bg);border:2px solid rgba(212,175,55,.45);border-radius:8px;max-width:500px;width:100%;max-height:94vh;overflow-y:auto;animation:lb-rise .36s cubic-bezier(.2,0,.2,1)}
-@keyframes lb-rise{from{opacity:0;transform:scale(.93) translateY(18px)}to{opacity:1;transform:none}}
-#lb-close{position:absolute;top:11px;right:13px;background:none;border:none;font-size:12px;letter-spacing:.1em;color:rgba(200,190,170,.3);cursor:pointer;font-family:var(--font-b);z-index:10;transition:color .2s}
-#lb-close:hover{color:rgba(212,175,55,.9)}
-#lb-band{display:flex;justify-content:space-between;align-items:center;background:rgba(212,175,55,.1);border-bottom:1px solid rgba(212,175,55,.2);padding:10px 42px 10px 14px}
-#lb-loc{font-size:11px;letter-spacing:.16em;color:rgba(245,230,200,0.9);text-transform:uppercase;font-weight:500}
-#lb-season{font-size:10px;letter-spacing:.1em;color:rgba(200,190,170,.35);text-transform:uppercase}
-#lb-photo-wrap{position:relative;margin:12px;border:1px solid rgba(212,175,55,.18);border-radius:4px;overflow:hidden;background:#0a1420}
-#lb-photo-wrap img{width:100%;display:block;max-height:60vh;object-fit:contain;object-position:center}
-.hotspot{position:absolute;width:44px;height:44px;border-radius:50%;background:transparent;border:none;cursor:crosshair;z-index:5;transform:translate(-50%,-50%)}
-.hs-tip{position:absolute;background:rgba(10,20,32,.97);border:1px solid rgba(212,175,55,.45);border-radius:6px;padding:10px 14px;width:170px;pointer-events:none;opacity:0;transform:translateY(5px);transition:opacity .22s,transform .22s;z-index:20;font-family:var(--font-b)}
-.hs-tip.show{opacity:1;transform:translateY(0)}
-.tip-label{font-size:9px;letter-spacing:.16em;color:var(--current);text-transform:uppercase;display:block;margin-bottom:4px;font-weight:500}
-.tip-note{font-family:var(--font-d);font-style:italic;font-size:14px;color:rgba(200,190,170,.75);line-height:1.55}
-#lb-footer{padding:14px 14px 18px;border-top:1px solid rgba(212,175,55,.15)}
-.lb-city{font-family:var(--font-d);font-size:20px;font-style:italic;color:var(--text);margin-bottom:2px}
-.lb-sub-tag{font-size:9px;letter-spacing:.15em;color:var(--text-muted);text-transform:uppercase;margin-bottom:15px}
-.lb-links{display:flex;flex-direction:column;gap:8px}
-.lb-link{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:10px 14px;text-decoration:none;font-size:clamp(11px,1.4vw,12.5px);color:rgba(200,190,170,.4);letter-spacing:.04em;transition:all .22s}
-.lb-link:hover{border-color:var(--current-mid);color:var(--current);background:rgba(212,175,55,0.05)}
-.lb-link .li-icon{font-size:15px;flex-shrink:0}
-.lb-link .li-sub{font-size:9px;color:rgba(200,190,170,.2);letter-spacing:.1em;display:block;margin-top:1px}
-@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
-@media(max-width:600px){#wall{grid-template-columns:repeat(2,1fr);gap:12px;padding:16px 12px 56px}#room-header{padding:20px 16px 0}.room-divider{margin:16px}}
+#current-lines{
+  position:absolute;
+  inset:-10%;
+  opacity:.45;
+  background:
+    repeating-linear-gradient(
+      112deg,
+      transparent 0px,
+      transparent 34px,
+      rgba(212,165,50,.13) 35px,
+      transparent 37px,
+      transparent 72px
+    ),
+    repeating-linear-gradient(
+      118deg,
+      transparent 0px,
+      transparent 54px,
+      rgba(38,98,112,.16) 55px,
+      transparent 57px,
+      transparent 110px
+    );
+  filter:blur(.2px);
+  transform:translateX(-4%) translateY(2%);
+  animation:current-lines-move 7.2s ease forwards;
+}
+
+@keyframes current-lines-move{
+  0%{opacity:0;transform:translateX(-8%) translateY(3%)}
+  20%{opacity:.48}
+  68%{opacity:.38}
+  100%{opacity:0;transform:translateX(8%) translateY(-3%)}
+}
+
+.current-mote{
+  position:absolute;
+  width:2px;
+  height:2px;
+  border-radius:50%;
+  background:rgba(212,165,50,.65);
+  box-shadow:0 0 10px rgba(212,165,50,.45);
+  opacity:0;
+  animation:current-mote var(--dur) ease-in-out var(--delay) forwards;
+}
+
+@keyframes current-mote{
+  0%{
+    opacity:0;
+    transform:translate3d(0,0,0) scale(.6);
+  }
+  20%{opacity:var(--op)}
+  70%{opacity:var(--op)}
+  100%{
+    opacity:0;
+    transform:translate3d(var(--dx),var(--dy),0) scale(.2);
+  }
+}
+
+#current-title{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  text-align:center;
+  opacity:0;
+  animation:current-title 7s ease forwards;
+}
+
+@keyframes current-title{
+  0%,24%{opacity:0;transform:translate(-50%,-46%)}
+  42%,68%{opacity:1;transform:translate(-50%,-50%)}
+  100%{opacity:0;transform:translate(-50%,-54%)}
+}
+
+.current-name{
+  font-family:var(--font-d);
+  font-style:italic;
+  font-weight:300;
+  font-size:clamp(38px,7vw,86px);
+  letter-spacing:.06em;
+  color:rgba(245,235,210,.92);
+  text-shadow:0 0 42px rgba(212,165,50,.22);
+}
+
+.current-sub{
+  margin-top:8px;
+  font-family:var(--font-b);
+  font-size:clamp(9px,1.1vw,12px);
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:rgba(212,165,50,.72);
+}
+
+/* ═════════════════════════════════════
+   AMERICAS WALL
+═════════════════════════════════════ */
+
+#americas-wall{
+  position:fixed;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+}
+
+#americas-wall::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse 80% 55% at 15% 20%, rgba(40,80,30,0.22) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 25%, rgba(38,98,112,0.14) 0%,transparent 55%),
+    radial-gradient(ellipse 70% 50% at 80% 80%, rgba(180,82,40,0.15) 0%,transparent 55%),
+    radial-gradient(ellipse 55% 45% at 10% 78%, rgba(212,165,50,0.1) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(8,14,8,0.5) 0%,transparent 60%),
+    linear-gradient(165deg,#0c1409 0%,#080e08 35%,#0a1208 65%,#0e1a0a 100%);
+}
+
+#wall-svg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+
+.quad-label{
+  position:fixed;
+  font-family:var(--font-d);
+  font-style:italic;
+  font-size:clamp(9px,1vw,11px);
+  letter-spacing:.18em;
+  color:rgba(212,165,50,0.16);
+  text-transform:uppercase;
+  pointer-events:none;
+  z-index:1;
+}
+
+#ql-n{top:14px;left:50%;transform:translateX(-50%)}
+#ql-s{bottom:14px;left:50%;transform:translateX(-50%)}
+#ql-w{top:50%;left:16px;transform:translateY(-50%) rotate(-90deg)}
+#ql-e{top:50%;right:16px;transform:translateY(-50%) rotate(90deg)}
+
+/* ═════════════════════════════════════
+   PAGE
+═════════════════════════════════════ */
+
+#page{
+  position:relative;
+  z-index:2;
+  min-height:100vh;
+}
+
+#room-header{
+  padding:30px 32px 0;
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px;
+  opacity:0;
+  animation:rise .7s ease forwards;
+  animation-delay:1.15s;
+}
+
+.room-eyebrow{
+  font-size:clamp(9px,1.1vw,10px);
+  letter-spacing:.22em;
+  color:var(--gold-mid);
+  text-transform:uppercase;
+  margin-bottom:5px;
+}
+
+h1{
+  font-family:var(--font-d);
+  font-size:clamp(26px,4vw,44px);
+  font-weight:300;
+  font-style:italic;
+  color:var(--text);
+  letter-spacing:.04em;
+  line-height:1.1;
+}
+
+.room-sub{
+  font-size:clamp(10px,1.2vw,12px);
+  letter-spacing:.14em;
+  color:var(--text-muted);
+  text-transform:uppercase;
+  margin-top:4px;
+}
+
+#back-map{
+  font-family:var(--font-b);
+  font-size:clamp(9px,1.1vw,10px);
+  letter-spacing:.15em;
+  color:var(--gold-dim);
+  text-decoration:none;
+  text-transform:uppercase;
+  border:.5px solid var(--gold-dim);
+  border-radius:4px;
+  padding:6px 14px;
+  transition:all .22s;
+  white-space:nowrap;
+  align-self:center;
+}
+
+#back-map:hover{
+  color:var(--gold);
+  border-color:var(--gold-mid);
+}
+
+.room-divider{
+  height:.5px;
+  background:linear-gradient(to right,transparent,var(--terra-dim) 30%,var(--gold-mid) 50%,var(--terra-dim) 70%,transparent);
+  margin:20px 32px 0;
+  opacity:0;
+  animation:rise .6s ease forwards;
+  animation-delay:1.3s;
+}
+
+/* ═════════════════════════════════════
+   WALL / GRID
+═════════════════════════════════════ */
+
+#wall{
+  position:relative;
+  z-index:2;
+  padding:28px 28px 80px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+  gap:22px;
+  max-width:1200px;
+  margin:0 auto;
+}
+
+.box{
+  position:relative;
+  background:var(--box-bg);
+  border:1px solid rgba(180,82,40,0.42);
+  border-radius:5px;
+  cursor:pointer;
+  transition:transform .32s cubic-bezier(.2,0,.2,1),border-color .28s,box-shadow .28s;
+  opacity:0;
+  animation:box-appear .5s ease forwards;
+}
+
+.box:hover{
+  transform:translateY(-10px) scale(1.015);
+  border-color:var(--gold);
+  box-shadow:0 18px 52px rgba(212,165,50,.18),0 0 0 .5px rgba(212,165,50,.28);
+}
+
+.box:nth-child(1){animation-delay:1.55s}
+.box:nth-child(2){animation-delay:1.72s}
+.box:nth-child(3){animation-delay:1.89s}
+.box:nth-child(n+4){animation-delay:2s}
+
+@keyframes box-appear{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:none}
+}
+
+.box-band{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(212,165,50,.08);
+  border-bottom:.5px solid rgba(212,165,50,.18);
+  padding:7px 11px;
+}
+
+.box-band .loc{
+  font-size:10px;
+  letter-spacing:.14em;
+  color:rgba(245,220,160,.9);
+  text-transform:uppercase;
+  font-weight:500;
+}
+
+.box-band .season{
+  font-size:9px;
+  letter-spacing:.1em;
+  color:rgba(210,195,160,.32);
+  text-transform:uppercase;
+}
+
+.box-window{
+  margin:8px;
+  border:.5px solid rgba(180,82,40,.18);
+  border-radius:3px;
+  overflow:hidden;
+  aspect-ratio:3/4;
+  background:#080c07;
+  position:relative;
+}
+
+.box-window img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:center center;
+  display:block;
+  transition:transform .4s ease;
+}
+
+.box:hover .box-window img{
+  transform:scale(1.04);
+}
+
+.perfume-badge{
+  position:absolute;
+  bottom:6px;
+  right:6px;
+  background:rgba(8,12,7,.9);
+  border:.5px solid rgba(212,165,50,.35);
+  border-radius:3px;
+  padding:3px 7px;
+  font-size:8px;
+  letter-spacing:.07em;
+  color:rgba(212,165,50,.78);
+  font-family:var(--font-d);
+  font-style:italic;
+}
+
+.box-foot{
+  padding:8px 11px 10px;
+  border-top:.5px solid rgba(180,82,40,.12);
+}
+
+.box-foot .city-name{
+  font-family:var(--font-d);
+  font-size:clamp(13px,1.6vw,15px);
+  font-style:italic;
+  color:var(--text);
+  margin-bottom:2px;
+}
+
+.box-foot .continent-tag{
+  font-size:8.5px;
+  letter-spacing:.14em;
+  color:var(--text-muted);
+  text-transform:uppercase;
+}
+
+.box-hint{
+  position:absolute;
+  bottom:-22px;
+  left:50%;
+  transform:translateX(-50%);
+  font-size:8px;
+  letter-spacing:.12em;
+  color:var(--gold-dim);
+  text-transform:uppercase;
+  white-space:nowrap;
+  opacity:0;
+  transition:opacity .2s;
+  pointer-events:none;
+}
+
+.box:hover .box-hint{
+  opacity:1;
+}
+
+/* ═════════════════════════════════════
+   LIGHTBOX
+═════════════════════════════════════ */
+
+#lb-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(4,8,4,.93);
+  backdrop-filter:blur(10px);
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:16px;
+  animation:lb-in .3s ease;
+}
+
+#lb-overlay.open{
+  display:flex;
+}
+
+@keyframes lb-in{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+#lb{
+  position:relative;
+  background:var(--box-bg);
+  border:1px solid rgba(180,82,40,.42);
+  border-radius:6px;
+  max-width:500px;
+  width:100%;
+  max-height:94vh;
+  overflow-y:auto;
+  animation:lb-rise .36s cubic-bezier(.2,0,.2,1);
+}
+
+@keyframes lb-rise{
+  from{opacity:0;transform:scale(.93) translateY(18px)}
+  to{opacity:1;transform:none}
+}
+
+#lb-close{
+  position:absolute;
+  top:11px;
+  right:13px;
+  background:none;
+  border:none;
+  font-size:11px;
+  letter-spacing:.1em;
+  color:rgba(210,195,160,.22);
+  cursor:pointer;
+  font-family:var(--font-b);
+  z-index:10;
+  transition:color .2s;
+}
+
+#lb-close:hover{
+  color:rgba(212,165,50,.85);
+}
+
+#lb-band{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background:rgba(212,165,50,.08);
+  border-bottom:.5px solid rgba(212,165,50,.18);
+  padding:9px 42px 9px 14px;
+}
+
+#lb-loc{
+  font-size:11px;
+  letter-spacing:.16em;
+  color:rgba(245,220,160,.9);
+  text-transform:uppercase;
+  font-weight:500;
+}
+
+#lb-season{
+  font-size:10px;
+  letter-spacing:.1em;
+  color:rgba(210,195,160,.32);
+  text-transform:uppercase;
+}
+
+#lb-photo-wrap{
+  position:relative;
+  margin:10px;
+  border:.5px solid rgba(180,82,40,.18);
+  border-radius:3px;
+  overflow:hidden;
+  background:#080c07;
+}
+
+#lb-photo-wrap img{
+  width:100%;
+  display:block;
+  max-height:60vh;
+  object-fit:contain;
+  object-position:center;
+}
+
+.hotspot{
+  position:absolute;
+  width:44px;
+  height:44px;
+  border-radius:50%;
+  background:transparent;
+  border:none;
+  cursor:crosshair;
+  z-index:5;
+  transform:translate(-50%,-50%);
+}
+
+.hs-tip{
+  position:absolute;
+  background:rgba(8,12,7,.97);
+  border:.5px solid rgba(180,82,40,.45);
+  border-radius:5px;
+  padding:9px 13px;
+  width:162px;
+  pointer-events:none;
+  opacity:0;
+  transform:translateY(5px);
+  transition:opacity .22s,transform .22s;
+  z-index:20;
+  font-family:var(--font-b);
+}
+
+.hs-tip.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.tip-label{
+  font-size:8.5px;
+  letter-spacing:.16em;
+  color:var(--terra);
+  text-transform:uppercase;
+  display:block;
+  margin-bottom:4px;
+  font-weight:500;
+}
+
+.tip-note{
+  font-family:var(--font-d);
+  font-style:italic;
+  font-size:13.5px;
+  color:rgba(210,195,160,.75);
+  line-height:1.55;
+}
+
+#lb-footer{
+  padding:13px 14px 18px;
+  border-top:.5px solid rgba(180,82,40,.14);
+}
+
+.lb-city{
+  font-family:var(--font-d);
+  font-size:19px;
+  font-style:italic;
+  color:var(--text);
+  margin-bottom:2px;
+}
+
+.lb-sub-tag{
+  font-size:9px;
+  letter-spacing:.15em;
+  color:var(--text-muted);
+  text-transform:uppercase;
+  margin-bottom:15px;
+}
+
+.lb-links{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.lb-link{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  background:rgba(255,255,255,.04);
+  border:.5px solid rgba(255,255,255,.07);
+  border-radius:6px;
+  padding:10px 14px;
+  text-decoration:none;
+  font-size:clamp(11px,1.4vw,12.5px);
+  color:rgba(210,195,160,.38);
+  letter-spacing:.04em;
+  transition:all .22s;
+}
+
+.lb-link:hover{
+  border-color:var(--gold-mid);
+  color:var(--gold);
+}
+
+.lb-link .li-icon{
+  font-size:15px;
+  flex-shrink:0;
+}
+
+.lb-link .li-sub{
+  font-size:9px;
+  color:rgba(210,195,160,.2);
+  letter-spacing:.1em;
+  display:block;
+  margin-top:1px;
+}
+
+@keyframes rise{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:none}
+}
+
+@media(max-width:600px){
+  #wall{
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    padding:16px 12px 56px;
+  }
+
+  #room-header{
+    padding:20px 16px 0;
+  }
+
+  .room-divider{
+    margin:16px;
+  }
+
+  .current-name{
+    font-size:42px;
+  }
+}
 </style>
 </head>
+
 <body>
 
-<div id="water-veil"></div><div id="water-ripple"></div><div id="surface-light"></div>
+<!-- ══ ENTRY ══ -->
+<div id="current-intro">
+  <div id="current-lines"></div>
+  <div id="current-light"></div>
+  <div id="current-title">
+    <div class="current-name">The Wide Current</div>
+    <div class="current-sub">The Americas</div>
+  </div>
+</div>
 
+<!-- ══ AMERICAS WALL ══ -->
 <div id="americas-wall">
   <svg id="wall-svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
     <defs>
-      <pattern id="pat-north" x="0" y="0" width="80" height="40" patternUnits="userSpaceOnUse"><g stroke="rgba(212,175,55,0.15)" stroke-width=".8" fill="none"><path d="M0,20 Q20,5 40,20 Q60,35 80,20"/><path d="M0,30 Q20,15 40,30 Q60,45 80,30" stroke-width=".6"/><path d="M0,10 Q20,-5 40,10 Q60,25 80,10" stroke-width=".6"/><circle cx="40" cy="20" r="2.5" fill="rgba(212,175,55,0.08)"/></g></pattern>
-      <pattern id="pat-south" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse"><g stroke="rgba(160,82,45,0.12)" stroke-width=".8" fill="none"><ellipse cx="30" cy="30" rx="25" ry="15"/><ellipse cx="30" cy="30" rx="18" ry="10"/><ellipse cx="30" cy="30" rx="10" ry="5" fill="rgba(160,82,45,0.06)"/><line x1="0" y1="30" x2="60" y2="30" stroke-width=".5"/></g></pattern>
-      <pattern id="pat-west" x="0" y="0" width="72" height="36" patternUnits="userSpaceOnUse"><g stroke="rgba(90,122,82,0.14)" stroke-width=".8" fill="none"><path d="M0,18 Q18,0 36,18 Q54,36 72,18"/><path d="M0,27 Q18,9 36,27 Q54,45 72,27" stroke-width=".6"/><circle cx="36" cy="18" r="3" fill="rgba(90,122,82,0.08)"/></g></pattern>
-      <pattern id="pat-east" x="0" y="0" width="56" height="56" patternUnits="userSpaceOnUse"><g stroke="rgba(212,175,55,0.12)" stroke-width=".7" fill="none"><rect x="4" y="4" width="48" height="48" rx="24"/><rect x="12" y="12" width="32" height="32" rx="16"/><circle cx="28" cy="28" r="6" fill="rgba(212,175,55,0.06)"/><line x1="4" y1="28" x2="52" y2="28" stroke-width=".5"/><line x1="28" y1="4" x2="28" y2="52" stroke-width=".5"/></g></pattern>
-      <linearGradient id="fn" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="white" stop-opacity="1"/><stop offset="65%" stop-color="white" stop-opacity="0"/></linearGradient>
-      <linearGradient id="fs" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="white" stop-opacity="1"/><stop offset="65%" stop-color="white" stop-opacity="0"/></linearGradient>
-      <linearGradient id="fw" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="white" stop-opacity="1"/><stop offset="65%" stop-color="white" stop-opacity="0"/></linearGradient>
-      <linearGradient id="fe" x1="1" y1="0" x2="0" y2="0"><stop offset="0%" stop-color="white" stop-opacity="1"/><stop offset="65%" stop-color="white" stop-opacity="0"/></linearGradient>
+      <pattern id="pat-north" x="0" y="0" width="64" height="64" patternUnits="userSpaceOnUse">
+        <g stroke="rgba(212,165,50,0.16)" stroke-width=".8" fill="none">
+          <rect x="8" y="8" width="48" height="48" transform="rotate(45 32 32)"/>
+          <rect x="16" y="16" width="32" height="32" transform="rotate(45 32 32)"/>
+          <line x1="32" y1="0" x2="32" y2="64" stroke-width=".5"/>
+          <line x1="0" y1="32" x2="64" y2="32" stroke-width=".5"/>
+          <circle cx="32" cy="32" r="3.5" fill="rgba(212,165,50,0.1)"/>
+        </g>
+      </pattern>
+
+      <pattern id="pat-south" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+        <g stroke="rgba(180,82,40,0.15)" stroke-width=".8" fill="none">
+          <rect x="4" y="4" width="52" height="52"/>
+          <rect x="12" y="12" width="36" height="36"/>
+          <rect x="20" y="20" width="20" height="20"/>
+          <rect x="26" y="26" width="8" height="8" fill="rgba(180,82,40,0.1)"/>
+          <line x1="4" y1="28" x2="12" y2="28"/>
+          <line x1="48" y1="28" x2="56" y2="28"/>
+          <line x1="28" y1="4" x2="28" y2="12"/>
+          <line x1="28" y1="48" x2="28" y2="56"/>
+        </g>
+      </pattern>
+
+      <pattern id="pat-west" x="0" y="0" width="52" height="52" patternUnits="userSpaceOnUse">
+        <g stroke="rgba(38,98,112,0.18)" stroke-width=".8" fill="none">
+          <ellipse cx="26" cy="26" rx="20" ry="12"/>
+          <ellipse cx="26" cy="26" rx="12" ry="7"/>
+          <circle cx="26" cy="26" r="4.5" fill="rgba(38,98,112,0.1)"/>
+          <circle cx="26" cy="26" r="1.5" fill="rgba(38,98,112,0.22)" stroke="none"/>
+          <line x1="6" y1="26" x2="0" y2="26" stroke-width=".5"/>
+          <line x1="46" y1="26" x2="52" y2="26" stroke-width=".5"/>
+          <path d="M14,19 Q26,11 38,19" stroke-width=".6"/>
+          <path d="M14,33 Q26,41 38,33" stroke-width=".6"/>
+        </g>
+      </pattern>
+
+      <pattern id="pat-east" x="0" y="0" width="48" height="32" patternUnits="userSpaceOnUse">
+        <g stroke="rgba(40,80,50,0.16)" stroke-width=".8" fill="none">
+          <polyline points="0,16 12,4 24,16 36,4 48,16"/>
+          <polyline points="0,16 12,28 24,16 36,28 48,16"/>
+          <polyline points="0,24 12,12 24,24 36,12 48,24"/>
+          <polyline points="0,8 12,20 24,8 36,20 48,8"/>
+        </g>
+      </pattern>
+
+      <linearGradient id="fn" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="white" stop-opacity="1"/>
+        <stop offset="62%" stop-color="white" stop-opacity="0"/>
+      </linearGradient>
+
+      <linearGradient id="fs" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0%" stop-color="white" stop-opacity="1"/>
+        <stop offset="62%" stop-color="white" stop-opacity="0"/>
+      </linearGradient>
+
+      <linearGradient id="fw" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="white" stop-opacity="1"/>
+        <stop offset="62%" stop-color="white" stop-opacity="0"/>
+      </linearGradient>
+
+      <linearGradient id="fe" x1="1" y1="0" x2="0" y2="0">
+        <stop offset="0%" stop-color="white" stop-opacity="1"/>
+        <stop offset="62%" stop-color="white" stop-opacity="0"/>
+      </linearGradient>
+
       <mask id="mn"><rect width="1200" height="400" fill="url(#fn)"/></mask>
       <mask id="ms"><rect y="400" width="1200" height="400" fill="url(#fs)"/></mask>
       <mask id="mw"><rect width="600" height="800" fill="url(#fw)"/></mask>
       <mask id="me"><rect x="600" width="600" height="800" fill="url(#fe)"/></mask>
     </defs>
+
     <rect width="1200" height="400" fill="url(#pat-north)" mask="url(#mn)" opacity=".95"/>
     <rect y="400" width="1200" height="400" fill="url(#pat-south)" mask="url(#ms)" opacity=".95"/>
     <rect width="600" height="800" fill="url(#pat-west)" mask="url(#mw)" opacity=".95"/>
     <rect x="600" width="600" height="800" fill="url(#pat-east)" mask="url(#me)" opacity=".95"/>
-    <g opacity=".1" stroke="rgba(212,175,55,0.6)" stroke-width="1.2" fill="none"><path d="M0,200 Q300,100 600,200 Q900,300 1200,200"/><path d="M0,400 Q300,300 600,400 Q900,500 1200,400"/><path d="M0,600 Q300,500 600,600 Q900,700 1200,600"/></g>
-    <g opacity=".12" fill="rgba(160,82,45,0.5)"><circle cx="200" cy="200" r="4"/><circle cx="400" cy="400" r="5"/><circle cx="600" cy="300" r="3.5"/><circle cx="800" cy="500" r="4.5"/><circle cx="1000" cy="250" r="3"/><circle cx="300" cy="600" r="4"/></g>
-    <g opacity=".08" fill="rgba(245,230,200,0.4)"><ellipse cx="600" cy="100" rx="200" ry="30"/><ellipse cx="400" cy="150" rx="150" ry="20"/><ellipse cx="800" cy="120" rx="180" ry="25"/></g>
-    <radialGradient id="cv" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(10,22,40,0.82)"/><stop offset="100%" stop-color="rgba(10,22,40,0)"/></radialGradient>
+
+    <g opacity=".16" transform="translate(55,44) scale(0.7)">
+      <ellipse cx="50" cy="52" rx="28" ry="16" fill="rgba(212,165,50,0.7)"/>
+      <ellipse cx="78" cy="38" rx="10" ry="8" fill="rgba(212,165,50,0.7)"/>
+      <path d="M74,30 L70,14 M70,14 L64,8 M70,14 L74,6 M70,14 L66,18" stroke="rgba(212,165,50,0.8)" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M80,30 L84,12 M84,12 L90,6 M84,12 L80,4 M84,12 L88,18" stroke="rgba(212,165,50,0.8)" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <line x1="32" y1="65" x2="28" y2="84" stroke="rgba(212,165,50,0.7)" stroke-width="3" stroke-linecap="round"/>
+      <line x1="44" y1="66" x2="42" y2="86" stroke="rgba(212,165,50,0.7)" stroke-width="3" stroke-linecap="round"/>
+      <line x1="58" y1="66" x2="56" y2="86" stroke="rgba(212,165,50,0.7)" stroke-width="3" stroke-linecap="round"/>
+      <line x1="68" y1="65" x2="72" y2="84" stroke="rgba(212,165,50,0.7)" stroke-width="3" stroke-linecap="round"/>
+    </g>
+
+    <g transform="translate(1068,42) scale(0.88)" opacity=".19">
+      <path d="M50,0 L44,18 L56,16 L40,36 L50,34 L34,56 L36,44 L24,48 L26,34 L14,40 L22,26 L8,28 L26,12 L16,8 L34,6 L32,0 L44,12 Z" fill="rgba(180,82,40,0.85)"/>
+      <line x1="34" y1="56" x2="34" y2="74" stroke="rgba(180,82,40,0.65)" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g transform="translate(530,55) scale(0.75)" opacity=".14" fill="rgba(212,165,50,0.7)">
+      <path d="M60,28 Q42,8 0,18 Q22,26 32,33 Q8,30 0,38 Q32,34 46,40 Z"/>
+      <path d="M60,28 Q78,8 120,18 Q98,26 88,33 Q112,30 120,38 Q88,34 74,40 Z"/>
+      <ellipse cx="60" cy="34" rx="13" ry="9"/>
+      <circle cx="60" cy="21" r="7" fill="rgba(240,225,185,0.45)"/>
+      <path d="M66,21 L73,25 L66,27 Z" fill="rgba(212,165,50,0.8)"/>
+    </g>
+
+    <g opacity=".13" fill="rgba(180,82,40,0.6)">
+      <ellipse cx="58" cy="640" rx="10" ry="7" transform="rotate(-15 58 640)"/>
+      <ellipse cx="92" cy="660" rx="8" ry="6" transform="rotate(8 92 660)"/>
+      <ellipse cx="72" cy="690" rx="9" ry="6" transform="rotate(-5 72 690)"/>
+      <ellipse cx="110" cy="635" rx="7" ry="5" transform="rotate(12 110 635)"/>
+      <ellipse cx="44" cy="710" rx="8" ry="5" transform="rotate(-20 44 710)"/>
+      <ellipse cx="128" cy="675" rx="6" ry="5" transform="rotate(5 128 675)"/>
+      <ellipse cx="58" cy="640" rx="4" ry="3" fill="rgba(8,12,7,0.5)"/>
+      <ellipse cx="92" cy="660" rx="3" ry="2.5" fill="rgba(8,12,7,0.5)"/>
+      <ellipse cx="72" cy="690" rx="3.5" ry="2.5" fill="rgba(8,12,7,0.5)"/>
+    </g>
+
+    <g opacity=".12" fill="rgba(40,80,50,0.65)" stroke="rgba(40,80,50,0.4)" stroke-width=".6">
+      <ellipse cx="1140" cy="420" rx="22" ry="8" transform="rotate(-35 1140 420)"/>
+      <line x1="1140" y1="412" x2="1140" y2="428" stroke-width=".8" transform="rotate(-35 1140 420)"/>
+      <ellipse cx="1165" cy="460" rx="18" ry="7" transform="rotate(-20 1165 460)"/>
+      <ellipse cx="1120" cy="480" rx="20" ry="7" transform="rotate(-50 1120 480)"/>
+      <ellipse cx="1150" cy="510" rx="24" ry="8" transform="rotate(-30 1150 510)"/>
+      <ellipse cx="1128" cy="540" rx="16" ry="6" transform="rotate(-45 1128 540)"/>
+    </g>
+
+    <g transform="translate(30,190)" opacity=".13" stroke="rgba(160,200,230,0.8)" stroke-width="1" stroke-linecap="round" fill="none">
+      <line x1="16" y1="0" x2="16" y2="32"/>
+      <line x1="0" y1="16" x2="32" y2="16"/>
+      <line x1="5" y1="5" x2="27" y2="27"/>
+      <line x1="27" y1="5" x2="5" y2="27"/>
+      <circle cx="16" cy="16" r="3" fill="rgba(160,200,230,0.25)" stroke="rgba(160,200,230,0.8)"/>
+    </g>
+
+    <g opacity=".09" fill="rgba(90,115,80,0.55)">
+      <polygon points="470,800 536,686 602,800"/>
+      <polygon points="522,800 598,698 674,800"/>
+      <polygon points="574,800 658,714 742,800"/>
+      <polygon points="536,686 522,716 550,716" fill="rgba(220,230,225,0.4)"/>
+      <polygon points="598,698 584,726 612,726" fill="rgba(220,230,225,0.4)"/>
+      <polygon points="658,714 644,740 672,740" fill="rgba(220,230,225,0.4)"/>
+    </g>
+
+    <g transform="translate(1040,590) scale(0.8)" opacity=".15" fill="rgba(38,98,112,0.7)">
+      <ellipse cx="30" cy="22" rx="18" ry="8"/>
+      <path d="M30,14 Q35,0 38,12" fill="rgba(40,160,100,0.5)"/>
+      <path d="M30,14 Q20,2 22,14" fill="rgba(40,160,100,0.5)"/>
+      <ellipse cx="44" cy="22" rx="6" ry="4"/>
+      <path d="M48,22 L68,24 L48,26 Z" fill="rgba(38,98,112,0.6)"/>
+      <line x1="30" y1="28" x2="30" y2="46" stroke="rgba(38,98,112,0.6)" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="30" y1="46" x2="24" y2="54" stroke="rgba(38,98,112,0.5)" stroke-width="2" stroke-linecap="round"/>
+      <line x1="30" y1="46" x2="36" y2="54" stroke="rgba(38,98,112,0.5)" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <radialGradient id="cv" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="rgba(8,14,8,0.86)"/>
+      <stop offset="100%" stop-color="rgba(8,14,8,0)"/>
+    </radialGradient>
     <rect width="1200" height="800" fill="url(#cv)"/>
   </svg>
 </div>
 
-<div class="quad-label" id="ql-n">North · Arctic to Tropic</div>
+<div class="quad-label" id="ql-n">North · Arctic to Tropics</div>
 <div class="quad-label" id="ql-s">South · Andes to Patagonia</div>
 <div class="quad-label" id="ql-w">West · Pacific Current</div>
-<div class="quad-label" id="ql-e">East · Atlantic Current</div>
+<div class="quad-label" id="ql-e">East · Amazon Basin</div>
 
 <div id="page">
   <header id="room-header">
@@ -154,57 +875,289 @@ h1{font-family:var(--font-d);font-size:clamp(26px,4vw,44px);font-weight:300;font
     </div>
     <a id="back-map" href="glam-wing.html">← Back to the map</a>
   </header>
+
   <div class="room-divider"></div>
 
   <div id="wall">
-    <div class="pack" id="pack1" aria-label="Open Kelowna look">
-      <div class="pack-band"><span class="loc">Kelowna</span><span class="season">December</span></div>
-      <div class="pack-window"><img src="IMG_widecurrent_1.jpg" alt="Kelowna, December — Big White"/><span class="perfume-badge">Angels' Share · Kilian</span></div>
-      <div class="pack-foot"><p class="city-name">Kelowna, Canada</p><p class="continent-tag">The Wide Current · Americas</p></div>
-      <span class="pack-hint">click to open</span>
+
+    <div class="box" data-key="kelowna" aria-label="Open Kelowna look">
+      <div class="box-band">
+        <span class="loc">Kelowna</span>
+        <span class="season">December</span>
+      </div>
+
+      <div class="box-window">
+        <img src="IMG_widecurrent_1.jpg" alt="Kelowna, December"/>
+        <span class="perfume-badge">Angels' Share · Kilian</span>
+      </div>
+
+      <div class="box-foot">
+        <p class="city-name">Kelowna, Canada</p>
+        <p class="continent-tag">The Wide Current · Americas</p>
+      </div>
+
+      <span class="box-hint">click to open</span>
     </div>
 
-    <div class="pack" style="opacity:.25;cursor:default;pointer-events:none">
-      <div class="pack-band"><span class="loc">Coming</span><span class="season">—</span></div>
-      <div class="pack-window" style="display:flex;align-items:center;justify-content:center;min-height:240px"><span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:rgba(212,175,55,.3)">next drop</span></div>
-      <div class="pack-foot"><p class="city-name" style="color:rgba(200,190,170,.2)">The Wide Current</p><p class="continent-tag">Americas</p></div>
+    <div class="box" style="opacity:.22;cursor:default;pointer-events:none">
+      <div class="box-band">
+        <span class="loc">Coming</span>
+        <span class="season">—</span>
+      </div>
+      <div class="box-window" style="display:flex;align-items:center;justify-content:center;min-height:240px">
+        <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:rgba(212,165,50,.26)">next drop</span>
+      </div>
+      <div class="box-foot">
+        <p class="city-name" style="color:rgba(245,235,210,.18)">The Wide Current</p>
+        <p class="continent-tag">Americas</p>
+      </div>
     </div>
 
-    <div class="pack" style="opacity:.15;cursor:default;pointer-events:none">
-      <div class="pack-band"><span class="loc">Coming</span><span class="season">—</span></div>
-      <div class="pack-window" style="display:flex;align-items:center;justify-content:center;min-height:240px"><span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:rgba(212,175,55,.2)">next drop</span></div>
-      <div class="pack-foot"><p class="city-name" style="color:rgba(200,190,170,.15)">The Wide Current</p><p class="continent-tag">Americas</p></div>
+    <div class="box" style="opacity:.12;cursor:default;pointer-events:none">
+      <div class="box-band">
+        <span class="loc">Coming</span>
+        <span class="season">—</span>
+      </div>
+      <div class="box-window" style="display:flex;align-items:center;justify-content:center;min-height:240px">
+        <span style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:rgba(212,165,50,.16)">next drop</span>
+      </div>
+      <div class="box-foot">
+        <p class="city-name" style="color:rgba(245,235,210,.12)">The Wide Current</p>
+        <p class="continent-tag">Americas</p>
+      </div>
     </div>
+
   </div>
 </div>
 
-<div id="lb-overlay" onclick="closeLbOutside(event)">
+<div id="lb-overlay">
   <div id="lb">
-    <button id="lb-close" onclick="closeLb()">close ✕</button>
-    <div id="lb-band"><span id="lb-loc"></span><span id="lb-season"></span></div>
-    <div id="lb-photo-wrap"><img id="lb-img" src="" alt=""/></div>
+    <button id="lb-close">close ✕</button>
+
+    <div id="lb-band">
+      <span id="lb-loc"></span>
+      <span id="lb-season"></span>
+    </div>
+
+    <div id="lb-photo-wrap">
+      <img id="lb-img" src="" alt=""/>
+    </div>
+
     <div id="lb-footer">
       <p id="lb-city" class="lb-city"></p>
       <p id="lb-tag" class="lb-sub-tag"></p>
+
       <div class="lb-links">
-        <a id="lb-ig" class="lb-link" href="#" target="_blank" rel="noopener"><span class="li-icon">📷</span><span>See other variations of this look<span class="li-sub">Instagram</span></span></a>
-        <a id="lb-sub" class="lb-link" href="#" target="_blank" rel="noopener"><span class="li-icon">✦</span><span>Read the full story<span class="li-sub">Substack</span></span></a>
+        <a id="lb-ig" class="lb-link" href="#" target="_blank" rel="noopener">
+          <span class="li-icon">📷</span>
+          <span>See other variations of this look<span class="li-sub">Instagram</span></span>
+        </a>
+
+        <a id="lb-sub" class="lb-link" href="#" target="_blank" rel="noopener">
+          <span class="li-icon">✦</span>
+          <span>Read the full story<span class="li-sub">Substack</span></span>
+        </a>
       </div>
     </div>
   </div>
 </div>
 
 <script>
-(function(){const c=document.getElementById('water-ripple');for(let i=0;i<8;i++){const r=document.createElement('div');r.className='ripple-ring';r.style.setProperty('--dur',(3+Math.random()*3)+'s');r.style.setProperty('--delay',(i*0.6)+'s');c.appendChild(r)}setTimeout(()=>c.remove(),8000)})();
+/* ══ CURRENT MOTES ══ */
+(function(){
+  const intro = document.getElementById('current-intro');
 
-const packData={pack1:{loc:'Kelowna',season:'December',img:'IMG_widecurrent_1.jpg',perfume:\"Angels' Share · Kilian\",city:'Kelowna, Canada',tag:'The Wide Current · Americas',ig:'https://instagram.com/kwissbae',sub:'https://substack.com/',hotspots:[{top:'4%',left:'29%',label:'Hair',note:'Blonde sleek. Against white — everything is contrast.'},{top:'14%',left:'24%',label:'Makeup',note:'Placeholder — your note here.'},{top:'16%',left:'37%',label:'Ear Muffs',note:'Blush fur ear muffs. Cold made cute.'},{top:'38%',left:'22%',label:'Outfit',note:'All white ski suit. The mountain wanted to match.'},{top:'55%',left:'40%',label:'Gloves',note:'Black leather gloves. The one break in the white.'},{top:'58%',left:'38%',label:'Bag',note:'Placeholder — your note here.'},{top:'90%',left:'26%',label:'Boots',note:'Placeholder — your note here.'},{top:'52%',left:'68%',label:'Perfume',note:\"Angels' Share. Warm cognac and oak in -10°C. The irony was the point.\"}]}};
+  for(let i = 0; i < 55; i++){
+    const mote = document.createElement('span');
+    mote.className = 'current-mote';
 
-document.getElementById('pack1').addEventListener('click',function(){openLightbox(packData.pack1)});
+    const size = Math.random() < 0.78 ? 1 + Math.random() * 1.8 : 2.5 + Math.random() * 3;
+    mote.style.width = size + 'px';
+    mote.style.height = size + 'px';
 
-function openLightbox(data){document.getElementById('lb-loc').textContent=data.loc;document.getElementById('lb-season').textContent=data.season;document.getElementById('lb-city').textContent=data.city;document.getElementById('lb-tag').textContent=data.tag;document.getElementById('lb-ig').href=data.ig;document.getElementById('lb-sub').href=data.sub;const img=document.getElementById('lb-img');img.src=data.img;img.alt=data.city;const wrap=document.getElementById('lb-photo-wrap');wrap.querySelectorAll('.hotspot,.hs-tip').forEach(function(el){el.remove()});function place(){const nW=img.naturalWidth||1,nH=img.naturalHeight||1;const wW=wrap.offsetWidth,wH=img.offsetHeight;const sc=Math.min(wW/nW,wH/nH);const rW=nW*sc,rH=nH*sc;const oX=(wW-rW)/2,oY=(wH-rH)/2;data.hotspots.forEach(function(hs){const px=oX+(parseFloat(hs.left)/100)*rW;const py=oY+(parseFloat(hs.top)/100)*rH;const dot=document.createElement('div');dot.className='hotspot';dot.style.left=px+'px';dot.style.top=py+'px';const tip=document.createElement('div');tip.className='hs-tip';tip.innerHTML='<span class=\"tip-label\">'+hs.label+'</span><span class=\"tip-note\">'+hs.note+'</span>';function toggle(e){e.stopPropagation();const open=tip.classList.contains('show');wrap.querySelectorAll('.hs-tip').forEach(function(t){t.classList.remove('show')});if(!open){const tw=170,ww=wrap.offsetWidth,wh=img.offsetHeight;let tl=px+16,tt=py-14;if(tl+tw>ww-4)tl=px-tw-8;if(tl<4)tl=4;if(tt<4)tt=py+30;if(tt+70>wh)tt=py-70;tip.style.left=tl+'px';tip.style.top=tt+'px';tip.classList.add('show')}}dot.addEventListener('mouseenter',toggle);dot.addEventListener('click',toggle);wrap.appendChild(dot);wrap.appendChild(tip)})}if(img.complete&&img.naturalWidth){place()}else{img.onload=place}document.getElementById('lb-overlay').classList.add('open');document.body.style.overflow='hidden'}
-function closeLb(){document.getElementById('lb-overlay').classList.remove('open');document.body.style.overflow=''}
-function closeLbOutside(e){if(e.target===document.getElementById('lb-overlay'))closeLb()}
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeLb()});
+    mote.style.left = Math.random() * 100 + 'vw';
+    mote.style.top = Math.random() * 100 + 'vh';
+
+    mote.style.setProperty('--dx', (80 + Math.random() * 190) + 'px');
+    mote.style.setProperty('--dy', ((Math.random() * -100) + 40) + 'px');
+    mote.style.setProperty('--dur', (4.6 + Math.random() * 2.6) + 's');
+    mote.style.setProperty('--delay', (Math.random() * 2.4) + 's');
+    mote.style.setProperty('--op', (0.18 + Math.random() * 0.45));
+
+    intro.appendChild(mote);
+  }
+
+  setTimeout(() => {
+    if(intro) intro.remove();
+  }, 7800);
+})();
+
+/* ══ LOOK DATA ══ */
+const LOOKS = {
+  kelowna: {
+    loc:'Kelowna',
+    season:'December',
+    img:'IMG_widecurrent_1.jpg',
+    city:'Kelowna, Canada',
+    tag:'The Wide Current · Americas',
+    ig:'https://instagram.com/kwissbae',
+    sub:'https://substack.com/',
+    hotspots:[
+      { top:'4%',  left:'28%', label:'Hair',      note:'Blonde sleek. Against white — everything is contrast.' },
+      { top:'14%', left:'23%', label:'Makeup',    note:'Placeholder — your note here.' },
+      { top:'16%', left:'38%', label:'Ear Muffs', note:'Blush fur ear muffs. Cold made cute.' },
+      { top:'40%', left:'21%', label:'Outfit',    note:'All white ski suit. The mountain wanted to match.' },
+      { top:'56%', left:'38%', label:'Gloves',    note:'Black leather gloves. The one break in the white.' },
+      { top:'60%', left:'36%', label:'Bag',       note:'White fur hobo. Placeholder — your note here.' },
+      { top:'91%', left:'25%', label:'Boots',     note:'Placeholder — your note here.' },
+      { top:'54%', left:'68%', label:'Perfume',   note:"Angels' Share. Warm cognac and oak in -10°C. The irony was the point." }
+    ]
+  }
+
+  /*
+  Add a new look like this:
+
+  ,yourcitykey: {
+    loc:'City',
+    season:'Month',
+    img:'IMG_widecurrent_2.jpg',
+    city:'City, Country',
+    tag:'The Wide Current · Americas',
+    ig:'https://instagram.com/kwissbae',
+    sub:'https://your-substack-link.com',
+    hotspots:[
+      { top:'4%',  left:'28%', label:'Hair',    note:'Your note.' },
+      { top:'14%', left:'23%', label:'Makeup',  note:'Your note.' },
+      { top:'17%', left:'38%', label:'Jewelry', note:'Your note.' },
+      { top:'40%', left:'21%', label:'Outfit',  note:'Your note.' },
+      { top:'56%', left:'38%', label:'Bag',     note:'Your note.' },
+      { top:'91%', left:'25%', label:'Shoes',   note:'Your note.' },
+      { top:'54%', left:'68%', label:'Perfume', note:'Your note.' }
+    ]
+  }
+  */
+};
+
+/* ══ WIRE BOXES ══ */
+document.querySelectorAll('.box[data-key]').forEach(function(box){
+  box.addEventListener('click', function(){
+    const key = box.getAttribute('data-key');
+    const data = LOOKS[key];
+    if(data) openLightbox(data);
+  });
+});
+
+/* ══ LIGHTBOX ══ */
+let currentLightboxData = null;
+
+function openLightbox(data){
+  currentLightboxData = data;
+
+  document.getElementById('lb-loc').textContent = data.loc;
+  document.getElementById('lb-season').textContent = data.season;
+  document.getElementById('lb-city').textContent = data.city;
+  document.getElementById('lb-tag').textContent = data.tag;
+  document.getElementById('lb-ig').href = data.ig;
+  document.getElementById('lb-sub').href = data.sub;
+
+  const img = document.getElementById('lb-img');
+  img.src = data.img;
+  img.alt = data.city;
+
+  const wrap = document.getElementById('lb-photo-wrap');
+  wrap.querySelectorAll('.hotspot,.hs-tip').forEach(function(el){ el.remove(); });
+
+  function placeHotspots(){
+    wrap.querySelectorAll('.hotspot,.hs-tip').forEach(function(el){ el.remove(); });
+
+    const nW = img.naturalWidth || 1;
+    const nH = img.naturalHeight || 1;
+    const wW = wrap.offsetWidth;
+    const wH = img.offsetHeight;
+
+    const sc = Math.min(wW / nW, wH / nH);
+    const rW = nW * sc;
+    const rH = nH * sc;
+    const oX = (wW - rW) / 2;
+    const oY = (wH - rH) / 2;
+
+    data.hotspots.forEach(function(hs){
+      const px = oX + (parseFloat(hs.left) / 100) * rW;
+      const py = oY + (parseFloat(hs.top) / 100) * rH;
+
+      const dot = document.createElement('div');
+      dot.className = 'hotspot';
+      dot.style.left = px + 'px';
+      dot.style.top = py + 'px';
+
+      const tip = document.createElement('div');
+      tip.className = 'hs-tip';
+      tip.innerHTML = '<span class="tip-label">' + hs.label + '</span><span class="tip-note">' + hs.note + '</span>';
+
+      function toggle(e){
+        e.stopPropagation();
+
+        const isOpen = tip.classList.contains('show');
+        wrap.querySelectorAll('.hs-tip').forEach(function(t){ t.classList.remove('show'); });
+
+        if(!isOpen){
+          const tw = 162;
+          const ww = wrap.offsetWidth;
+          const wh = img.offsetHeight;
+
+          let tl = px + 16;
+          let tt = py - 14;
+
+          if(tl + tw > ww - 4) tl = px - tw - 8;
+          if(tl < 4) tl = 4;
+          if(tt < 4) tt = py + 30;
+          if(tt + 90 > wh) tt = py - 90;
+
+          tip.style.left = tl + 'px';
+          tip.style.top = tt + 'px';
+          tip.classList.add('show');
+        }
+      }
+
+      dot.addEventListener('mouseenter', toggle);
+      dot.addEventListener('click', toggle);
+
+      wrap.appendChild(dot);
+      wrap.appendChild(tip);
+    });
+  }
+
+  if(img.complete && img.naturalWidth){
+    placeHotspots();
+  }else{
+    img.onload = placeHotspots;
+  }
+
+  document.getElementById('lb-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLb(){
+  document.getElementById('lb-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('lb-close').addEventListener('click', closeLb);
+
+document.getElementById('lb-overlay').addEventListener('click', function(e){
+  if(e.target === document.getElementById('lb-overlay')) closeLb();
+});
+
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape') closeLb();
+});
+
+window.addEventListener('resize', function(){
+  if(document.getElementById('lb-overlay').classList.contains('open') && currentLightboxData){
+    openLightbox(currentLightboxData);
+  }
+});
 </script>
+
 </body>
 </html>
