@@ -35,74 +35,198 @@ body{
 /* ══ ENTRY ANIMATION — AFRICAN SUNRISE FROM GROUND ══ */
 
 /* dark cover — hides page on load */
+/* ══ ENTRY ANIMATION — AFRICAN SUNRISE ══ */
+
 #sunrise-veil{
-  position:fixed;inset:0;z-index:200;
+  position:fixed;
+  inset:0;
+  z-index:200;
+  background:#060301;
   pointer-events:none;
-  background:#0a0502;
-  animation:veil-fade 5.5s ease forwards;
+  animation:veil-fade 5.8s ease forwards;
 }
+
 @keyframes veil-fade{
-  0%   {opacity:1}
-  60%  {opacity:1}
-  100% {opacity:0}
-}
-
-/* the rising light — starts below screen, climbs up */
-#sunrise-light{
-  position:fixed;
-  left:0;right:0;bottom:0;
-  height:100vh;
-  z-index:201;
-  pointer-events:none;
-  background:linear-gradient(to top,
-    rgba(255,178,20,1)    0%,
-    rgba(240,120,12,0.96) 10%,
-    rgba(200,72,8,0.88)   22%,
-    rgba(140,40,5,0.72)   38%,
-    rgba(70,18,3,0.45)    55%,
-    rgba(20,6,1,0.18)     72%,
-    transparent           88%
-  );
-  transform:translateY(100%);
-  animation:light-rise 5.2s cubic-bezier(0.12,0,0.06,1) forwards;
-}
-@keyframes light-rise{
-  0%   {transform:translateY(100%);  opacity:1}
-  18%  {transform:translateY(68%);   opacity:1}
-  42%  {transform:translateY(28%);   opacity:0.95}
-  68%  {transform:translateY(-8%);   opacity:0.7}
-  84%  {transform:translateY(-42%);  opacity:0.35}
-  100% {transform:translateY(-100%); opacity:0}
-}
-
-/* acacia silhouette at the horizon during rise */
-#sunrise-tree{
-  position:fixed;
-  bottom:0;right:18%;
-  width:clamp(80px,12vw,160px);
-  z-index:202;pointer-events:none;
-  opacity:0;
-  animation:tree-appear 5.2s ease forwards;
-}
-@keyframes tree-appear{
-  0%  {opacity:0;transform:translateY(30px)}
-  20% {opacity:0.7;transform:translateY(0)}
-  72% {opacity:0.5}
+  0%,70%{opacity:1}
   100%{opacity:0}
 }
 
-/* dust particles */
-#dust{position:fixed;inset:0;z-index:199;pointer-events:none;overflow:hidden}
-.dust-p{
-  position:absolute;
-  width:2px;height:2px;border-radius:50%;
-  background:rgba(218,158,72,0.5);
-  animation:dust-rise var(--dur,3s) ease-out var(--delay,0s) forwards;
+#sunrise-scene{
+  position:fixed;
+  inset:0;
+  z-index:201;
+  pointer-events:none;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse at 50% 58%, rgba(255,156,25,.28), transparent 34%),
+    linear-gradient(to bottom,
+      #120603 0%,
+      #301003 28%,
+      #78340a 52%,
+      #120603 100%);
+  animation:scene-fade 6.2s ease forwards;
 }
-@keyframes dust-rise{
-  0%  {opacity:0;transform:translateY(0) translateX(0) scale(1)}
-  20% {opacity:0.7}
-  100%{opacity:0;transform:translateY(calc(var(--rise,-120px))) translateX(var(--drift,10px)) scale(0.3)}
+
+@keyframes scene-fade{
+  0%{opacity:1}
+  78%{opacity:1}
+  100%{opacity:0}
+}
+
+/* REAL SUN */
+#sun-disc{
+  position:absolute;
+  left:50%;
+  bottom:18%;
+  width:clamp(180px,28vw,430px);
+  aspect-ratio:1;
+  border-radius:50%;
+  transform:translate(-50%,120%);
+  background:
+    radial-gradient(circle,
+      #fff7c0 0%,
+      #ffd34a 28%,
+      #ff9418 55%,
+      #c94b05 78%,
+      rgba(201,75,5,0) 100%);
+  filter:blur(.3px);
+  box-shadow:
+    0 0 70px rgba(255,174,36,.9),
+    0 0 160px rgba(255,101,11,.65),
+    0 0 260px rgba(255,120,20,.35);
+  animation:sun-rise 5.4s cubic-bezier(.16,.01,.08,1) forwards;
+}
+
+@keyframes sun-rise{
+  0%{
+    transform:translate(-50%,125%);
+    opacity:0;
+  }
+  12%{opacity:1}
+  48%{
+    transform:translate(-50%,40%);
+    opacity:1;
+  }
+  72%{
+    transform:translate(-50%,10%);
+    opacity:.95;
+  }
+  100%{
+    transform:translate(-50%,-8%);
+    opacity:0;
+  }
+}
+
+/* BIG AMBER GLOW AROUND SUN */
+#sun-glow{
+  position:absolute;
+  left:50%;
+  bottom:12%;
+  width:70vw;
+  height:55vw;
+  max-height:620px;
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:
+    radial-gradient(circle,
+      rgba(255,185,40,.55) 0%,
+      rgba(255,116,12,.32) 32%,
+      rgba(90,24,2,.12) 62%,
+      transparent 75%);
+  filter:blur(18px);
+  animation:glow-rise 5.8s ease forwards;
+}
+
+@keyframes glow-rise{
+  0%{opacity:0;transform:translate(-50%,28%) scale(.8)}
+  25%{opacity:1}
+  75%{opacity:.8;transform:translate(-50%,-8%) scale(1.05)}
+  100%{opacity:0;transform:translate(-50%,-18%) scale(1.1)}
+}
+
+/* DARK CLOUDS CROSSING THE SUN */
+#horizon-cloud,
+.horizon-cloud{
+  position:absolute;
+}
+
+#horizon-cloud,
+#cloud-a,
+#cloud-b{
+  position:absolute;
+  left:50%;
+  border-radius:999px;
+  background:rgba(20,7,2,.82);
+  filter:blur(7px);
+}
+
+#cloud-a{
+  bottom:34%;
+  width:58vw;
+  height:8vw;
+  transform:translateX(-58%);
+  animation:cloud-drift-a 5.8s ease forwards;
+}
+
+#cloud-b{
+  bottom:57%;
+  width:44vw;
+  height:7vw;
+  transform:translateX(-38%);
+  background:rgba(28,10,3,.55);
+  animation:cloud-drift-b 5.8s ease forwards;
+}
+
+@keyframes cloud-drift-a{
+  0%{opacity:0;transform:translateX(-72%)}
+  20%,80%{opacity:.9}
+  100%{opacity:0;transform:translateX(-48%)}
+}
+
+@keyframes cloud-drift-b{
+  0%{opacity:0;transform:translateX(-20%)}
+  25%,75%{opacity:.65}
+  100%{opacity:0;transform:translateX(-48%)}
+}
+
+/* GROUND/HORIZON */
+#horizon-line{
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:19%;
+  height:23%;
+  background:
+    linear-gradient(to top,
+      rgba(5,3,1,1) 0%,
+      rgba(14,7,2,.96) 35%,
+      rgba(30,12,2,.55) 72%,
+      transparent 100%);
+}
+
+/* SIMPLE ACACIA SILHOUETTE */
+#acacia-shape{
+  position:absolute;
+  right:16%;
+  bottom:18%;
+  width:260px;
+  height:260px;
+  background:rgba(5,3,1,.96);
+  clip-path:polygon(
+    48% 100%, 53% 100%, 52% 62%, 59% 50%, 72% 45%,
+    88% 36%, 95% 28%, 84% 23%, 67% 19%, 48% 17%,
+    30% 20%, 15% 27%, 6% 38%, 18% 44%, 36% 48%,
+    45% 59%
+  );
+  filter:blur(.2px);
+  opacity:0;
+  animation:tree-fade 5.8s ease forwards;
+}
+
+@keyframes tree-fade{
+  0%,8%{opacity:0;transform:translateY(30px)}
+  25%,78%{opacity:1;transform:translateY(0)}
+  100%{opacity:0;transform:translateY(-8px)}
 }
 
 /* ══ AFRICA WALL BACKGROUND ══ */
@@ -331,25 +455,15 @@ h1{font-family:var(--font-d);font-size:clamp(26px,4vw,44px);font-weight:300;font
 
 <!-- ══ SUNRISE ENTRY ══ -->
 <div id="sunrise-veil"></div>
-<div id="sunrise-light"></div>
 
-<!-- acacia tree silhouette SVG -->
-<svg id="sunrise-tree" viewBox="0 0 120 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-  <!-- trunk -->
-  <path d="M60,180 L60,110 L52,85 L68,85 L60,110" fill="rgba(10,5,2,0.92)"/>
-  <!-- main branches -->
-  <path d="M60,110 L30,90 M60,110 L88,88 M60,100 L20,78 M60,100 L98,80 M60,95 L42,72 M60,95 L80,70" stroke="rgba(10,5,2,0.9)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-  <!-- canopy — flat acacia top -->
-  <ellipse cx="58" cy="68" rx="46" ry="16" fill="rgba(8,4,1,0.88)"/>
-  <!-- inner canopy detail -->
-  <ellipse cx="42" cy="72" rx="22" ry="9" fill="rgba(12,6,2,0.7)"/>
-  <ellipse cx="76" cy="70" rx="20" ry="8" fill="rgba(12,6,2,0.7)"/>
-  <!-- small branches through canopy -->
-  <path d="M35,68 L25,58 M50,62 L44,50 M70,62 L78,52 M85,68 L95,60" stroke="rgba(8,4,1,0.85)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-</svg>
-
-<div id="dust"></div>
-
+<div id="sunrise-scene">
+  <div id="sun-glow"></div>
+  <div id="sun-disc"></div>
+  <div id="cloud-a"></div>
+  <div id="cloud-b"></div>
+  <div id="horizon-line"></div>
+  <div id="acacia-shape"></div>
+</div>
 <!-- ══ AFRICA WALL ══ -->
 <div id="africa-wall">
   <svg id="wall-svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice"
