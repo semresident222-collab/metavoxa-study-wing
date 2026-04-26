@@ -300,13 +300,16 @@ if (isMobile) {
             e.stopPropagation();
 
             if (this.classList.contains('active')) {
-              window.location.href = this.getAttribute('href');
+              if ('href') window.location.href = href;
                 return;
-            } else {
-                e.preventDefault();
-                if (activeZone && activeZone !== this) activeZone.classList.remove('active');
-                this.classList.add('active');
-                activeZone = this;
+            } 
+            
+            e.preventDefault();
+            if (activeZone && activeZone !== this) activeZone.classList.remove('active');
+             }
+            
+            this.classList.add('active');
+            activeZone = this;
             }
         }, { passive: false });
     });
