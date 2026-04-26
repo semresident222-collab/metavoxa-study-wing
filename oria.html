@@ -32,21 +32,63 @@ body{
   overflow-x:hidden;
 }
 
-/* ══ ENTRY ANIMATION — AFRICAN SUNRISE ══ */
+/* ══ ENTRY ANIMATION — AFRICAN SUNRISE FROM GROUND ══ */
+
+/* dark cover — hides page on load */
 #sunrise-veil{
   position:fixed;inset:0;z-index:200;
   pointer-events:none;
-  background:radial-gradient(ellipse 120% 80% at 20% 60%,
-    rgba(218,120,30,0.92) 0%,
-    rgba(196,80,20,0.78) 25%,
-    rgba(140,50,10,0.55) 55%,
-    rgba(14,8,4,0) 80%);
-  animation:sunrise-out 2.8s cubic-bezier(0.16,1,0.3,1) forwards;
+  background:#0a0502;
+  animation:veil-fade 5.5s ease forwards;
 }
-@keyframes sunrise-out{
-  0%  {opacity:1;transform:scale(1.06)}
-  40% {opacity:0.72}
-  100%{opacity:0;transform:scale(1)}
+@keyframes veil-fade{
+  0%   {opacity:1}
+  60%  {opacity:1}
+  100% {opacity:0}
+}
+
+/* the rising light — starts below screen, climbs up */
+#sunrise-light{
+  position:fixed;
+  left:0;right:0;bottom:0;
+  height:100vh;
+  z-index:201;
+  pointer-events:none;
+  background:linear-gradient(to top,
+    rgba(255,178,20,1)    0%,
+    rgba(240,120,12,0.96) 10%,
+    rgba(200,72,8,0.88)   22%,
+    rgba(140,40,5,0.72)   38%,
+    rgba(70,18,3,0.45)    55%,
+    rgba(20,6,1,0.18)     72%,
+    transparent           88%
+  );
+  transform:translateY(100%);
+  animation:light-rise 5.2s cubic-bezier(0.12,0,0.06,1) forwards;
+}
+@keyframes light-rise{
+  0%   {transform:translateY(100%);  opacity:1}
+  18%  {transform:translateY(68%);   opacity:1}
+  42%  {transform:translateY(28%);   opacity:0.95}
+  68%  {transform:translateY(-8%);   opacity:0.7}
+  84%  {transform:translateY(-42%);  opacity:0.35}
+  100% {transform:translateY(-100%); opacity:0}
+}
+
+/* acacia silhouette at the horizon during rise */
+#sunrise-tree{
+  position:fixed;
+  bottom:0;right:18%;
+  width:clamp(80px,12vw,160px);
+  z-index:202;pointer-events:none;
+  opacity:0;
+  animation:tree-appear 5.2s ease forwards;
+}
+@keyframes tree-appear{
+  0%  {opacity:0;transform:translateY(30px)}
+  20% {opacity:0.7;transform:translateY(0)}
+  72% {opacity:0.5}
+  100%{opacity:0}
 }
 
 /* dust particles */
@@ -54,12 +96,12 @@ body{
 .dust-p{
   position:absolute;
   width:2px;height:2px;border-radius:50%;
-  background:rgba(218,158,72,0.6);
+  background:rgba(218,158,72,0.5);
   animation:dust-rise var(--dur,3s) ease-out var(--delay,0s) forwards;
 }
 @keyframes dust-rise{
   0%  {opacity:0;transform:translateY(0) translateX(0) scale(1)}
-  20% {opacity:0.8}
+  20% {opacity:0.7}
   100%{opacity:0;transform:translateY(calc(var(--rise,-120px))) translateX(var(--drift,10px)) scale(0.3)}
 }
 
@@ -233,32 +275,19 @@ h1{font-family:var(--font-d);font-size:clamp(26px,4vw,44px);font-weight:300;font
 }
 #lb-photo-wrap img{width:100%;display:block;max-height:60vh;object-fit:contain;object-position:center}
 
-/* ── HOTSPOTS ── */
+/* ── HOTSPOTS — invisible hit areas ── */
 .hotspot{
   position:absolute;
-  width:28px;height:28px;border-radius:50%;
-  border:1.5px solid rgba(218,158,72,.8);
-  background:rgba(196,128,58,.18);
-  backdrop-filter:blur(3px);
+  width:44px;height:44px;border-radius:50%;
+  background:transparent;
+  border:none;
   display:flex;align-items:center;justify-content:center;
-  cursor:pointer;z-index:5;
-  transition:background .2s,transform .2s,border-color .2s;
-  /* positioned by JS — center of dot is at the coordinate */
+  cursor:crosshair;z-index:5;
   transform:translate(-50%,-50%);
+  /* completely invisible — text appears on touch/hover only */
 }
-.hotspot::after{
-  content:'';position:absolute;inset:-6px;border-radius:50%;
-  border:.5px solid rgba(218,158,72,.22);
-  animation:hs-ring 2.4s ease-in-out infinite;
-}
-@keyframes hs-ring{
-  0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.4);opacity:0}
-}
-.hotspot:hover,.hotspot.active{
-  background:rgba(218,158,72,.4);border-color:var(--amber);
-  transform:translate(-50%,-50%) scale(1.18);
-}
-.hotspot svg{width:9px;height:9px;fill:rgba(218,158,72,.95);pointer-events:none}
+.hotspot svg{display:none}
+.hotspot:hover,.hotspot.active{background:transparent}
 
 /* ── TOOLTIP ── */
 .hs-tip{
@@ -300,8 +329,25 @@ h1{font-family:var(--font-d);font-size:clamp(26px,4vw,44px);font-weight:300;font
 </head>
 <body>
 
-<!-- ══ SUNRISE ENTRY VEIL ══ -->
+<!-- ══ SUNRISE ENTRY ══ -->
 <div id="sunrise-veil"></div>
+<div id="sunrise-light"></div>
+
+<!-- acacia tree silhouette SVG -->
+<svg id="sunrise-tree" viewBox="0 0 120 180" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <!-- trunk -->
+  <path d="M60,180 L60,110 L52,85 L68,85 L60,110" fill="rgba(10,5,2,0.92)"/>
+  <!-- main branches -->
+  <path d="M60,110 L30,90 M60,110 L88,88 M60,100 L20,78 M60,100 L98,80 M60,95 L42,72 M60,95 L80,70" stroke="rgba(10,5,2,0.9)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- canopy — flat acacia top -->
+  <ellipse cx="58" cy="68" rx="46" ry="16" fill="rgba(8,4,1,0.88)"/>
+  <!-- inner canopy detail -->
+  <ellipse cx="42" cy="72" rx="22" ry="9" fill="rgba(12,6,2,0.7)"/>
+  <ellipse cx="76" cy="70" rx="20" ry="8" fill="rgba(12,6,2,0.7)"/>
+  <!-- small branches through canopy -->
+  <path d="M35,68 L25,58 M50,62 L44,50 M70,62 L78,52 M85,68 L95,60" stroke="rgba(8,4,1,0.85)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+</svg>
+
 <div id="dust"></div>
 
 <!-- ══ AFRICA WALL ══ -->
@@ -446,13 +492,13 @@ h1{font-family:var(--font-d);font-size:clamp(26px,4vw,44px);font-weight:300;font
            ig:'https://instagram.com/kwissbae',
            sub:'https://substack.com/',
            hotspots:[
-             { top:'9%',  left:'30%', label:'Hair',    note:'Box braids swept to one side. Weight without effort.' },
-             { top:'14%', left:'27%', label:'Makeup',  note:'Bold lash, defined arch. Let the tile speak — you still speak louder.' },
-             { top:'19%', left:'33%', label:'Jewelry', note:'Small gold studs. Restraint is also a choice.' },
-             { top:'46%', left:'25%', label:'Outfit',  note:'Burnt rust ruffle maxi. Abstract print that looks like the walls chose it for me.' },
-             { top:'53%', left:'40%', label:'Bag',     note:'Woven rattan hobo. Morocco found its match.' },
-             { top:'89%', left:'28%', label:'Shoes',   note:'Burgundy pointed kitten heel. The only colour that argues with the dress — and wins.' },
-             { top:'68%', left:'68%', label:'Perfume', note:'Roses d\'émotion. Soft and unapologetic. The scent I wore the whole trip.' }
+             { top:'4%',  left:'29%', label:'Hair',    note:'Box braids swept to one side. Weight without effort.' },
+             { top:'13%', left:'24%', label:'Makeup',  note:'Bold lash, defined arch. Let the tile speak — you still speak louder.' },
+             { top:'17%', left:'37%', label:'Jewelry', note:'Small gold studs. Restraint is also a choice.' },
+             { top:'44%', left:'19%', label:'Outfit',  note:'Burnt rust ruffle maxi. Abstract print that looks like the walls chose it for me.' },
+             { top:'50%', left:'38%', label:'Bag',     note:'Woven rattan hobo. Morocco found its match.' },
+             { top:'91%', left:'24%', label:'Shoes',   note:'Burgundy pointed kitten heel. The only colour that argues with the dress — and wins.' },
+             { top:'62%', left:'67%', label:'Perfume', note:'Roses d\'émotion. Soft and unapologetic. The scent I wore the whole trip.' }
            ]
          })"
          aria-label="Open Marrakech look">
